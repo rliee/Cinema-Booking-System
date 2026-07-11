@@ -1,145 +1,88 @@
 body {
-
     background: #111;
-
     color: white;
-
     font-family: Segoe UI;
-
 }
 
 .page-title {
-
     font-weight: bold;
-
 }
 
 .calendar-container {
-
     background: #1a1a1a;
-
     padding: 25px;
-
     border-radius: 15px;
-
 }
 
 .calendar-header {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
 }
 
 .day-card {
-
     background: #222;
-
     padding: 20px;
-
     border-radius: 12px;
-
     cursor: pointer;
-
     transition: .3s;
-
     text-align: center;
-
 }
 
 .day-card:hover {
-
     background: #333;
-
 }
 
 .active-day {
-
     background: #7c6223;
-
 }
 
 .schedule-card {
-
     background: #1d1d1d;
-
     padding: 25px;
-
     border-radius: 15px;
-
     margin-bottom: 18px;
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
 }
 
 .schedule-left {
-
     display: flex;
-
     gap: 25px;
-
     align-items: center;
-
 }
 
 .show-time {
-
     font-size: 34px;
-
     font-weight: bold;
-
     width: 120px;
-
 }
 
 .movie-title {
-
     font-size: 24px;
-
     font-weight: 600;
-
 }
 
 .status {
-
     padding: 8px 18px;
-
     border-radius: 30px;
-
     font-size: 14px;
-
 }
 
 .upcoming {
-
     background: #7c6223;
-
 }
 
 .now {
-
     background: #146c43;
-
 }
 
 .completed {
-
     background: #444;
-
 }
 
 .progress {
-
     width: 180px;
-
     height: 8px;
-
 }
