@@ -1,0 +1,62 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body {
+    background:linear-gradient(135deg,#050505,#121212);
+    color:#fef8e7;
+    padding:30px;
+    min-height:100vh;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 213, 74, .25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    background: #171717;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #171717;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 213, 74, .25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+th {
+    background: #0b0b0b;
+    color: #ffd54a;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 213, 74, .25);
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 35px;
+    font-weight: 600;
+    color: #ffd54a;
+}
+
+.summary-card {
+    color: white;
+}
+
+.summary-card h3 {
+    font-size: 30px;
+    font-weight: bold;
+    
+}
+
+.summary-card p {
+    margin: 0;
+}
