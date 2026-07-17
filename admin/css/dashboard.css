@@ -1,0 +1,151 @@
+/* Define theme variables for easier maintenance */
+:root {
+    --primary: #ffd54a;
+    --primary-dim: #e8d79d;
+    --bg-dark: #161616;
+    --border: 1px solid rgba(255, 213, 74, .25);
+}
+
+.dashboard-shell {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    align-content: center;
+    background: var(--bg-card);
+    padding: 16px;
+    border-radius: 1rem;
+    transition: transform .3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    border-color: #ffc1075d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px #ffd54a1a;
+}
+
+.card h1 {
+    color: var(--primary);
+    font-size: 20px;
+    margin: 8px 0;
+}
+
+.card h3 {
+    color: #f5e8ba;
+    font-size: 20px;
+    margin: 8px 0;
+}
+
+.bottom {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    /* Default desktop layout */
+    gap: 20px;
+}
+
+.transactions,
+.screening-list {
+    background: var(--bg-dark);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: var(--border);
+}
+
+/* Fix for responsive table: scrollable container */
+.transactions {
+    overflow-x: auto;
+}
+
+.transactions table {
+    width: 100%;
+    min-width: 400px;
+    border-collapse: collapse;
+    /* Essential for borders to show correctly */
+}
+
+/* Add lines between rows */
+.transactions tr {
+    border-bottom: 1px solid rgba(255, 213, 74, 0.1);
+}
+
+/* Optional: Remove border from the last row if desired */
+.transactions tr:last-child {
+    border-bottom: none;
+}
+
+/* Add row hover effect */
+.transactions tbody tr:hover {
+    background-color: rgba(255, 213, 74, 0.05);
+    transition: background 0.2s ease;
+    cursor: pointer;
+}
+
+.transactions th {
+    border-bottom: 2px solid var(--primary);
+    /* Header underline */
+    padding-bottom: 15px;
+}
+
+.transactions th,
+.transactions td {
+    padding: 12px;
+    text-align: left;
+    color: var(--primary-dim);
+}
+
+/* Container adjustment */
+.screening-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Equal spacing and centering for each list item */
+.screening-ul li {
+    display: flex;
+    align-items: center;
+    background: #222;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: 24px;
+    margin-right: 24px;
+    border-radius: 8px;
+    border-left: 5px solid #ffd54a;
+    color: #f5e8ba;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* Hover effect for consistency */
+.screening-ul li:hover {
+    background: #2a2a2a;
+}
+
+/* Responsive Breakpoints */
+@media(max-width: 1024px) {
+    .bottom {
+        grid-template-columns: 1fr;
+        /* Stack panels on tablets/laptops */
+    }
+}
+
+@media(max-width: 600px) {
+    .card h1 {
+        font-size: 1.5rem;
+    }
+
+    .transactions th,
+    .transactions td {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
