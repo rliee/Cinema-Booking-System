@@ -1,5 +1,5 @@
 <?php
-include("db.php");
+include("./includes/db.php");
 
 
 $totalRevenue = mysqli_fetch_assoc(mysqli_query(
@@ -43,14 +43,14 @@ WHERE status='Paid'"
 
 <head>
     <title>Finance Dashboard</title>
-    <link href="bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="finance.css">
-    
+    <link href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/finance.css">
+
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4 text" >
+        <h2 class="mb-4 text">
             <i class="fa-solid fa-wallet"></i>
             Finance & Accounting Dashboard
         </h2>
@@ -82,7 +82,7 @@ WHERE status='Paid'"
 
                         <h3>
                             ₱
-                            
+
                         </h3>
 
                     </div>
@@ -164,9 +164,9 @@ WHERE status='Paid'"
 
         <table class="table-design ">
 
-            <thead >
+            <thead>
 
-                <tr >
+                <tr>
 
                     <th>Booking ID</th>
                     <th>Customer</th>
