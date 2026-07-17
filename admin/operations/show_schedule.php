@@ -142,18 +142,40 @@ require_once "../../includes/db.php";
 
                 <div class="col">
 
-                    <div
-                        id="weekContainer"
+                    <div class="week-wrapper">
 
-                        class="row
-                               row-cols-7
-                               g-2">
+                        <div class="week-navigation">
 
-                        <!--
-                            Week cards
-                            are generated
-                            by weekSelector.js
-                        -->
+                            <button
+                                type="button"
+                                class="week-btn"
+                                onclick="previousWeek()">
+
+                                <i class="fa-solid fa-chevron-left"></i>
+
+                            </button>
+
+                            <h4
+                                id="weekTitle"
+                                class="week-title mb-0">
+                            </h4>
+
+                            <button
+                                type="button"
+                                class="week-btn"
+                                onclick="nextWeek()">
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </button>
+
+                        </div>
+
+                        <div
+                            id="weekContainer"
+                            class="row g-3">
+
+                        </div>
 
                     </div>
 
