@@ -1,0 +1,248 @@
+/* ==========================================================================
+   10. BOOTSTRAP MODAL OVERRIDES (COMPACT & RESPONSIVE - ADD & EDIT)
+   ========================================================================== */
+/* Dark Backdrop Blur */
+.modal {
+    z-index: 1300;
+}
+
+.modal-backdrop {
+    z-index: 1250;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    border: none;
+    box-shadow: none;
+}
+
+.modal-header,
+.modal-footer {
+    border: none;
+    size: 30px;
+}
+
+.modal-dialog-centered {
+    display: flex !important;
+    align-items: center !important;
+    min-height: calc(100% - 3.5rem) !important;
+}
+
+@media (min-width: 768px) {
+    #addMovieModal .modal-dialog,
+    #editMovieModal .modal-dialog {
+        max-width: 760px !important;
+        width: 100% !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+    }
+}
+
+#addMovieModal .modal-content,
+#editMovieModal .modal-content {
+    background-color: #18181b !important;
+    border: 1px solid #27272a !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
+    max-height: 90vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
+#addMovieModal .modal-header,
+#editMovieModal .modal-header {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #27272a !important;
+}
+
+#addMovieModal .modal-header .modal-title,
+#editMovieModal .modal-header .modal-title {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #eab308 !important;
+}
+
+#addMovieModal .modal-body,
+#editMovieModal .modal-body {
+    padding: 24px !important;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 140px) !important;
+}
+
+#addMovieModal .modal-body .col-md-6,
+#editMovieModal .modal-body .col-md-6 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+#addMovieModal .modal-body label.form-label,
+#editMovieModal .modal-body label.form-label {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.75px !important;
+    color: #a1a1aa !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+
+#addMovieModal .modal-body .form-control,
+#addMovieModal .modal-body select.form-control,
+#addMovieModal .modal-body .form-select,
+#editMovieModal .modal-body .form-control,
+#editMovieModal .modal-body select.form-control,
+#editMovieModal .modal-body .form-select {
+    background-color: #27272a !important;
+    border: 1px solid #3f3f46 !important;
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    padding: 10px 14px !important;
+    border-radius: 6px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 42px !important;
+}
+
+#addMovieModal .modal-body .form-control[type="file"],
+#editMovieModal .modal-body .form-control[type="file"] {
+    height: auto !important;
+}
+
+#addMovieModal .modal-body .form-control::file-selector-button,
+#editMovieModal .modal-body .form-control::file-selector-button {
+    background-color: #3f3f46 !important;
+    border: none !important;
+    color: #ffffff !important;
+    border-radius: 4px !important;
+    margin-right: 8px !important;
+    font-size: 0.8rem !important;
+    padding: 4px 8px !important;
+    cursor: pointer !important;
+}
+
+#addMovieModal .modal-body .form-control::file-selector-button:hover,
+#editMovieModal .modal-body .form-control::file-selector-button:hover {
+    background-color: #52525b !important;
+}
+
+#addMovieModal .modal-body .form-control:focus,
+#addMovieModal .modal-body .form-select:focus,
+#editMovieModal .modal-body .form-control:focus,
+#editMovieModal .modal-body .form-select:focus {
+    border-color: #eab308 !important;
+    box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.15) !important;
+    background-color: #27272a !important;
+}
+
+#addMovieModal .modal-body .form-control::placeholder,
+#editMovieModal .modal-body .form-control::placeholder {
+    color: #71717a !important;
+    opacity: 1 !important;
+}
+
+#addMovieModal .modal-body textarea.form-control,
+#editMovieModal .modal-body textarea.form-control {
+    resize: none !important;
+    height: 100px !important;
+}
+
+#addMovieModal .modal-footer,
+#editMovieModal .modal-footer {
+    padding: 16px 24px !important;
+    border-top: 1px solid #27272a !important;
+    background-color: #141416 !important;
+}
+
+#addMovieModal .modal-footer .btn,
+#editMovieModal .modal-footer .btn {
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    transition: all 0.15s ease !important;
+}
+
+/* SLEEK & SLIM CUSTOM SCROLLBAR FOR MODALS */
+#addMovieModal .modal-body,
+#editMovieModal .modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f46 transparent;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar,
+#editMovieModal .modal-body::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar-track,
+#editMovieModal .modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar-thumb,
+#editMovieModal .modal-body::-webkit-scrollbar-thumb {
+    background-color: #27272a;
+    border: 1px solid #3f3f46;
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar-thumb:hover,
+#editMovieModal .modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: #52525b;
+    border-color: #52525b;
+}
+
+/* ==========================================================================
+   11. DEDICATED DELETE MODAL STYLING (COMPACT & FOCUSED WARNING)
+   ========================================================================== */
+@media (min-width: 576px) {
+    #deleteMovieModal .modal-dialog {
+        max-width: 440px !important;
+        width: 100% !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+    }
+}
+
+#deleteMovieModal .modal-content {
+    background-color: #18181b !important;
+    border: 1px solid #ef44443d !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+}
+
+#deleteMovieModal .modal-header {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #27272a !important;
+}
+
+#deleteMovieModal .modal-header .modal-title {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #ef4444 !important;
+}
+
+#deleteMovieModal .modal-footer {
+    padding: 16px 24px !important;
+    border-top: 1px solid #27272a !important;
+    background-color: #141416 !important;
+}
+
+#deleteMovieModal .modal-body {
+    padding: 24px !important;
+    color: #e4e4e7 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+}
