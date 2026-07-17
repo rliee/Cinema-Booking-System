@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <title>Cinema Booking Admin</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="bootstrap-5.3.8-dist\css\bootstrap.min.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+    <input type="checkbox" id="menu-toggle" class="sidebar-checkbox">
+    <header class="bg page-header">
+        <label for="menu-toggle" class="open-btn" aria-label="Open menu">☰</label>
+        <h3>DashBoard</h3>
+        <div class="top-actions">
+            <button id="notifToggle" class="notif-btn" type="button" aria-label="Notifications">
+                <i class="fa-solid fa-bell"></i>
+                <span class="notif-badge">0</span>
+            </button>
+            <div id="notifPanel" class="notif-panel">
+                <div class="notif-panel-header">Notifications</div>
+                <ul>
+                    <li>No notifications</li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!-- DASHBOARD SECTION -->
+        <!-- 1. Dashboard Content View (Visible by Default) -->
+        <div id="page-dashboard" class="page-section">
+            <div class="mb-4">
+                <h2 class="text-white fw-bold mb-1">Dashboard</h2>
+                <p class="text-white-50 small">Welcome back, Alex. Here's what's happening today.</p>
+            </div>
+            <div class="dashboard-shell">
+                <div class="cards mb-4">
+                    <div class="card">
+                        <h3>Today's Revenue</h3>
+                        <h1 id="revenue">₱3,150</h1>
+                    </div>
+                    <div class="card">
+                        <h3>Tickets Sold</h3>
+                        <h1 id="tickets">11</h1>
+                    </div>
+
+                    <div class="card">
+                        <h3>Showing Movies</h3>
+                        <h1 id="movies">5</h1>
+                    </div>
+
+                    <div class="card">
+                        <h3>Today's Screening</h3>
+                        <h1 id="screenings">5</h1>
+                    </div>
+                </div>
+
+                <div class="bottom">
+
+                    <div class="transactions">
+                        <h2>Recent Transactions</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Movie</th>
+                                    <th>Tickets</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionTable">
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>Avengers</td>
+                                    <td>3</td>
+                                    <td>₱750</td>
+                                </tr>
+                                <tr>
+                                    <td>Maria Cruz</td>
+                                    <td>Batman</td>
+                                    <td>2</td>
+                                    <td>₱500</td>
+                                </tr>
+                                <tr>
+                                    <td>James Lee</td>
+                                    <td>Deadpool</td>
+                                    <td>4</td>
+                                    <td>₱1,000</td>
+                                </tr>
+                                <tr>
+                                    <td>Claire Santos</td>
+                                    <td>Superman</td>
+                                    <td>2</td>
+                                    <td>₱900</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="screening-list">
+                        <h2>Today's Screening</h2>
+                        <ul class="screening-ul">
+                            <li>🎬 Avengers - 10:00 AM</li>
+                            <li>🎬 Batman - 1:00 PM</li>
+                            <li>🎬 Inside Out 2 - 4:00 PM</li>
+                            <li>🎬 Deadpool - 7:00 PM</li>
+                            <li>🎬 Superman - 9:30 PM</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Customer Transaction View (Hidden by Default) -->
+        <div id="page-sales" class="page-section d-none">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Customer Transactions</h2>
+                <button class="btn btn-warning btn-sm">+ New Entry</button>
+            </div>
+
+            <div class="table-responsive bg-dark text-white rounded p-3">
+                <table class="table table-dark table-hover m-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Movie</th>
+                            <th>Seats</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#TXN-1024</td>
+                            <td>Geto Suguru</td>
+                            <td>Jujutsu Kaisen 0</td>
+                            <td>VIP - G12, G13</td>
+                            <td>₱700.00</td>
+                            <td><span class="badge bg-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>#TXN-1023</td>
+                            <td>Ieiri Shoko</td>
+                            <td>The Batman</td>
+                            <td>Deluxe - F5</td>
+                            <td>₱320.00</td>
+                            <td><span class="badge bg-warning text-dark">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="page-reports" class="page-section d-none">
+            <h2>Sales Reports</h2>
+            <p>Monthly revenue and analytical breakdowns live here.</p>
+        </div>
+        <!-- FINANCIAL DASHBOARD -->
+        <div id="page-finance" class="page-section d-none">
+            <h2>Financial Dashboard</h2>
+            <p>Monthly revenue and analytical breakdowns live here.</p>
+        </div>
+        <!-- MOVIE MANAGEMENT SECTION-->
+        <!-- FIRST LAYER -->
+        <div id="page-operations" class="page-section d-none">
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-3 mb-4">
+                <div>
+                    <h2 class="text-white fw-bold mb-1">Movie Management</h2>
+                    <p class="text-white-50 small mb-0">Add, edit, and manage the cinema's movie lineup.</p>
+                </div>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addMovieModal">
+                    + Add Movie
+                </button>
+            </div>
+            <!-- SECOND LAYER -->
+            <!-- Fixed Grid Section -->
+            <div class="row g-3">
+                <!-- Card 1 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-2 d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 30px; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; padding-left: 8px;">
+                            <i class="fa-solid fa-film" style="font-size: 12px; background-color: #ffc1075d;"></i>
+                        </div>
+                        <div class="fs-5 text-white">7</div>
+                        <div class="text-secondary small">Now Showing</div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-2 d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 30px; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; padding-left: 8px;">
+                            <i class="fa-solid fa-calendar" style="font-size: 12px; background-color: #ffc1075d;"></i>
+                        </div>
+                        <div class="fs-5 fw-bold text-white">7</div>
+                        <div class="text-secondary small;">Coming Soon</div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-2 d-flex align-items-center justify-content-center"
+                            style="width: 31px; height: 30px; background-color: #ff67673d; border-radius: 8px; padding-left: 7px;">
+                            <i class="fa-solid fa-xmark"
+                                style="font-size: 12px; color: #ffffff; background-color: #a50000b9;"></i>
+                        </div>
+                        <div class="fs-5 text-white">3</div>
+                        <div class="text-secondary small">Ended Runs</div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-1 d-flex align-items-center justify-content-center"
+                            style="width: 34px; height: 30px; background-color: #ff67673d; border-radius: 8px; padding-left: 8px;">
+                            <i class="fa-solid fa-video"
+                                style="font-size: 12px; color: #ffffff; background-color: #a50000b9;"></i>
+                        </div>
+                        <div class="fs-5 text-white">17</div>
+                        <div class="text-secondary small">Total Movies</div>
+                    </div>
+                </div>
+            </div>
+            <!-- tHIRD LAYER -->
+            <div class="controls-row">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <i class="fa fa-search search-icon"></i>
+                    <input class="control-element" placeholder="Search movies or directors..." type="text" value="">
+                </div>
+
+                <!-- Genre Dropdown -->
+                <div class="genre-container">
+                    <select class="control-element cursor-pointer">
+                        <option value="All">All Genres</option>
+                        <option value="Action">Action</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Animation">Animation</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Drama">Drama</option>
+                    </select>
+                </div>
+
+                <!-- Status Dropdown -->
+                <div class="status-container">
+                    <select class="control-element cursor-pointer">
+                        <option value="all">All Status</option>
+                        <option value="now_showing">Now Showing</option>
+                        <option value="coming_soon">Coming Soon</option>
+                        <option value="ended">Ended</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- FOURTH LAYER AND FIFTH LAYER WRAPPED IN FLEX CONTAINER -->
+            <div class="dashboard-layout ">
+
+                <!-- Movie Cards Column -->
+                <div class="movie-cards-container mt-1">
+
+                    <div class="movie-card-horizontal mt-3">
+                        <div class="poster-container">
+                            <img src="image.png" alt="Interstellar Poster" class="movie-poster">
+                            <span class="status-badge now-showing">Now Showing</span>
+                        </div>
+                        <div class="movie-details">
+                            <div class="details-header">
+                                <h3 class="movie-title">Interstellar</h3>
+                                <div class="meta-tags">
+                                    <span class="tag genre">Sci-Fi / Drama</span>
+                                    <span class="tag duration">169 mins</span>
+                                    <span class="tag age-rating">PG-13</span>
+                                </div>
+                            </div>
+                            <p class="movie-synopsis">
+                                A team of explorers travel through a wormhole in space in an attempt to ensure
+                                humanity's
+                                survival. Faced with dwindling resources on Earth, they must find a new home among the
+                                stars.
+                            </p>
+                            <div class="card-actions">
+                                <a href="https://www.youtube.com/watch?v=zSWdZVtXT7E" target="_blank"
+                                    class="trailer-link">
+                                    <i class="fas fa-play"></i> Watch Trailer
+                                </a>
+                                <div class="button-group">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="movie-card-horizontal mt-3">
+                        <!-- Movie Poster -->
+                        <div class="poster-container">
+                            <img src="image.png" alt="Interstellar Poster" class="movie-poster">
+                            <!-- Showing Status Badge -->
+                            <span class="status-badge now-showing">Now Showing</span>
+                        </div>
+                        <!-- Movie Details -->
+                        <div class="movie-details">
+                            <div class="details-header">
+                                <h3 class="movie-title">Interstellar</h3>
+                                <!-- Meta Info Tags -->
+                                <div class="meta-tags">
+                                    <span class="tag genre">Sci-Fi / Drama</span>
+                                    <span class="tag duration">169 mins</span>
+                                    <span class="tag age-rating">PG-13</span>
+                                </div>
+                            </div>
+                            <!-- Synopsis -->
+                            <p class="movie-synopsis">
+                                A team of explorers travel through a wormhole in space in an attempt to ensure
+                                humanity's
+                                survival. Faced with dwindling resources on Earth, they must find a new home among the
+                                stars.
+                            </p>
+                            <!-- Trailer Link / Actions -->
+                            <div class="card-actions">
+                                <a href="https://www.youtube.com/watch?v=zSWdZVtXT7E" target="_blank"
+                                    class="trailer-link">
+                                    <i class="fas fa-play"></i> Watch Trailer
+                                </a>
+                                <div class="button-group">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="movie-card-horizontal mt-3">
+                        <!-- Movie Poster -->
+                        <div class="poster-container">
+                            <img src="image.png" alt="Interstellar Poster" class="movie-poster">
+                            <!-- Showing Status Badge -->
+                            <span class="status-badge now-showing">Now Showing</span>
+                        </div>
+                        <!-- Movie Details -->
+                        <div class="movie-details">
+                            <div class="details-header">
+                                <h3 class="movie-title">Interstellar</h3>
+                                <!-- Meta Info Tags -->
+                                <div class="meta-tags">
+                                    <span class="tag genre">Sci-Fi / Drama</span>
+                                    <span class="tag duration">169 mins</span>
+                                    <span class="tag age-rating">PG-13</span>
+                                </div>
+                            </div>
+                            <!-- Synopsis -->
+                            <p class="movie-synopsis">
+                                A team of explorers travel through a wormhole in space in an attempt to ensure
+                                humanity's
+                                survival. Faced with dwindling resources on Earth, they must find a new home among the
+                                stars.
+                            </p>
+                            <!-- Trailer Link / Actions -->
+                            <div class="card-actions">
+                                <a href="https://www.youtube.com/watch?v=zSWdZVtXT7E" target="_blank"
+                                    class="trailer-link">
+                                    <i class="fas fa-play"></i> Watch Trailer
+                                </a>
+                                <div class="button-group">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="movie-card-horizontal mt-3">
+                        <!-- Movie Poster -->
+                        <div class="poster-container">
+                            <img src="image.png" alt="Interstellar Poster" class="movie-poster">
+                            <!-- Showing Status Badge -->
+                            <span class="status-badge now-showing">Now Showing</span>
+                        </div>
+                        <!-- Movie Details -->
+                        <div class="movie-details">
+                            <div class="details-header">
+                                <h3 class="movie-title">Interstellar</h3>
+                                <!-- Meta Info Tags -->
+                                <div class="meta-tags">
+                                    <span class="tag genre">Sci-Fi / Drama</span>
+                                    <span class="tag duration">169 mins</span>
+                                    <span class="tag age-rating">PG-13</span>
+                                </div>
+                            </div>
+                            <!-- Synopsis -->
+                            <p class="movie-synopsis">
+                                A team of explorers travel through a wormhole in space in an attempt to ensure
+                                humanity's
+                                survival. Faced with dwindling resources on Earth, they must find a new home among the
+                                stars.
+                            </p>
+                            <!-- Trailer Link / Actions -->
+                            <div class="card-actions">
+                                <a href="https://www.youtube.com/watch?v=zSWdZVtXT7E" target="_blank"
+                                    class="trailer-link">
+                                    <i class="fas fa-play"></i> Watch Trailer
+                                </a>
+                                <div class="button-group">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="movie-card-horizontal mt-3">
+                        <!-- Movie Poster -->
+                        <div class="poster-container">
+                            <img src="image.png" alt="Interstellar Poster" class="movie-poster">
+                            <!-- Showing Status Badge -->
+                            <span class="status-badge now-showing">Now Showing</span>
+                        </div>
+                        <!-- Movie Details -->
+                        <div class="movie-details">
+                            <div class="details-header">
+                                <h3 class="movie-title">Interstellar</h3>
+                                <!-- Meta Info Tags -->
+                                <div class="meta-tags">
+                                    <span class="tag genre">Sci-Fi / Drama</span>
+                                    <span class="tag duration">169 mins</span>
+                                    <span class="tag age-rating">PG-13</span>
+                                </div>
+                            </div>
+                            <!-- Synopsis -->
+                            <p class="movie-synopsis">
+                                A team of explorers travel through a wormhole in space in an attempt to ensure
+                                humanity's
+                                survival. Faced with dwindling resources on Earth, they must find a new home among the
+                                stars.
+                            </p>
+                            <!-- Trailer Link / Actions -->
+                            <div class="card-actions">
+                                <a href="https://www.youtube.com/watch?v=zSWdZVtXT7E" target="_blank"
+                                    class="trailer-link">
+                                    <i class="fas fa-play"></i> Watch Trailer
+                                </a>
+                                <div class="button-group">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="no-movies-fallback" style="display: none;" class="text-center py-8 text-zinc-500 mt-3">
+                        <p class="text-lg font-medium">No films match your selected filters.</p>
+                    </div>
+
+                </div> <!-- End Movie Cards Container -->
+
+                <!-- Genre Distribution Aside Column -->
+                <aside class="genre-distribution-aside mt-1">
+                    <div class="movie-number">
+                        <h1 class="header">Genre Distribution</h1>
+                        <div class="distribution-wrapper">
+
+                            <div class="bar">
+                                <div class="mov-name">
+                                    <span class="genre">Sci-Fi</span>
+                                    <span class="count">12 Films</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="number-bar"></span>
+                                </div>
+                            </div>
+
+                            <div class="bar">
+                                <div class="mov-name">
+                                    <span class="genre">Drama</span>
+                                    <span class="count">10 Films</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="number-bar"></span>
+                                </div>
+                            </div>
+
+                            <div class="bar">
+                                <div class="mov-name">
+                                    <span class="genre">Action</span>
+                                    <span class="count">15 Films</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="number-bar"></span>
+                                </div>
+                            </div>
+
+                            <div class="bar">
+                                <div class="mov-name">
+                                    <span class="genre">Animation</span>
+                                    <span class="count">9 Films</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="number-bar"></span>
+                                </div>
+                            </div>
+
+                            <div class="bar">
+                                <div class="mov-name">
+                                    <span class="genre">Comedy</span>
+                                    <span class="count">6 Films</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="number-bar"></span>
+                                </div>
+                            </div>
+
+                            <div class="bar">
+                                <div class="mov-name">
+                                    <span class="genre">Horror</span>
+                                    <span class="count">3 Films</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <span class="number-bar"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </aside> <!-- End Genre Distribution Aside -->
+
+            </div> <!-- End Dashboard Layout -->
+
+        </div> <!-- End Page Operations -->
+        <!-- SHOW SCHEDULING SECTION-->
+        <div id="page-schedule" class="page-section d-none">
+            <div class="mb-4">
+                <h2 class="text-white fw-bold mb-1">Show Scheduling</h2>
+                <p class="text-white-50 small">Welcome back, Alex. Here's what's happening today.</p>
+            </div>
+        </div>
+        <!-- CINEMA HALLS SECTION -->
+        <div id="page-halls" class="page-section d-none">
+            <div class="mb-4">
+                <h2 class="text-white fw-bold mb-1">Cinema Halls</h2>
+                <p class="text-white-50 small">Welcome back, Alex. Here's what's happening today.</p>
+            </div>
+            <div class="row g-3">
+                <!-- Card 1 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-2 d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 30px; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; padding-left: 8px;">
+                            <i class="fa-solid fa-film" style="font-size: 12px; background-color: #ffc1075d;"></i>
+                        </div>
+                        <div class="fs-5 text-white">7</div>
+                        <div class="text-secondary small">Now Showing</div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-2 d-flex align-items-center justify-content-center"
+                            style="width: 32px; height: 30px; background-color: rgba(255, 193, 7, 0.15); border-radius: 8px; padding-left: 8px;">
+                            <i class="fa-solid fa-calendar" style="font-size: 12px; background-color: #ffc1075d;"></i>
+                        </div>
+                        <div class="fs-5 fw-bold text-white">7</div>
+                        <div class="text-secondary small;">Coming Soon</div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-2 d-flex align-items-center justify-content-center"
+                            style="width: 31px; height: 30px; background-color: #ff67673d; border-radius: 8px; padding-left: 7px;">
+                            <i class="fa-solid fa-xmark"
+                                style="font-size: 12px; color: #ffffff; background-color: #a50000b9;"></i>
+                        </div>
+                        <div class="fs-5 text-white">3</div>
+                        <div class="text-secondary small">Ended Runs</div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="col-6 col-md-3 col-sm-6 col-lg-3">
+                    <div class="bg-cinema-card p-3"
+                        style="background-color: #1a1a1a; border-color: #151515; border-radius: 18px;">
+                        <div class="mb-1 d-flex align-items-center justify-content-center"
+                            style="width: 34px; height: 30px; background-color: #ff67673d; border-radius: 8px; padding-left: 8px;">
+                            <i class="fa-solid fa-video"
+                                style="font-size: 12px; color: #ffffff; background-color: #a50000b9;"></i>
+                        </div>
+                        <div class="fs-5 text-white">17</div>
+                        <div class="text-secondary small">Total Movies</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SEAT LAYOUTS SECTION -->
+        <div id="page-seats" class="page-section d-none">
+            <div class="mb-4">
+                <h2 class="text-white fw-bold mb-1">Seat Layouts</h2>
+                <p class="text-white-50 small">Welcome back, Alex. Here's what's happening today.</p>
+            </div>
+        </div>
+        <!-- TICKET PRICING SECTION -->
+        <div id="page-pricing" class="page-section d-none">
+            <div class="mb-4">
+                <h2 class="text-white fw-bold mb-1">Ticket Pricing</h2>
+                <p class="text-white-50 small">Welcome back, Alex. Here's what's happening today.</p>
+            </div>
+        </div>
+    </main>
+
+    <div class="sidebar">
+        <!-- ... [Sidebar Content Unchanged] ... -->
+        <div class="sidebar-header">
+            <div class="profile">
+                <img src="gojo.png" alt="Gojo Satoru" class="profile-avatar">
+                <div class="profile-info">
+                    <h4>Gojo Satoru</h4>
+                    <p>Administrator</p>
+                </div>
+            </div>
+            <label for="menu-toggle" class="close-btn">×</label>
+        </div>
+        <div class="name">
+            <h1 class="text-center align-middle my-2 ">
+                <i class="fa-solid fa-film"></i>
+                <span class="link-text">Cinema Luxe Admin</span>
+            </h1>
+        </div>
+        <div class="sidebar-content">
+            <a href="admin.html" class="mt-4 active" data-page="dashboard"><i class="fa-solid fa-house"></i>
+                <span class="link-text">Dashboard</span></a>
+            <details class="sidebar-dropdown" data-group="sales">
+                <summary class="menu-group" data-group="sales"><i class="fa-solid fa-chart-line"></i> <span
+                        class="link-text">Sales Management</span>
+                </summary>
+                <a href="#" class="menu-link" data-page="sales" data-group="sales"><span class="link-text">Customer
+                        Transaction</span></a>
+                <a href="#" class="menu-link" data-page="reports" data-group="sales"><span class="link-text">Sales
+                        Reports</span></a>
+            </details>
+            <details class="sidebar-dropdown" data-group="finance">
+                <summary class="menu-group" data-group="finance"><i class="fa-solid fa-wallet"></i> <span
+                        class="link-text">Finance & Accounting</span>
+                </summary>
+                <a href="#" class="menu-link" data-page="finance" data-group="finance"><span class="link-text">Financial
+                        Dashboard</span></a>
+            </details>
+            <details class="sidebar-dropdown mb-5" data-group="operations">
+                <summary class="menu-group" data-group="operations"><i class="fa-solid fa-gear"></i> <span
+                        class="link-text">Operations</span>
+                </summary>
+                <a href="#" class="menu-link" data-page="operations" data-group="operations"><span
+                        class="link-text">Movie Management</span></a>
+                <a href="#" class="menu-link" data-page="schedule" data-group="operations"><span class="link-text">Show
+                        Scheduling</span></a>
+                <a href="#" class="menu-link" data-page="halls" data-group="operations"><span class="link-text">Cinema
+                        Halls</span></a>
+                <a href="#" class="menu-link" data-page="seats" data-group="operations"><span class="link-text">Seat
+                        Layouts</span></a>
+                <a href="#" class="menu-link" data-page="pricing" data-group="operations"><span class="link-text">Ticket
+                        Pricing</span></a>
+            </details>
+        </div>
+        <div class="logout mt-3">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#logoutModal"><i
+                    class="fa-solid fa-right-from-bracket"></i> <span class="link-text">Logout</span></button>
+        </div>
+    </div>
+
+    <!-- ... [Modals Unchanged] ... -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content my-0">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body my-0">
+                    <h6 class="m-0">
+                        Are you sure you want to log out?
+                    </h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Movie Modal -->
+    <div class="modal fade" id="editMovieModal" tabindex="-1" aria-labelledby="editMovieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editMovieModalLabel">Edit Movie Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editMovieForm">
+                        <div class="row g-3">
+                            <!-- Left Column -->
+                            <div class="col-md-6 d-flex flex-column gap-3">
+                                <div>
+                                    <label for="editMovieTitle" class="form-label">Movie Title</label>
+                                    <input type="text" class="form-control" id="editMovieTitle" required
+                                        placeholder="Enter movie title">
+                                </div>
+                                <div>
+                                    <label for="editMoviePoster" class="form-label">Poster Image</label>
+                                    <input type="file" class="form-control" id="editMoviePoster" accept="image/*">
+                                    <img id="editMoviePosterPreview" src="" alt="Current poster preview"
+                                        class="mt-2 rounded" style="max-height: 120px; display: none;">
+                                </div>
+                                <div>
+                                    <label for="editMovieGenre" class="form-label">Genre</label>
+                                    <input type="text" class="form-control" id="editMovieGenre" required
+                                        placeholder="e.g., Action, Sci-Fi">
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6 d-flex flex-column gap-3">
+                                <div>
+                                    <label for="editMovieStatus" class="form-label">Showing Status</label>
+                                    <select class="form-select form-control" id="editMovieStatus" required>
+                                        <option value="coming-soon">Coming Soon</option>
+                                        <option value="now-showing">Now Showing</option>
+                                        <option value="ended">Ended</option>
+                                    </select>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label for="editMovieDuration" class="form-label">Duration</label>
+                                        <input type="text" class="form-control" id="editMovieDuration" required
+                                            placeholder="e.g., 120 mins">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="editMovieRating" class="form-label">Age Rating</label>
+                                        <select class="form-select form-control" id="editMovieRating" required>
+                                            <option value="" disabled>Select Rating</option>
+                                            <option value="G">G</option>
+                                            <option value="PG">PG</option>
+                                            <option value="PG-13">PG-13</option>
+                                            <option value="R">R</option>
+                                            <option value="NC-17">NC-17</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="editMovieSynopsis" class="form-label">Synopsis</label>
+                                    <textarea class="form-control" id="editMovieSynopsis" rows="3" required
+                                        placeholder="Write a short summary..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary text-white border-secondary"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="editMovieForm" class="btn btn-warning text-black font-weight-bold"
+                        style="background-color: #eab308; border-color: #eab308;">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+     DELETE MOVIE MODAL
+     ========================================== -->
+    <div class="modal fade" id="deleteMovieModal" tabindex="-1" aria-labelledby="deleteMovieModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border-danger">
+                <div class="modal-header border-danger">
+                    <h5 class="modal-title text-danger" id="deleteMovieModalLabel">Delete Movie Confirmation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong id="deleteMovieTarget" class="text-warning"></strong>?
+                    </p>
+                    <p class="small text-secondary mb-0">This action cannot be undone and will permanently remove this
+                        record.</p>
+                </div>
+                <div class="modal-footer border-danger">
+                    <button type="button" class="btn btn-outline-secondary text-white"
+                        data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Confirm Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+     COMPLETE & WRAPPED ADD MOVIE MODAL
+     ========================================== -->
+    <div class="modal fade" id="addMovieModal" tabindex="-1" aria-labelledby="addMovieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMovieModalLabel">Add New Movie</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <!-- Complete Form Wrapper -->
+                <form id="addMovieForm">
+                    <div class="modal-body">
+                        <div class="row g-3">
+
+                            <!-- Left Column -->
+                            <div class="col-md-6 d-flex flex-column gap-3">
+                                <div>
+                                    <label for="addMovieTitle" class="form-label">Movie Title</label>
+                                    <input type="text" class="form-control" id="addMovieTitle" required
+                                        placeholder="Enter movie title">
+                                </div>
+                                <div>
+                                    <label for="addMoviePoster" class="form-label">Poster Image</label>
+                                    <input type="file" class="form-control" id="addMoviePoster" accept="image/*">
+                                </div>
+                                <div>
+                                    <label for="addMovieGenre" class="form-label">Genre</label>
+                                    <input type="text" class="form-control" id="addMovieGenre" required
+                                        placeholder="e.g., Action, Sci-Fi">
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6 d-flex flex-column gap-3">
+                                <div>
+                                    <label for="addMovieStatus" class="form-label">Showing Status</label>
+                                    <select class="form-select form-control" id="addMovieStatus" required>
+                                        <option value="status">No Status</option>
+                                        <option value="now-showing">Now Showing</option>
+                                        <option value="coming-soon">Coming Soon</option>
+                                        <option value="ended">Ended</option>
+                                    </select>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label for="addMovieDuration" class="form-label">Duration</label>
+                                        <input type="text" class="form-control" id="addMovieDuration"
+                                            placeholder="e.g., 120 mins" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="addMovieRating" class="form-label">Age Rating</label>
+                                        <select class="form-select form-control" id="addMovieRating" required>
+                                            <option value="" disabled selected>Select</option>
+                                            <option value="G">G</option>
+                                            <option value="PG">PG</option>
+                                            <option value="PG-13">PG-13</option>
+                                            <option value="R">R</option>
+                                            <option value="NC-17">NC-17</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="addMovieSynopsis" class="form-label">Synopsis</label>
+                                    <textarea class="form-control" id="addMovieSynopsis" rows="3" required
+                                        placeholder="Write a short summary..."></textarea>
+                                </div>
+                            </div>
+
+                        </div> <!-- End Row -->
+                    </div>
+
+                    <!-- Footer buttons -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary text-light"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning">Add Movie</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
