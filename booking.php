@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +8,7 @@
     <link rel="stylesheet" href="libraries/fontawesome/css/all.min.css">
     <!-- <link rel="stylesheet" href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"> -->
 </head>
-
 <body>
-
     <header class="navbar">
         <div class="logo">
             <span class="logo-icon">🎬</span>
@@ -28,7 +25,6 @@
             <a href="index.php#contact">Contact</a>
         </nav>
     </header>
-
     <section class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-container">
@@ -36,28 +32,24 @@
             <div class="movie-details">
                 <span class="badge"><span class="dot"></span> NOW SHOWING</span>
                 <h2 class="movie-title" id="movieTitle">New Avengers</h2>
-
                 <div class="meta-tags">
                     <span><i class="fa-solid fa-star gold-text"></i> <span id="heroRating">9.2</span> <small>/10</small></span>
                     <span class="tag" id="heroAgeRating">PG-13</span>
                     <span><i class="fa-regular fa-clock"></i> <span id="heroDuration">2h 48m</span></span>
                     <span id="heroGenreText">Sci-Fi / Adventure</span>
                 </div>
-
                 <p class="hero-synopsis" id="heroSynopsis">
                     Paul Atreides leads the Fremen in a galaxy-wide holy war as he struggles with the terrible purpose he has foreseen. The fate of the entire universe hangs in the balance as ancient powers collide.
                 </p>
             </div>
         </div>
     </section>
-
     <main class="content-container">
         <div class="left-column">
             <section class="details-section">
                 <h3>Synopsis</h3>
                 <p id="detailSynopsis">Paul Atreides leads the Fremen in a galaxy-wide holy war as he struggles with the terrible purpose he has foreseen. The fate of the entire universe hangs in the balance as ancient powers collide.</p>
             </section>
-
             <section class="details-section">
                 <h3>Cast & Crew</h3>
                 <div class="cast-grid" id="castGrid"></div>
@@ -65,7 +57,6 @@
                     <i class="fa-solid fa-clapperboard text-muted"></i> <span>Director: <strong id="directorName">Denis Villeneuve</strong></span>
                 </div>
             </section>
-
             <section class="details-section">
                 <h3>Official Trailer</h3>
                 <video id="trailerLink" class="video-container" controls style="width: 100%;">
@@ -73,7 +64,6 @@
                 </video>
             </section>
         </div>
-
         <aside class="right-column">
             <div class="facts-card">
                 <h3>Quick Facts</h3>
@@ -112,7 +102,6 @@
                         <p class="fact-value" id="factDirector">Denis Villeneuve</p>
                     </div>
                 </div>
-
                 <div class="price-range-section">
                     <p class="fact-label">Ticket Price Range</p>
                     <div class="price-badges">
@@ -125,18 +114,15 @@
             </div>
         </aside>
     </main>
-
     <section class="booking-flow content-container">
         <h2 class="booking-page-title" id="booking-movie-title">Book tickets for Dune: Part Three</h2>
         <h3 class="section-title">Select Showtime</h3>
         <p class="section-subtitle">Choose your preferred date, cinema hall, and screening time</p>
-
         <div class="booking-grid">
             <div class="booking-col">
                 <h4 class="step-title"><span class="step-num">1</span> Select Date</h4>
                 <div class="selectable-list" id="date-list"></div>
             </div>
-
             <div class="booking-col">
                 <h4 class="step-title"><span class="step-num">2</span> Select Hall</h4>
                 <div class="selectable-list disabled" id="hall-list">
@@ -167,7 +153,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="booking-col">
                 <h4 class="step-title"><span class="step-num">3</span> Select Time</h4>
                 <div class="selectable-list disabled" id="time-list">
@@ -193,7 +178,6 @@
                 </div>
             </div>
         </div>
-
         <div class="booking-type-section">
             <h4 class="step-title"><span class="step-num">4</span> Select Type</h4>
             <p class="step-subtitle">Choose how many Regular, Senior Citizen and PWD tickets you want.</p>
@@ -224,7 +208,6 @@
                 </label>
             </div>
         </div>
-
         <div class="summary-checkout-bar">
             <div class="summary-details">
                 <div class="summary-item">
@@ -263,7 +246,6 @@
             </button>
         </div>
     </section>
-
     <footer id="contact">
         <div class="container">
             <div class="footer-section">
@@ -296,9 +278,9 @@
             </div>
             <div class="footer-section">
                 <h5>CONTACT</h5>
-                <p><i class="fa-solid fa-location-dot"></i> 📍 Trece Martires City, Cavite 4109</p>
-                <p>📞 +63 (2) 8888-1234</p>
-                <p>📧 <a href="mailto:hello@cinemaroyale.com"
+                <p><i class="fa-solid fa-location-dot"></i>  Trece Martires City, Cavite 4109</p>
+                <p> +63 (2) 8888-1234</p>
+                <p> <a href="mailto:hello@cinemaroyale.com"
                         style="color:#ffc700;text-decoration:none;">hello@cinemaroyale.com</a></p>
             </div>
             <div class="footer-section">
@@ -311,7 +293,6 @@
             <p class="footer-copyright">© 2026 Cinema Royale. All rights reserved.</p>
         </div>
     </footer>
-
     <script src="libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
     <script>
         (function() {
@@ -344,9 +325,7 @@
             const factRating = document.getElementById('factRating');
             const factGenre = document.getElementById('factGenre');
             const factDirector = document.getElementById('factDirector');
-
             const movieDetails = {
-
                 'Avengers: Infinity War': {
                     poster: 'assets/images/poster/image1.jpg',
                     title: 'Avengers: Infinity War',
@@ -541,15 +520,12 @@
                     trailerUrl: 'assets/trailer/fantastic4.mp4'
                 }
             };
-
             let selectedDate = '';
             let selectedHall = '';
             let selectedTime = '';
             let selectedPriceBase = 0;
             let selectedPrice = 0;
-
             const dateList = document.getElementById('date-list');
-
             function formatDateLabel(date) {
                 return date.toLocaleDateString('en-US', {
                     weekday: 'short',
@@ -557,7 +533,6 @@
                     day: 'numeric'
                 });
             }
-
             function buildDateOptions() {
                 const today = new Date();
                 const options = [];
@@ -574,19 +549,14 @@
                 }
                 return options;
             }
-
             const dates = buildDateOptions();
             const halls = Array.from(document.querySelectorAll('#hall-list .select-item'));
             const times = Array.from(document.querySelectorAll('#time-list .select-item'));
-
             function setActive(items, clickedItem) {
                 items.forEach(item => item.classList.remove('active'));
                 clickedItem.classList.add('active');
             }
-
-
             const movie = movieParam || Object.keys(movieDetails)[0];
-
             function renderMovieDetails() {
                 const details = movieDetails[movie] || movieDetails[Object.keys(movieDetails)[0]];
                 const title = details.title || movie;
@@ -615,7 +585,6 @@
                     </div>
                 `).join('');
             }
-
             function enableList(listElement, enabled) {
                 if (enabled) {
                     listElement.classList.remove('disabled');
@@ -625,9 +594,7 @@
                     listElement.querySelectorAll('.select-item').forEach(item => item.classList.add('disabled'));
                 }
             }
-
             const convenienceFeePerTicket = 25;
-
             function getTicketCounts() {
                 const counts = JSON.parse(localStorage.getItem('ticketCounts') || '{}');
                 return {
@@ -636,12 +603,10 @@
                     pwd: parseInt(counts.pwd) || 0
                 };
             }
-
             function getTicketsTotal() {
                 const c = getTicketCounts();
                 return c.regular + c.senior + c.pwd;
             }
-
             function computeFinalPrice() {
                 const base = parseFloat(selectedPriceBase) || 350;
                 const counts = getTicketCounts();
@@ -651,7 +616,6 @@
                 const convenienceTotal = convenienceFeePerTicket * totalTickets;
                 return Math.round(subtotal - discount + convenienceTotal);
             }
-
             function updateSummary() {
                 const counts = getTicketCounts();
                 summaryMovie.textContent = movie;
@@ -669,7 +633,6 @@
                 localStorage.setItem('tickets', String(totalTickets));
                 localStorage.setItem('grandTotal', String(selectedPrice));
             }
-
             function saveBooking() {
                 localStorage.setItem('movie', movie);
                 localStorage.setItem('date', selectedDate);
@@ -702,7 +665,6 @@
 
                 }
             }
-
             dates.forEach(dateItem => {
                 dateItem.addEventListener('click', () => {
                     selectedDate = dateItem.dataset.value;
@@ -723,7 +685,6 @@
                 enableList(hallList, true);
                 updateSummary();
             }
-
             halls.forEach(hallItem => {
                 hallItem.addEventListener('click', () => {
                     if (!selectedDate) return;
@@ -736,7 +697,6 @@
                     updateSummary();
                 });
             });
-
             times.forEach(timeItem => {
                 timeItem.addEventListener('click', () => {
                     if (!selectedHall) return;
@@ -746,10 +706,6 @@
                     updateSummary();
                 });
             });
-
-
-
-
             const regularInput = document.getElementById('countRegular');
             const seniorInput = document.getElementById('countSenior');
             const pwdInput = document.getElementById('countPWD');
@@ -762,7 +718,6 @@
                     pwd: parseInt(counts.pwd) || 0
                 };
             }
-
             function saveCounts() {
                 const counts = {
                     regular: parseInt(regularInput && regularInput.value) || 0,
@@ -786,12 +741,10 @@
                     alert('Please select a date, cinema hall, and time before booking.');
                     return;
                 }
-
                 updateSummary();
                 saveBooking();
                 window.location.href = 'seats.php';
             });
-
             renderMovieDetails();
             if (summaryMovie) {
                 summaryMovie.textContent = movie;
@@ -799,12 +752,10 @@
             if (movie) {
                 document.title = movie + ' | Cinema Luxe Booking';
             }
-
             enableList(hallList, false);
             enableList(timeList, false);
             updateSummary();
         })();
     </script>
 </body>
-
 </html>
