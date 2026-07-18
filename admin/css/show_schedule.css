@@ -284,35 +284,39 @@ img{
    DASHBOARD STATISTICS
 ========================================================== */
 
-/* Statistics Section */
+.stat-card{
 
-#statisticsSection{
+    background:#161616;
 
-    margin-bottom:2rem;
+    border:1px solid rgba(255,215,0,.12);
 
-}
+    border-radius:18px;
 
-/* Individual Card */
+    padding:22px;
 
-#statisticsSection .card{
+    transition:.25s ease;
 
     position:relative;
 
     overflow:hidden;
 
-    min-height:170px;
-
-    background:linear-gradient(
-        145deg,
-        var(--surface),
-        var(--surface-2)
-    );
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.35);
 
 }
 
-/* Gold Accent Bar */
+.stat-card:hover{
 
-#statisticsSection .card::before{
+    transform:translateY(-6px);
+
+    border-color:#D4AF37;
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.45);
+
+}
+
+.stat-card::before{
 
     content:"";
 
@@ -326,20 +330,63 @@ img{
 
     height:100%;
 
-    background:var(--gold);
+    background:#D4AF37;
 
 }
 
-/* Hover Animation */
+.stat-icon{
 
-#statisticsSection .card:hover{
+    width:58px;
 
-    transform:translateY(-6px);
+    height:58px;
 
-    border-color:var(--gold);
+    border-radius:16px;
 
-    box-shadow:
-        0 18px 40px rgba(0,0,0,.35);
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    color:#D4AF37;
+
+    background:rgba(212,175,55,.10);
+
+}
+
+.stat-title{
+
+    color:#9b9b9b;
+
+    font-size:.9rem;
+
+    letter-spacing:.4px;
+
+    text-transform:uppercase;
+
+}
+
+.stat-value{
+
+    color:#fff;
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    margin-top:8px;
+
+}
+
+.stat-subtitle{
+
+    color:#7a7a7a;
+
+    font-size:.85rem;
+
+    margin-top:4px;
 
 }
 

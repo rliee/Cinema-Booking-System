@@ -17,7 +17,7 @@
 
 ========================================================== */
 require_once __DIR__ . "/../../includes/db.php";
-// require_once "../../includes/db.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -132,6 +132,7 @@ require_once __DIR__ . "/../../includes/db.php";
             <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark text-white border-0">
                     <form id="addScheduleForm">
+                        <input type="hidden" id="scheduleId" name="schedule_id">
                         <!-- header -->
                         <div class="modal-header border-secondary">
                             <h4 class="modal-title" id="scheduleModalTitle">Add Schedule</h4>

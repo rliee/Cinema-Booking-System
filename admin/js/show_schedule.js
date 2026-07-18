@@ -388,3 +388,112 @@ function initializeEndTimeCalculator() {
 
 }
 
+/* ==========================================================
+   EDIT SCHEDULE
+========================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const button = event.target.closest(".editBtn");
+
+        if (!button) {
+            return;
+        }
+
+        const scheduleId = button.dataset.id;
+
+        openEditSchedule(scheduleId);
+
+    }
+);
+
+
+async function openEditSchedule(scheduleId) {
+
+    state.editingScheduleId = scheduleId;
+
+
+    const response = await request(
+        `../ajax/get_schedules.php?schedule_id=${scheduleId}`
+    );
+
+
+    if (!response.success) {
+
+        errorToast(response.message);
+
+        return;
+
+    }
+
+
+    const schedule = response.data;
+
+
+    /*
+        Change modal title
+    */
+
+    document.getElementById(
+        "scheduleModalTitle"
+    ).textContent = "Edit Schedule";
+
+
+    /*
+        Store ID
+    */
+
+    document.getElementById(
+        "scheduleId"
+    ).value = schedule.schedule_id;
+
+
+    /*
+        Populate fields
+    */
+
+    document.getElementById(
+        "movie"
+    ).value = schedule.movie_id;
+
+
+    document.getElementById(
+        "hall"
+    ).value = schedule.hall_id;
+
+
+    document.getElementById(
+        "showDate"
+    ).value = schedule.show_date;
+
+
+    document.getElementById(
+        "startTime"
+    ).value = schedule.start_time;
+
+
+    document.getElementById(
+        "ticketPrice"
+    ).value = schedule.ticket_price;
+
+
+    document.getElementById(
+        "endTime"
+    ).value = schedule.end_time;
+
+
+    /*
+        Show modal
+    */
+
+    const modal = new bootstrap.Modal(
+        document.getElementById(
+            "scheduleModal"
+        )
+    );
+
+    modal.show();
+
+}
