@@ -43,6 +43,7 @@ function initializeSchedulingPage() {
 
     /* generate week selector */
     renderWeekSelector();
+    initializeEndTimeCalculator();
 
     state.selectedDate = getSelectedDate();
     loadSchedules();
@@ -200,3 +201,190 @@ window.onScheduleDateChanged = function (date) {
     state.selectedDate = date;
     loadSchedules();
 };
+
+/* ==========================================================
+   ADD SCHEDULE FORM
+========================================================== */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        initializeEndTimeCalculator();
+
+        const form =
+
+            document.getElementById(
+
+                "addScheduleForm"
+
+            );
+
+        if (!form) return;
+
+        form.addEventListener(
+
+            "submit",
+
+            submitScheduleForm
+
+        );
+
+    }
+
+);
+
+/* ==========================================================
+   SUBMIT ADD SCHEDULE
+========================================================== */
+
+async function submitScheduleForm(event) {
+
+    event.preventDefault();
+
+    const form = event.target;
+
+    const formData = new FormData(form);
+
+    const response = await request(
+
+        "../ajax/insertSchedule.php",
+
+        {
+
+            method: "POST",
+
+            body: formData
+
+        }
+
+    );
+
+    /*
+        Validation failed
+    */
+
+    if (!response.success) {
+
+        errorToast(response.message);
+
+        return;
+
+    }
+
+    /*
+        Success
+    */
+
+    successToast(
+
+        "Schedule created successfully."
+
+    );
+
+    /*
+        Close modal
+    */
+
+    bootstrap.Modal
+
+        .getInstance(
+
+            document.getElementById(
+
+                "scheduleModal"
+
+            )
+
+        )
+
+        .hide();
+
+    /*
+        Reset form
+    */
+
+    form.reset();
+
+    document.getElementById(
+
+        "endTime"
+
+    ).value = "";
+
+    /*
+        Reload schedules
+    */
+
+    loadSchedules();
+
+}
+
+/* ==========================================================
+   AUTOMATIC END TIME
+========================================================== */
+
+function initializeEndTimeCalculator() {
+
+    const movie =
+        document.getElementById("movie");
+
+    const startTime =
+        document.getElementById("startTime");
+
+    const endTime =
+        document.getElementById("endTime");
+
+    if (!movie || !startTime || !endTime) {
+        return;
+    }
+
+    function calculateEndTime() {
+
+        if (!movie.value || !startTime.value) {
+            endTime.value = "";
+            return;
+        }
+
+        const duration = Number(
+            movie.options[
+                movie.selectedIndex
+            ].dataset.duration
+        );
+
+        if (!duration) {
+            endTime.value = "";
+            return;
+        }
+
+        const [hour, minute] =
+            startTime.value.split(":");
+
+        const date = new Date();
+
+        date.setHours(Number(hour));
+        date.setMinutes(Number(minute));
+
+        date.setMinutes(
+            date.getMinutes() + duration
+        );
+
+        endTime.value =
+            date.toTimeString().slice(0, 5);
+
+    }
+
+    movie.addEventListener(
+        "change",
+        calculateEndTime
+    );
+
+    startTime.addEventListener(
+        "change",
+        calculateEndTime
+    );
+
+}
+
