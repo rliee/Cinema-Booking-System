@@ -14,7 +14,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="index.php">
-        <img src="assets/Blacklogo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 40px; width: auto;"/>
+        <img src="logo\Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 40px; width: auto;"/>
         <div> Cinema Royale
           <div class="navbar-brand-subtitle">PREMIUM EXPERIENCE</div>
         </div>
@@ -31,8 +31,8 @@
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
         <div class="auth-buttons ms-auto">
-          <a href="/login.php" class="auth-btn login-btn">Login</a>
-          <a href="/signin.php" class="auth-btn register-btn">Register</a>
+          <a href="api\login.php" class="auth-btn login-btn">Login</a>
+          <a href="api\signup.php" class="auth-btn register-btn">Register</a>
         </div>
       </div>
     </div>
@@ -438,7 +438,6 @@
     });
   </script>
 
-  <!-- Restored Scroll-to-Hide Header script -->
   <script>
     let lastScrollTop = 0;
     const header = document.querySelector('.navbar');
