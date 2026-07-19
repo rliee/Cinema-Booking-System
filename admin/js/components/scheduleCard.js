@@ -110,16 +110,7 @@ function createScheduleCard(schedule) {
             <i class="fa-regular fa-calendar me-2"></i>
             <strong>Date</strong>
             <br>
-            <span>
-                ${new Date(schedule.show_date).toLocaleDateString(
-                    "en-US",
-                    {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                    }
-                )}
-            </span>
+            <span>${schedule.show_date}</span>
         </div>
 
         <div class="col-xl-4 col-md-6">

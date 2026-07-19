@@ -238,23 +238,11 @@ function bindWeekEvents() {
 ---------------------------------------------------------- */
 
 function notifyDateChanged() {
-
-    if (
-
-        typeof window.onScheduleDateChanged ===
-
-        "function"
-
-    ) {
-
+    if (typeof window.onScheduleDateChanged === "function") {
         window.onScheduleDateChanged(
-
             getSelectedDate()
-
         );
-
     }
-
 }
 
 /* ----------------------------------------------------------
@@ -263,11 +251,7 @@ function notifyDateChanged() {
 ---------------------------------------------------------- */
 
 function setSelectedDate(dateString) {
-
     selectedDate = new Date(dateString);
-
     renderWeekSelector();
-
     notifyDateChanged();
-
 }
