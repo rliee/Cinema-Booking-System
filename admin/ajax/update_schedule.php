@@ -36,8 +36,7 @@ $data = [
     "movie_id"      => $_POST["movie_id"] ?? "",
     "hall_id"       => $_POST["hall_id"] ?? "",
     "show_date"     => $_POST["show_date"] ?? "",
-    "start_time"    => $_POST["start_time"] ?? "",
-    "ticket_price"  => $_POST["ticket_price"] ?? ""
+    "start_time"    => $_POST["start_time"] ?? ""
 ];
 
 // alidate inputs

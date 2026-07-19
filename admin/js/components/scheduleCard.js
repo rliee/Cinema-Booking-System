@@ -138,22 +138,6 @@ function createScheduleCard(schedule) {
 
         <div class="col-xl-4 col-md-6">
 
-            <i class="fa-solid fa-peso-sign me-2"></i>
-
-            <strong>Price</strong>
-
-            <br>
-
-            <span>
-
-                ₱${Number(schedule.ticket_price).toLocaleString()}
-
-            </span>
-
-        </div>
-
-        <div class="col-xl-4 col-md-6">
-
             <i class="fa-solid fa-chair me-2"></i>
 
             <strong>Seats</strong>

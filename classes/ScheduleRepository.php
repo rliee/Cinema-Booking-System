@@ -1,6 +1,5 @@
-<!-- the only class allowed to communicate with sql -->
-
 <?php
+// the only class allowed to communicate with sql
 
 require_once "SchedulingEngine.php";
 
@@ -172,18 +171,17 @@ class ScheduleRepository{
         $this->conn->begin_transaction();
         try {
             $sql = "INSERT INTO show_schedules
-                (movie_id, hall_id, show_date, start_time, end_time, ticket_price)
-                VALUES (?, ?, ?, ?, ?, ?)";
+                (movie_id, hall_id, show_date, start_time, end_time)
+                VALUES (?, ?, ?, ?, ?)";
             
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param(
-                "iisssd",
+                "iisss",
                 $data['movie_id'],
                 $data['hall_id'],
                 $data['show_date'],
                 $data['start_time'],
-                $movieEnd,
-                $data['ticket_price']
+                $movieEnd
             );
 
             if (!$stmt->execute()) {
@@ -250,19 +248,17 @@ class ScheduleRepository{
                     hall_id = ?,
                     show_date = ?,
                     start_time = ?,
-                    end_time = ?,
-                    ticket_price = ?
+                    end_time = ?
                 WHERE schedule_id = ?";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param(
-                "iisssdi",
+                "iisssi",
                 $data["movie_id"],
                 $data["hall_id"],
                 $data["show_date"],
                 $data["start_time"],
                 $movieEnd,
-                $data["ticket_price"],
                 $scheduleId
             );
 

@@ -96,7 +96,7 @@ async function loadSchedules() {
 
     /* request schedules */
     const response = await request(
-        "../ajax/getSchedule.php?date=${state.selectedDate}"
+        `../ajax/get_schedules.php?show_date=${state.selectedDate}`
     );
 
     /* request failed */
@@ -248,78 +248,57 @@ async function submitScheduleForm(event) {
 
     const formData = new FormData(form);
 
+    /* Determine whether we're adding or editing */
+    const scheduleId = formData.get("schedule_id");
+
+    const url = scheduleId
+        ? "../ajax/update_schedule.php"
+        : "../ajax/insert_schedules.php";
+
     const response = await request(
 
-        "../ajax/insertSchedule.php",
-
+        url,
         {
-
             method: "POST",
-
             body: formData
-
         }
-
     );
 
-    /*
-        Validation failed
-    */
-
+    /* Validation failed */
     if (!response.success) {
-
         errorToast(response.message);
-
         return;
-
     }
 
-    /*
-        Success
-    */
-
+    /* Success */
     successToast(
-
-        "Schedule created successfully."
-
+        scheduleId
+            ? "Schedule updated successfully."
+            : "Schedule created successfully."
     );
 
-    /*
-        Close modal
-    */
-
+    /* Close modal */
     bootstrap.Modal
-
         .getInstance(
-
             document.getElementById(
-
                 "scheduleModal"
-
             )
-
         )
-
         .hide();
 
-    /*
-        Reset form
-    */
-
+    /* Reset form */
     form.reset();
-
     document.getElementById(
-
         "endTime"
-
     ).value = "";
 
-    /*
-        Reload schedules
-    */
+    /* Return modal to Add mode */
+    state.editingScheduleId = null;
+    document.getElementById( "scheduleId").value = "";
+    document.getElementById("scheduleModalTitle").textContent = "Add Schedule";
 
+    /* Reload schedules */
     loadSchedules();
-
 }
 
 /* ==========================================================
@@ -387,6 +366,40 @@ function initializeEndTimeCalculator() {
     );
 
 }
+
+/* ==========================================================
+   RESET ADD SCHEDULE MODAL
+========================================================== */
+function resetScheduleModal() {
+
+    /* Return to Add mode */
+    state.editingScheduleId = null;
+
+    /* Reset title */
+    document.getElementById("scheduleModalTitle").textContent = "Add Schedule";
+
+    /* Clear hidden schedule ID */
+    document.getElementById("scheduleId").value = "";
+
+    /* Reset form */
+    const form = document.getElementById("addScheduleForm");
+
+    form.reset();
+
+    /* Clear calculated end time */
+    document.getElementById("endTime").value = "";
+}
+
+document.getElementById("btnAddSchedule").addEventListener(
+    "click",
+    resetScheduleModal
+);
+
+document.getElementById("scheduleModal").addEventListener(
+    "hidden.bs.modal",
+    resetScheduleModal
+);
+
 
 /* ==========================================================
    EDIT SCHEDULE
@@ -472,12 +485,6 @@ async function openEditSchedule(scheduleId) {
     document.getElementById(
         "startTime"
     ).value = schedule.start_time;
-
-
-    document.getElementById(
-        "ticketPrice"
-    ).value = schedule.ticket_price;
-
 
     document.getElementById(
         "endTime"

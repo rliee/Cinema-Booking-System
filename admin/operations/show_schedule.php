@@ -197,12 +197,6 @@ require_once __DIR__ . "/../../includes/db.php";
                                     <label for="endTime" class="form-label">End Time</label>
                                     <input type="time" class="form-control" id="endTime" readonly>
                                 </div>
-
-                                <!-- ticket price -->
-                                <div class="col-md-6">
-                                    <label for="ticket_price" class="form-label">Ticket Price</label>
-                                    <input type="number" class="form-control" id="ticketPrice" name="ticket_price" min="1" required>
-                                </div>
                             </div>
                         </div>
 

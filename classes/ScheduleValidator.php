@@ -1,6 +1,5 @@
-<!-- only validates inputs, it doesn't insert data or calculate times -->
-
 <?php
+// only validates inputs, it doesn't insert data or calculate times 
 
 class ScheduleValidator{
     public function validate(array $data): string {
@@ -22,14 +21,6 @@ class ScheduleValidator{
 
         if (!empty($data['show_date']) && strtotime($data['show_date']) < strtotime(date("Y-m-d"))) {
             return "Show date cannot be in the past.";
-        }
-
-        if (!isset($data['ticket_price']) || $data['ticket_price'] === '') {
-            return "Please enter the ticket price.";
-        }
-
-        if (!empty($data['ticket_price']) && $data['ticket_price'] < 0) {
-            return "Ticket price cannot be negative.";
         }
 
         return "Internal server error";
