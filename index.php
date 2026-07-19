@@ -1,36 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cinema Luxe - Premium Movie Experience</title>
+  <title>Cinema Royale - Premium Movie Experience</title>
 
   <link href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
-
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.php">Cinema Royale
-        <div class="navbar-brand-subtitle">PREMIUM EXPERIENCE</div>
+      <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <img src="assets/Blacklogo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 40px; width: auto;"/>
+        <div> Cinema Royale
+          <div class="navbar-brand-subtitle">PREMIUM EXPERIENCE</div>
+        </div>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav mx-auto">
           <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="#now-showing">Now Showing</a></li>
           <li class="nav-item"><a class="nav-link" href="#promotions">Promotions</a></li>
           <li class="nav-item"><a class="nav-link" href="#experience">About</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
+        <div class="auth-buttons ms-auto">
+          <a href="/login.php" class="auth-btn login-btn">Login</a>
+          <a href="/signin.php" class="auth-btn register-btn">Register</a>
+        </div>
       </div>
     </div>
   </nav>
+
   <section class="hero" id="hero">
     <div class="container">
       <div class="hero-label">ACTION PACKED</div>
@@ -46,6 +53,7 @@
       </div>
     </div>
   </section>
+
   <section class="now-showing" id="now-showing">
     <div class="container">
       <div class="section-label">NOW SHOWING</div>
@@ -56,6 +64,7 @@
       <div class="movie-grid" id="movieGrid"></div>
     </div>
   </section>
+
   <section class="promotions" id="promotions">
     <div class="container">
       <div class="section-label">SPECIAL OFFERS</div>
@@ -86,35 +95,33 @@
     <div class="container">
       <div class="experience-intro">
         <h2>
-          We don't just show movies. We create <span class="highlight">unforgettable moments</span> that stay with you long after the
-          credits roll.
+          We don't just show movies. We create <span class="highlight">unforgettable moments</span> that stay with you long after the credits roll.
         </h2>
         <p class="about-paragraph">
-          Cinema Royale blends cutting-edge technology, luxurious comfort, and friendly service to make every screening feel like an
-          exclusive event for movie lovers.
+          Cinema Royale blends cutting-edge technology, luxurious comfort, and friendly service to make every screening feel like an exclusive event for movie lovers.
         </p>
       </div>
       <div class="section-label">/ THE EXPERIENCE</div>
       <div class="experience-features" id="featureGrid"></div>
     </div>
   </section>
+
   <section class="testimonials">
     <div class="container">
       <div class="section-label">/ TESTIMONIALS /</div>
       <div class="testimonial-header">
         <h2 class="section-title">What Our Guests Say</h2>
       </div>
-
       <div class="testimonials-container" id="testimonialGrid"></div>
     </div>
   </section>
+
   <footer id="contact">
     <div class="container">
       <div class="footer-section">
         <h5>🎬 Cinema Royale</h5>
         <p>
-          Experience movies the way they were meant to be seen. Premium sound, stunning visuals, and unmatched comfort — only at Cinema
-          Royale.
+          Experience movies the way they were meant to be seen. Premium sound, stunning visuals, and unmatched comfort — only at Cinema Royale.
         </p>
         <div class="footer-socials">
           <a href="#" title="Facebook">f</a>
@@ -149,8 +156,8 @@
       <div class="footer-section">
         <h5>TEAM</h5>
         <p>
-          Arliesienne Ansuas<br />Genesis Saliedo<br />James Arnold Dutosme<br />Josiah Joshua Torrefiel<br />Kier Bryant Levita<br />Kylle
-          Jonathan Padua<br />Ron Andrei Castro
+          Arliesienne Ansuas<br />Genesis Saliedo<br />James Arnold Dutosme<br />Josiah Joshua Torrefiel
+          <br />Kier Bryant Levita<br />Kylle Jonathan Padua<br />Ron Andrei Castro
         </p>
       </div>
     </div>
@@ -159,6 +166,7 @@
       <p class="footer-copyright">© 2026 Cinema Royale. All rights reserved.</p>
     </div>
   </footer>
+
   <script src="libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const movieData = [{
@@ -254,7 +262,7 @@
       },
       {
         icon: "👑",
-        title: "Recliner Seats",
+        title: "VIP Recliner Seats",
         text: "Spacious, fully-reclining leather seats with personal side tables and dedicated butler service.",
       },
       {
@@ -270,7 +278,7 @@
         date: "2026-06-28",
       },
       {
-        quote: "Outstanding service from start to finish. The theater is immaculate, the snacks are delicious, and the booking process online was so seamless. Highly recommend Cinema Luxe!",
+        quote: "Outstanding service from start to finish. The theater is immaculate, the snacks are delicious, and the booking process online was so seamless. Highly recommend Cinema Royale!",
         initials: "JR",
         name: "John Rivera",
         date: "2026-07-02",
@@ -350,10 +358,12 @@
         )
         .join("");
     }
+
     document.addEventListener("DOMContentLoaded", function() {
       renderMovieCards();
       renderFeatureCards();
       renderTestimonials();
+
       document.querySelectorAll(".btn-book-ticket, .btn-book-now").forEach((btn) => {
         btn.addEventListener("click", function() {
           const mv = this.dataset.movie || this.getAttribute("data-movie");
@@ -368,16 +378,16 @@
     });
   </script>
   <script src="js/app.js"></script>
+
   <script>
     document.querySelectorAll("[data-movie]").forEach((button) => {
       button.addEventListener("click", () => {
         const movie = button.dataset.movie;
-        const query = new URLSearchParams({
-          movie
-        }).toString();
+        const query = new URLSearchParams({ movie }).toString();
         window.location.href = "booking.php?" + query;
       });
     });
+
     (function() {
       if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
       document.querySelectorAll(".movie-card").forEach(function(card) {
@@ -399,29 +409,49 @@
         });
       });
     })();
+
     document.querySelectorAll(".nav-link").forEach((link) => {
       link.addEventListener("click", () => {
         document.querySelector(".navbar-collapse").classList.remove("show");
       });
     });
   </script>
+
+  <!-- Restored Session Handler Script -->
   <script>
-    (function ensureMovies() {
-      try {
-        if (typeof renderMovieCards === "function") {
-          renderMovieCards();
-          const container = document.getElementById("movieGrid");
-          if (container && container.children.length === 0) {
-            console.warn("movieGrid is empty after renderMovieCards — inserting fallback message.");
-            container.innerHTML = '<p style="color:#ccc; padding:20px">No movies available right now.</p>';
-          }
-        } else {
-          console.error("renderMovieCards is not defined");
+    document.addEventListener("DOMContentLoaded", function () {
+        const loggedIn = localStorage.getItem("loggedIn");
+        if (loggedIn === "true") {
+            const authButtons = document.querySelector(".auth-buttons");
+            if (authButtons) {
+                authButtons.innerHTML = `
+                    <span class="welcome-text" style="color: #fff; margin-right: 15px;">Welcome Back!</span>
+                    <a href="#" id="logout-btn" class="auth-btn login-btn">Logout</a>
+                `;
+                document.getElementById("logout-btn").addEventListener("click", function (e) {
+                    e.preventDefault();
+                    localStorage.removeItem("loggedIn");
+                    window.location.href = "index.php";
+                });
+            }
         }
-      } catch (e) {
-        console.error("Error forcing movie render:", e);
-      }
-    })();
+    });
+  </script>
+
+  <!-- Restored Scroll-to-Hide Header script -->
+  <script>
+    let lastScrollTop = 0;
+    const header = document.querySelector('.navbar');
+
+    window.addEventListener('scroll', function () {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScroll > lastScrollTop && currentScroll > 50) {
+            header.classList.add('hide-header');
+        } else {
+            header.classList.remove('hide-header');
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    });
   </script>
 </body>
 

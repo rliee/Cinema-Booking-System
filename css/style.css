@@ -923,6 +923,109 @@ footer p {
     background: #fff !important;
 }
 
+/* Centered Main Title */
+.page-title {
+    text-align: center;
+    color: #e5b842;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+/* Flex Container to place columns side-by-side */
+.payment-layout-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px; /* Space between the two columns */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Left side takes slightly more or equal width */
+.left-column {
+    flex: 1.2;
+    max-width: 600px;
+}
+
+/* Right side holds the Booking Summary Card */
+.right-column {
+    flex: 0.8;
+    max-width: 400px;
+    position: sticky; /* Optional: keeps summary visible while scrolling */
+    top: 20px;
+}
+
+/* Booking Card Styles matching your dark grey panel shape */
+.booking-details-card {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #2a2a2a;
+}
+
+.booking-details-card h3 {
+    color: #e5b842;
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Movie poster & title layout */
+.movie-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.movie-poster {
+    width: 70px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.movie-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Rows inside the Booking Summary */
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    color: #ccc;
+    font-size: 15px;
+    padding: 10px 0;
+}
+
+.detail-row span:last-child {
+    color: #fff;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-size: 16px;
+    padding-top: 15px;
+    font-weight: bold;
+}
+
+.total-row strong {
+    color: #fff;
+    font-size: 18px;
+}
+
+/* UI Dividers */
+.divider {
+    border: 0;
+    border-top: 1px solid #333;
+    margin: 0;
+}
 .payment-card {
     max-width: 1000px;
     margin: 50px auto;
