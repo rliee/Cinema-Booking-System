@@ -268,4 +268,6 @@ function setSelectedDate(dateString) {
 
     renderWeekSelector();
 
+    notifyDateChanged();
+
 }

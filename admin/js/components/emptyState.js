@@ -101,17 +101,16 @@ function createEmptyState({
    - options
 ---------------------------------------------------------- */
 
-function renderEmptyState(containerId, options = {}) {
+function renderEmptyState(container, options = {}) {
 
-    const container =
-        document.getElementById(containerId);
+    if (!container) {
+        return;
+    }
 
     clearElement(container);
 
     container.appendChild(
-
         createEmptyState(options)
-
     );
 
 }

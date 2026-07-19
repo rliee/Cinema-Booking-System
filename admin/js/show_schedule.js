@@ -105,7 +105,7 @@ async function loadSchedules() {
             container,
             {
                 title: "Unable to load schedules",
-                description: response.message
+                message: response.message
             }
         );
         return;
@@ -113,6 +113,9 @@ async function loadSchedules() {
 
     /* save schedules */
     state.schedules = response.data;
+    console.log("Selected date:", state.selectedDate);
+    console.log("Response:", response);
+    console.log("Schedules:", response.data);
 
     /* render page */
     refreshScheduleView();
@@ -253,7 +256,7 @@ async function submitScheduleForm(event) {
 
     const url = scheduleId
         ? "../ajax/update_schedule.php"
-        : "../ajax/insert_schedules.php";
+        : "../ajax/insert_schedule.php";
 
     const response = await request(
 
@@ -297,8 +300,11 @@ async function submitScheduleForm(event) {
     document.getElementById( "scheduleId").value = "";
     document.getElementById("scheduleModalTitle").textContent = "Add Schedule";
 
+    /* Jump to the scheduled date */
+    state.selectedDate = formData.get("show_date");
+
     /* Reload schedules */
-    loadSchedules();
+    setSelectedDate(formData.get("show_date"));
 }
 
 /* ==========================================================
