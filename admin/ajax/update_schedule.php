@@ -4,8 +4,8 @@ header("Content-Type: application/json");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 
 require_once __DIR__ . "/../../includes/db.php";
-require_once "././classes/ScheduleValidator.php";
-require_once "././classes/ScheduleRepository.php";
+require_once __DIR__ . "/../../classes/ScheduleValidator.php.php";
+require_once __DIR__ . "/../../classes/ScheduleRepository.php";
 
 /* Accept POST requests only */
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {

@@ -8,7 +8,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 require_once __DIR__ . "/../../includes/db.php";
 
 // required classes
-require_once "././classes/ScheduleRepository.php";
+require_once __DIR__ . "/../../classes/ScheduleRepository.php";
 
 // accept POST requests only
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
