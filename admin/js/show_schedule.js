@@ -113,9 +113,6 @@ async function loadSchedules() {
 
     /* save schedules */
     state.schedules = response.data;
-    console.log("Selected date:", state.selectedDate);
-    console.log("Response:", response);
-    console.log("Schedules:", response.data);
 
     /* render page */
     refreshScheduleView();
@@ -280,31 +277,24 @@ async function submitScheduleForm(event) {
             : "Schedule created successfully."
     );
 
+    const savedDate = formData.get("show_date");
+
     /* Close modal */
     bootstrap.Modal
-        .getInstance(
-            document.getElementById(
-                "scheduleModal"
-            )
-        )
+        .getInstance(document.getElementById("scheduleModal"))
         .hide();
 
     /* Reset form */
     form.reset();
-    document.getElementById(
-        "endTime"
-    ).value = "";
+    document.getElementById("endTime").value = "";
+
 
     /* Return modal to Add mode */
     state.editingScheduleId = null;
-    document.getElementById( "scheduleId").value = "";
+    document.getElementById("scheduleId").value = "";
     document.getElementById("scheduleModalTitle").textContent = "Add Schedule";
 
-    /* Jump to the scheduled date */
-    state.selectedDate = formData.get("show_date");
-
-    /* Reload schedules */
-    setSelectedDate(formData.get("show_date"));
+    setSelectedDate(savedDate);
 }
 
 /* ==========================================================
