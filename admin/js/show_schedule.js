@@ -43,6 +43,7 @@ function initializeSchedulingPage() {
 
     /* generate week selector */
     renderWeekSelector();
+    initializeEndTimeCalculator();
 
     state.selectedDate = getSelectedDate();
     loadSchedules();
@@ -95,7 +96,7 @@ async function loadSchedules() {
 
     /* request schedules */
     const response = await request(
-        "../ajax/getSchedule.php?date=${state.selectedDate}"
+        `../ajax/get_schedules.php?show_date=${state.selectedDate}`
     );
 
     /* request failed */
@@ -200,3 +201,306 @@ window.onScheduleDateChanged = function (date) {
     state.selectedDate = date;
     loadSchedules();
 };
+
+/* ==========================================================
+   ADD SCHEDULE FORM
+========================================================== */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    function () {
+
+        initializeEndTimeCalculator();
+
+        const form =
+
+            document.getElementById(
+
+                "addScheduleForm"
+
+            );
+
+        if (!form) return;
+
+        form.addEventListener(
+
+            "submit",
+
+            submitScheduleForm
+
+        );
+
+    }
+
+);
+
+/* ==========================================================
+   SUBMIT ADD SCHEDULE
+========================================================== */
+
+async function submitScheduleForm(event) {
+
+    event.preventDefault();
+
+    const form = event.target;
+
+    const formData = new FormData(form);
+
+    /* Determine whether we're adding or editing */
+    const scheduleId = formData.get("schedule_id");
+
+    const url = scheduleId
+        ? "../ajax/update_schedule.php"
+        : "../ajax/insert_schedules.php";
+
+    const response = await request(
+
+        url,
+        {
+            method: "POST",
+            body: formData
+        }
+    );
+
+    /* Validation failed */
+    if (!response.success) {
+        errorToast(response.message);
+        return;
+    }
+
+    /* Success */
+    successToast(
+        scheduleId
+            ? "Schedule updated successfully."
+            : "Schedule created successfully."
+    );
+
+    /* Close modal */
+    bootstrap.Modal
+        .getInstance(
+            document.getElementById(
+                "scheduleModal"
+            )
+        )
+        .hide();
+
+    /* Reset form */
+    form.reset();
+    document.getElementById(
+        "endTime"
+    ).value = "";
+
+    /* Return modal to Add mode */
+    state.editingScheduleId = null;
+    document.getElementById( "scheduleId").value = "";
+    document.getElementById("scheduleModalTitle").textContent = "Add Schedule";
+
+    /* Reload schedules */
+    loadSchedules();
+}
+
+/* ==========================================================
+   AUTOMATIC END TIME
+========================================================== */
+
+function initializeEndTimeCalculator() {
+
+    const movie =
+        document.getElementById("movie");
+
+    const startTime =
+        document.getElementById("startTime");
+
+    const endTime =
+        document.getElementById("endTime");
+
+    if (!movie || !startTime || !endTime) {
+        return;
+    }
+
+    function calculateEndTime() {
+
+        if (!movie.value || !startTime.value) {
+            endTime.value = "";
+            return;
+        }
+
+        const duration = Number(
+            movie.options[
+                movie.selectedIndex
+            ].dataset.duration
+        );
+
+        if (!duration) {
+            endTime.value = "";
+            return;
+        }
+
+        const [hour, minute] =
+            startTime.value.split(":");
+
+        const date = new Date();
+
+        date.setHours(Number(hour));
+        date.setMinutes(Number(minute));
+
+        date.setMinutes(
+            date.getMinutes() + duration
+        );
+
+        endTime.value =
+            date.toTimeString().slice(0, 5);
+
+    }
+
+    movie.addEventListener(
+        "change",
+        calculateEndTime
+    );
+
+    startTime.addEventListener(
+        "change",
+        calculateEndTime
+    );
+
+}
+
+/* ==========================================================
+   RESET ADD SCHEDULE MODAL
+========================================================== */
+function resetScheduleModal() {
+
+    /* Return to Add mode */
+    state.editingScheduleId = null;
+
+    /* Reset title */
+    document.getElementById("scheduleModalTitle").textContent = "Add Schedule";
+
+    /* Clear hidden schedule ID */
+    document.getElementById("scheduleId").value = "";
+
+    /* Reset form */
+    const form = document.getElementById("addScheduleForm");
+
+    form.reset();
+
+    /* Clear calculated end time */
+    document.getElementById("endTime").value = "";
+}
+
+document.getElementById("btnAddSchedule").addEventListener(
+    "click",
+    resetScheduleModal
+);
+
+document.getElementById("scheduleModal").addEventListener(
+    "hidden.bs.modal",
+    resetScheduleModal
+);
+
+
+/* ==========================================================
+   EDIT SCHEDULE
+========================================================== */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const button = event.target.closest(".editBtn");
+
+        if (!button) {
+            return;
+        }
+
+        const scheduleId = button.dataset.id;
+
+        openEditSchedule(scheduleId);
+
+    }
+);
+
+
+async function openEditSchedule(scheduleId) {
+
+    state.editingScheduleId = scheduleId;
+
+
+    const response = await request(
+        `../ajax/get_schedules.php?schedule_id=${scheduleId}`
+    );
+
+
+    if (!response.success) {
+
+        errorToast(response.message);
+
+        return;
+
+    }
+
+
+    const schedule = response.data;
+
+
+    /*
+        Change modal title
+    */
+
+    document.getElementById(
+        "scheduleModalTitle"
+    ).textContent = "Edit Schedule";
+
+
+    /*
+        Store ID
+    */
+
+    document.getElementById(
+        "scheduleId"
+    ).value = schedule.schedule_id;
+
+
+    /*
+        Populate fields
+    */
+
+    document.getElementById(
+        "movie"
+    ).value = schedule.movie_id;
+
+
+    document.getElementById(
+        "hall"
+    ).value = schedule.hall_id;
+
+
+    document.getElementById(
+        "showDate"
+    ).value = schedule.show_date;
+
+
+    document.getElementById(
+        "startTime"
+    ).value = schedule.start_time;
+
+    document.getElementById(
+        "endTime"
+    ).value = schedule.end_time;
+
+
+    /*
+        Show modal
+    */
+
+    const modal = new bootstrap.Modal(
+        document.getElementById(
+            "scheduleModal"
+        )
+    );
+
+    modal.show();
+
+}

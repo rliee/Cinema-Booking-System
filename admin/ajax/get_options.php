@@ -5,10 +5,10 @@ header("Content-Type: application/json");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 
 // database connection */
-require_once "../../includes/db.php";
+require_once __DIR__ . "/../../includes/db.php";
 
 // required classes
-require_once "../../classes/ScheduleRepository.php";
+require_once __DIR__ . "/../../classes/ScheduleRepository.php";
 
 // accept GET requests only
 if ($_SERVER["REQUEST_METHOD"] !== "GET") {

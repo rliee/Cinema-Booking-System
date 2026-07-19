@@ -1,6 +1,5 @@
-<!-- only calculates times, doesn't communicate to the database -->
-
 <?php
+// only calculates times, doesn't communicate to the database
 
 class SchedulingEngine{
     private int $turnoverMinutes = 30;

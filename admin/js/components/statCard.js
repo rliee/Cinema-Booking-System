@@ -39,8 +39,7 @@ function createStatCard({
 
     const card = document.createElement("div");
 
-    card.className =
-        "card border-0 shadow-sm h-100";
+    card.className = "card stat-card h-100";
 
     card.innerHTML = `
 
@@ -52,39 +51,22 @@ function createStatCard({
                        align-items-center">
 
                 <div>
-
-                    <small
-                        class="text-muted">
-
+                    <div class="stat-title">
                         ${title}
-
-                    </small>
-
-                    <h3
+                    </div>
+                    <div
                         id="${id}"
-                        class="fw-bold mt-2 mb-0">
+                        class="stat-value">
 
                         ${value}
-
-                    </h3>
-
+                    </div>
+                    <div class="stat-subtitle">
+                        Updated today
+                    </div>
                 </div>
 
-                <div
-                    class="
-                        rounded-circle
-                        bg-${color}
-                        text-white
-                        d-flex
-                        justify-content-center
-                        align-items-center"
-
-                    style="
-                        width:55px;
-                        height:55px;">
-
+                <div class="stat-icon">
                     <i class="${icon}"></i>
-
                 </div>
 
             </div>

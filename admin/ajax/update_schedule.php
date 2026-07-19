@@ -3,9 +3,9 @@
 header("Content-Type: application/json");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 
-require_once "../../includes/db.php";
-require_once "../../classes/ScheduleValidator.php";
-require_once "../../classes/ScheduleRepository.php";
+require_once __DIR__ . "/../../includes/db.php";
+require_once __DIR__ . "/../../classes/ScheduleValidator.php.php";
+require_once __DIR__ . "/../../classes/ScheduleRepository.php";
 
 /* Accept POST requests only */
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -36,8 +36,7 @@ $data = [
     "movie_id"      => $_POST["movie_id"] ?? "",
     "hall_id"       => $_POST["hall_id"] ?? "",
     "show_date"     => $_POST["show_date"] ?? "",
-    "start_time"    => $_POST["start_time"] ?? "",
-    "ticket_price"  => $_POST["ticket_price"] ?? ""
+    "start_time"    => $_POST["start_time"] ?? ""
 ];
 
 // alidate inputs

@@ -64,6 +64,15 @@ function renderWeekSelector() {
 
     const monday = new Date(selectedDate);
 
+    document.getElementById("weekTitle").textContent =
+        monday.toLocaleDateString(
+            "en-US",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
     const day =
         monday.getDay();
 
@@ -74,29 +83,55 @@ function renderWeekSelector() {
         monday.getDate() + difference
     );
 
+    /* ----------------------------------------------------------
+   Update Week Title
+    ---------------------------------------------------------- */
+
+    const sunday = new Date(monday);
+    sunday.setDate(
+        monday.getDate() + 6
+    );
+
+    const sameMonth =
+    monday.getMonth() === sunday.getMonth();
+
+    let title = "";
+    if (sameMonth) {
+        title = 
+            `${monday.toLocaleDateString(
+                "en-US",
+                {month: "long"}
+            )} ${monday.getDate()} - ${sunday.getDate()}, ${sunday.getFullYear()}`;
+    }
+    else {
+        title =
+            `${monday.toLocaleDateString(
+                "en-US",
+                {month: "short"}
+            )} ${monday.getDate()} - ${sunday.toLocaleDateString(
+                "en-US",
+                {month: "short"}
+            )} ${sunday.getDate()}, ${sunday.getFullYear()}`;
+
+    }
+
+    document.getElementById("weekTitle").textContent = title;
+
     for (let i = 0; i < 7; i++) {
-
         const current = new Date(monday);
+        current.setDate(monday.getDate() + i);
 
-        current.setDate(
-            monday.getDate() + i
-        );
+        const column = createColumn();
+        column.className = "col";
 
-        const column =
-            createColumn();
-
-        column.className =
-            "col";
-
-        const active =
-            formatDate(current) ===
-            formatDate(selectedDate);
-
+        const active = formatDate(current) === formatDate(selectedDate);
+        const today = formatDate(current) === formatDate(new Date());
         column.innerHTML = `
 
 <div
-    class="day-card text-center p-3 rounded shadow-sm
-    ${active ? "active-day" : ""}"
+    class="day-card
+    ${active ? "active-day" : ""}
+    ${today ? "today" : ""}"
     data-date="${formatDate(current)}"
     style="cursor:pointer;">
 

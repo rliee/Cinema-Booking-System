@@ -20,6 +20,7 @@ function createScheduleCard(schedule) {
     const column = createColumn();
 
     const card = createCard();
+    card.classList.add("schedule-card");
 
     let badgeClass = "bg-secondary";
 
@@ -39,13 +40,28 @@ function createScheduleCard(schedule) {
 
     }
 
-    const poster =
-        schedule.poster
-            ? schedule.poster
-            : "../assets/images/no-poster.png";
+    const poster = schedule.poster || "../assets/images/no-poster.png";
+    const occupancy = Math.round(Number(schedule.percent));
 
-    const occupancy =
-        Number(schedule.percent).toFixed(0);
+    const startTime = new Date(
+        `1970-01-01T${schedule.start_time}`).toLocaleTimeString(
+            "en-US",
+            {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true
+            }
+        );
+
+    const endTime = new Date(
+        `1970-01-01T${schedule.end_time}`).toLocaleTimeString(
+            "en-US",
+            {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true
+            }
+        );
 
     card.innerHTML = `
 
@@ -68,67 +84,77 @@ function createScheduleCard(schedule) {
 
         <div class="col-lg-10 col-md-9 col-sm-8">
 
-            <h4 class="fw-bold">
+            <h4 class="movie-title">
 
                 ${schedule.title}
 
             </h4>
 
-            <div class="row gy-3 mt-2">
+            <div class="schedule-details mt-4">
 
-                <div class="col-lg-4">
+    <div class="row g-3">
 
-                    <i class="fa-solid fa-building me-2"></i>
+        <div class="col-xl-4 col-md-6">
 
-                    ${schedule.hall_name}
+            <i class="fa-solid fa-building me-2"></i>
 
-                </div>
+            <strong>Hall</strong>
 
-                <div class="col-lg-4">
+            <br>
 
-                    <i class="fa-regular fa-calendar me-2"></i>
+            <span>${schedule.hall_name}</span>
 
-                    ${schedule.show_date}
+        </div>
 
-                </div>
+        <div class="col-xl-4 col-md-6">
+            <i class="fa-regular fa-calendar me-2"></i>
+            <strong>Date</strong>
+            <br>
+            <span>
+                ${new Date(schedule.show_date).toLocaleDateString(
+                    "en-US",
+                    {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric"
+                    }
+                )}
+            </span>
+        </div>
 
-                <div class="col-lg-4">
+        <div class="col-xl-4 col-md-6">
+            <i class="fa-regular fa-clock me-2"></i>
+            <strong>Time</strong>
+            <br>
+            <span>${startTime} - ${endTime}</span>
+        </div>
 
-                    <i class="fa-regular fa-clock me-2"></i>
+        <div class="col-xl-4 col-md-6">
+            <i class="fa-solid fa-hourglass-half me-2"></i>
+            <strong>Duration</strong>
+            <br>
+            <span>${schedule.duration} mins</span>
+        </div>
 
-                    ${schedule.start_time}
+        <div class="col-xl-4 col-md-6">
 
-                    -
+            <i class="fa-solid fa-chair me-2"></i>
 
-                    ${schedule.end_time}
+            <strong>Seats</strong>
 
-                </div>
+            <br>
 
-                <div class="col-lg-4">
+            <span>
 
-                    <i class="fa-solid fa-hourglass-half me-2"></i>
+                ${schedule.sold}/${schedule.total_seats}
 
-                    ${schedule.duration} mins
+            </span>
 
-                </div>
+        </div>
 
-                <div class="col-lg-4">
+    </div>
 
-                    <i class="fa-solid fa-peso-sign me-2"></i>
-
-                    ₱${schedule.ticket_price}
-
-                </div>
-
-                <div class="col-lg-4">
-
-                    <i class="fa-solid fa-chair me-2"></i>
-
-                    ${schedule.sold}/${schedule.total_seats} Seats
-
-                </div>
-
-            </div>
+</div>
 
             <!-- Progress -->
 
@@ -137,45 +163,60 @@ function createScheduleCard(schedule) {
                 <div class="progress">
 
                     <div
-                        class="progress-bar bg-warning"
+                        class="progress-bar"
                         style="width:${occupancy}%">
 
                     </div>
 
                 </div>
 
-                <small class="text-muted">
+                <div
+    class="d-flex
+           justify-content-between
+           mt-2">
 
-                    ${occupancy}% Occupancy
+    <small>
 
-                </small>
+        Occupancy
+
+    </small>
+
+    <small>
+
+        ${occupancy}%
+
+    </small>
+
+</div>
 
             </div>
 
             <!-- Footer -->
 
-            <div
-                class="d-flex justify-content-between align-items-center mt-4">
+            <div class="schedule-footer">
 
-                <span class="badge ${badgeClass}">
+                <span
+                    class="badge schedule-status ${badgeClass}">
 
                     ${schedule.status}
 
                 </span>
 
-                <div>
+                <div class="schedule-actions">
 
                     <button
-                        class="btn btn-outline-primary btn-sm editBtn"
-                        data-id="${schedule.schedule_id}">
+                        class = "btn btn-outline-gold editBtn"
+                        data-id = "${schedule.schedule_id}"
+                        aria-label = "Edit Schedule">
 
-                        <i class="fa-solid fa-pen-to-square"></i>
+                        <i class = "fa-solid fa-pen-to-square"></i>
 
                     </button>
 
                     <button
-                        class="btn btn-outline-danger btn-sm deleteBtn"
-                        data-id="${schedule.schedule_id}">
+                        class = "btn btn-outline-danger deleteBtn"
+                        data-id = "${schedule.schedule_id}"
+                        aria-label = "Delete Schedule">
 
                         <i class="fa-solid fa-trash"></i>
 
