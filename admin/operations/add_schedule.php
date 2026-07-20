@@ -4,7 +4,7 @@
             <form id="addScheduleForm">
                 <div class="modal-header">
                     <h4>Add Show Schedule</h4>
-                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button class="btn-close btn-close-white" data-bs-dismiss=""></button>
                 </div>
                 <div class="modal-body">
                     <div class="row"> <!-- Movie -->
@@ -47,7 +47,7 @@
                                 ?>
                             </select>
                         </div>
-                        
+
                         <!-- Date -->
                         <div class="col-md-4">
                             <label>Date</label>
@@ -55,7 +55,7 @@
                         </div>
 
                         <!-- Start Time -->
-                         <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Start Time</label>
                             <input type="time" id="startTime" name="start_time" class="form-control" required>
                         </div>

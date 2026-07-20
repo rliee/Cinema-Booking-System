@@ -18,30 +18,23 @@
 ---------------------------------------------------------- */
 
 function createStatCard({
+  id,
 
-    id,
+  title,
 
-    title,
+  icon,
 
-    icon,
+  value = "0",
 
-    value = "0",
-
-    color = "primary"
-
+  color = "primary",
 }) {
+  const column = createColumn("col-12 col-sm-6 col-xl-3");
 
-    const column = createColumn(
+  const card = document.createElement("div");
 
-        "col-12 col-sm-6 col-xl-3"
+  card.className = "card stat-card h-100";
 
-    );
-
-    const card = document.createElement("div");
-
-    card.className = "card stat-card h-100";
-
-    card.innerHTML = `
+  card.innerHTML = `
 
         <div class="card-body">
 
@@ -75,10 +68,9 @@ function createStatCard({
 
     `;
 
-    column.appendChild(card);
+  column.appendChild(card);
 
-    return column;
-
+  return column;
 }
 
 /* ----------------------------------------------------------
@@ -86,82 +78,61 @@ function createStatCard({
 ---------------------------------------------------------- */
 
 function renderStatistics() {
+  const section = document.getElementById("statisticsSection");
 
-    const section =
-        document.getElementById(
-            "statisticsSection"
-        );
+  clearElement(section);
 
-    clearElement(section);
+  section.appendChild(
+    createStatCard({
+      id: "totalShows",
 
-    section.appendChild(
+      title: "Total Shows",
 
-        createStatCard({
+      icon: "fa-solid fa-film",
 
-            id: "totalShows",
+      color: "primary",
+    }),
+  );
 
-            title: "Total Shows",
+  section.appendChild(
+    createStatCard({
+      id: "ticketsSold",
 
-            icon: "fa-solid fa-film",
+      title: "Tickets Sold",
 
-            color: "primary"
+      icon: "fa-solid fa-ticket",
 
-        })
+      color: "success",
+    }),
+  );
 
-    );
+  section.appendChild(
+    createStatCard({
+      id: "seatOccupancy",
 
-    section.appendChild(
+      title: "Seat Occupancy",
 
-        createStatCard({
+      icon: "fa-solid fa-chair",
 
-            id: "ticketsSold",
+      value: "0%",
 
-            title: "Tickets Sold",
+      color: "warning",
+    }),
+  );
 
-            icon: "fa-solid fa-ticket",
+  section.appendChild(
+    createStatCard({
+      id: "todayRevenue",
 
-            color: "success"
+      title: "Today's Revenue",
 
-        })
+      icon: "fa-solid fa-peso-sign",
 
-    );
+      value: "0",
 
-    section.appendChild(
-
-        createStatCard({
-
-            id: "seatOccupancy",
-
-            title: "Seat Occupancy",
-
-            icon: "fa-solid fa-chair",
-
-            value: "0%",
-
-            color: "warning"
-
-        })
-
-    );
-
-    section.appendChild(
-
-        createStatCard({
-
-            id: "todayRevenue",
-
-            title: "Today's Revenue",
-
-            icon: "fa-solid fa-peso-sign",
-
-            value: "₱0",
-
-            color: "danger"
-
-        })
-
-    );
-
+      color: "danger",
+    }),
+  );
 }
 
 /* ----------------------------------------------------------
@@ -169,35 +140,20 @@ function renderStatistics() {
 ---------------------------------------------------------- */
 
 function updateStatistics({
+  totalShows = 0,
 
-    totalShows = 0,
+  ticketsSold = 0,
 
-    ticketsSold = 0,
+  occupancy = 0,
 
-    occupancy = 0,
-
-    revenue = 0
-
+  revenue = 0,
 }) {
+  document.getElementById("totalShows").textContent = totalShows;
 
-    document.getElementById(
-        "totalShows"
-    ).textContent = totalShows;
+  document.getElementById("ticketsSold").textContent = ticketsSold;
 
-    document.getElementById(
-        "ticketsSold"
-    ).textContent = ticketsSold;
+  document.getElementById("seatOccupancy").textContent = occupancy + "%";
 
-    document.getElementById(
-        "seatOccupancy"
-    ).textContent = occupancy + "%";
-
-    document.getElementById(
-        "todayRevenue"
-    ).textContent =
-
-        "₱" +
-
-        Number(revenue).toLocaleString();
-
+  document.getElementById("todayRevenue").textContent =
+    "₱" + Number(revenue).toLocaleString();
 }
