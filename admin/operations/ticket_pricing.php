@@ -1,8 +1,6 @@
 <?php
 // admin/operations/ticket_pricing.php
 
-require_once __DIR__ . "/../../includes/db.php";
-
 $page_title = "Ticket Pricing";
 ?>
 
@@ -27,234 +25,253 @@ $page_title = "Ticket Pricing";
 </head>
 
 <body>
+    <div class="container-fluid p-4">
 
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold">
+                    Ticket Pricing
+                </h1>
+                <p class="text-muted">
+                    Configure movie ticket prices and customer discounts.
+                </p>
+            </div>
 
-<div class="container-fluid p-4">
-
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <div>
-            <h1 class="fw-bold">
-                Ticket Pricing
-            </h1>
-
-            <p class="text-muted">
-                Configure movie ticket prices and customer discounts.
-            </p>
-        </div>
-
-
-        <button class="btn btn-outline-warning">
-            <i class="fa-solid fa-floppy-disk"></i>
-            Save Changes
-        </button>
-
-    </div>
-
-
-
-    <!-- Ticket Prices Section -->
-
-    <div class="card mb-4">
-
-        <div class="card-header">
-            <h5 class="mb-0">
-                Ticket Prices
-            </h5>
-
-            <small class="text-muted">
-                Manage movie ticket base prices
-            </small>
-        </div>
-
-
-        <div class="card-body">
-
-            <button class="btn btn-primary mb-3">
-                <i class="fa-solid fa-plus"></i>
-                Add Price
+            <button class="btn btn-outline-warning">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Changes
             </button>
+        </div>
 
+        <div class="row g-4">
+            <!-- Ticket Prices -->
+            <div class="col-12 col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="mb-0">
+                                Ticket Prices
+                            </h5>
 
-            <div class="table-responsive">
+                            <small class="text-muted">
+                                Manage movie ticket base prices
+                            </small>
+                        </div>
 
-                <table class="table table-dark table-hover">
+                        <button
+                            class="btn btn-primary btn-sm"
+                            onclick="resetTicketPriceForm()"
+                            data-bs-toggle="modal"
+                            data-bs-target="#ticketPriceModal">
+                            <i class="fa-solid fa-plus"></i>
+                            Add Price
+                        </button>
 
-                    <thead>
-                        <tr>
-                            <th>Movie</th>
-                            <th>Price</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                    </div>
 
+                    <div class="card-body">
 
-                    <tbody>
+                        <div class="table-responsive">
 
-                        <tr>
-                            <td colspan="3" class="text-center">
-                                No ticket prices available
-                            </td>
-                        </tr>
+                            <table class="table table-dark table-hover align-middle">
 
-                    </tbody>
+                                <thead>
+                                    <tr>
+                                        <th>Movie</th>
+                                        <th>Price</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
 
-                </table>
+                                <tbody id="ticketPriceTableBody">
+
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            Loading ticket prices...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Discount Categories -->
+            <div class="col-12 col-lg-6">
+
+                <div class="card h-100">
+
+                    <div class="card-header d-flex justify-content-between align-items-start">
+
+                        <div>
+                            <h5 class="mb-0">
+                                Discount Categories
+                            </h5>
+
+                            <small class="text-muted">
+                                Manage customer discount percentages
+                            </small>
+                        </div>
+
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fa-solid fa-plus"></i>
+                            Add Discount
+                        </button>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-dark table-hover align-middle">
+
+                                <thead>
+                                    <tr>
+                                        <th>Discount</th>
+                                        <th>%</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="discountTableBody">
+
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            Loading discounts...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
 
-    </div>
-
-
-
-
-
-    <!-- Discounts Section -->
-
-    <div class="card">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-                Discount Categories
-            </h5>
-
-            <small class="text-muted">
-                Manage customer discount percentages
-            </small>
-
-        </div>
-
-
-        <div class="card-body">
-
-
-            <button class="btn btn-primary mb-3">
-                <i class="fa-solid fa-plus"></i>
-                Add Discount
-            </button>
-
-
-
-            <div class="table-responsive">
-
-                <table class="table table-dark table-hover">
-
-
-                    <thead>
-
-                        <tr>
-                            <th>Discount Name</th>
-                            <th>Percentage</th>
-                            <th>Action</th>
-                        </tr>
-
-                    </thead>
-
-
-
-                    <tbody>
-
-                        <?php
-
-                        $query = "
-                        SELECT 
-                            ticket_prices.price_id,
-                            movies.title,
-                            ticket_prices.price
-
-                        FROM ticket_prices
-
-                        INNER JOIN movies
-
-                        ON ticket_prices.movie_id = movies.movie_id
-
-                        ORDER BY movies.title ASC
-                        ";
-
-
-                        $result = mysqli_query($conn, $query);
-
-
-
-                        if(mysqli_num_rows($result) > 0):
-
-                        while($row = mysqli_fetch_assoc($result)):
-
-                        ?>
-
-                        <tr>
-
-                        <td>
-                        <?= $row['title']; ?>
-                        </td>
-
-
-                        <td>
-                        ₱<?= number_format($row['price'],2); ?>
-                        </td>
-
-
-                        <td>
-
-                        <button class="btn btn-warning btn-sm">
-                        <i class="fa-solid fa-pen"></i>
-                        Edit
-                        </button>
-
-
-                        <button class="btn btn-danger btn-sm">
-                        <i class="fa-solid fa-trash"></i>
-                        Delete
-                        </button>
-
-                        </td>
-
-                        </tr>
-
-
-                        <?php
-
-                        endwhile;
-
-                        else:
-
-                        ?>
-
-                        <tr>
-
-                        <td colspan="3" class="text-center">
-                        No ticket prices available
-                        </td>
-
-                        </tr>
-
-
-                        <?php endif; ?>
-
-
-                    </tbody>
-
-
-                </table>
-
-
+        <!-- Add / Edit Ticket Price Modal -->
+        <div
+            class="modal fade"
+            id="ticketPriceModal"
+            tabindex="-1"
+            aria-hidden="true">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="ticketPriceForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ticketPriceModalTitle">
+                                Add Ticket Price
+                            </h5>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <input
+                                type="hidden"
+                                id="priceId"
+                                name="price_id">
+
+                            <!-- Movie -->
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Movie
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    id="movieId"
+                                    name="movie_id"
+                                    required>
+
+                                    <option value="">
+                                        Select a movie
+                                    </option>
+                                </select>
+                                
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="movieName"
+                                    readonly
+                                    style="display:none;">
+                            </div>
+
+                            <!-- Price -->
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Ticket Price
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        ₱
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="ticketPrice"
+                                        name="price"
+                                        min="0"
+                                        step="0.01"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="ticketPriceSubmitButton">
+
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-
         </div>
-
     </div>
 
+    <script src="../../libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/request.js"></script>
+    <script src="../js/components/ticketPriceTable.js"></script>
+    <script src="../js/components/discountTable.js"></script>
+    <script src="../js/components/movieDropdown.js"></script>
 
 
-</div>
-
-<script src="../../libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="../js/ticket_pricing.js"></script>
 
 </body>
 
