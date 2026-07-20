@@ -1,43 +1,31 @@
 <?php
 session_start();
+
 require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../classes/UserRepository.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
+    $userRepository = new UserRepository($conn);
+    $user = $userRepository->findByEmail($email);
 
-    $result = $stmt->get_result();
+    if (password_verify($password, $user["password"])) {
 
-    if ($result->num_rows == 1) {
+        // $_SESSION["user_id"] = $user["id"];
+        // $_SESSION["fullname"] = $user["fullname"];
 
-        $user = $result->fetch_assoc();
+        return json_encode([
+            "success" => true,
+            "id" => $user["id"]
+        ]);
+    } 
 
-        if (password_verify($password, $user["password"])) {
-
-            $_SESSION["user_id"] = $user["id"];
-            $_SESSION["fullname"] = $user["fullname"];
-
-            header("Location: homepage.html");
-            exit();
-        } else {
-            echo "<script>
-                    alert('Incorrect password!');
-                    window.location='login.html';
-                  </script>";
-        }
-    } else {
-        echo "<script>
-                alert('Email not found!');
-                window.location='login.html';
-              </script>";
-    }
-
-    $stmt->close();
+    return json_encode([
+        "success" => false,
+    ]);
 }
 
 $conn->close();

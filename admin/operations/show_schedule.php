@@ -33,7 +33,12 @@ require_once __DIR__ . "/../../includes/db.php";
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="../../libraries/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="../css/show_schedule.css">
+    <style>
+        .text-main {
+            color: #ffc700;
 
+        }
+    </style>
 </head>
 
 <body>
@@ -53,11 +58,11 @@ require_once __DIR__ . "/../../includes/db.php";
 
             <!-- Left Side -->
             <div>
-                <h2 class="fw-bold mb-1">
+                <h2 class="fw-bold mb-1 text-main">
                     <i class="fa-solid fa-film me-2"></i>
                     Show Scheduling
                 </h2>
-                <p class="text-muted mb-0">Create, manage and monitor movie show schedules.</p>
+                <p class="text-white mb-0">Create, manage and monitor movie show schedules.</p>
             </div>
 
             <!-- Right Side -->
@@ -106,7 +111,7 @@ require_once __DIR__ . "/../../includes/db.php";
             <!-- ===== SECTION HEADER ===== -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h4 class="fw-bold mb-0">Today's Schedule</h4>
+                    <h4 class="fw-bold mb-0" id="scheduleText">Today's Schedule</h4>
                     <small class="text-muted">Movie schedules for the selected day.</small>
                 </div>
             </div>
