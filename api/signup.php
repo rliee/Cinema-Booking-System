@@ -1,47 +1,39 @@
 <?php
-include "includes/db.php";
+
+require_once __DIR__ . "/../includes/db.php";
+require_once __DIR__ . "/../classes/UserRepository.php";
+
+function build_response(string $message, bool $success = false)
+{
+    return json_encode([
+        "success" => $success,
+        "message" => $message
+    ]);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $userRepository = new UserRepository($conn);
 
-    $fullname = trim($_POST["fullname"]);
-    $email = trim($_POST["email"]);
-    $password = trim($_POST["password"]);
+    $fullname = $_POST["fullname"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-    // Check if the email already exists
-    $check = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $check->bind_param("s", $email);
-    $check->execute();
-    $result = $check->get_result();
-
-    if ($result->num_rows > 0) {
-        echo "<script>
-                alert('Email is already registered!');
-                window.location='signup.html';
-              </script>";
-        exit();
+    if (empty($fullname) || empty($email) || empty($password)) {
+        return build_response("Invalid required fields.");
     }
 
-    // Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Save the user
-    $stmt = $conn->prepare("INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $fullname, $email, $hashedPassword);
-
-    if ($stmt->execute()) {
-        echo "<script>
-                alert('Account created successfully!');
-                window.location='login.html';
-              </script>";
-    } else {
-        echo "<script>
-                alert('Something went wrong!');
-                window.location='signup.html';
-              </script>";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return build_response("Invalid email.");
     }
 
-    $stmt->close();
-    $check->close();
+    if(strlen($fullname) <= 7 || strlen($password) <= 4) {
+        return build_response("Invalid arguments.");
+    }
+
+    $result = $userRepository->insert($fullname, $email, $password);
+
+    return build_response("Registered successfully.", $result);
+
 }
 
 $conn->close();

@@ -4,26 +4,33 @@
 require_once "SchedulingEngine.php";
 
 // class skeleton
-class ScheduleRepository{
+class ScheduleRepository
+{
     private mysqli $conn;
     private SchedulingEngine $engine;
 
     // -- constructor --
-    public function __construct(mysqli $conn){
+    public function __construct(mysqli $conn)
+    {
         $this->conn = $conn;
         $this->engine = new SchedulingEngine();
     }
 
     // -- private helper methods --
-    private function buildResponse(bool $success, string $message, array $extra = []): array {
-        return array_merge([
-            "success" => $success,
-            "message" => $message], $extra
+    private function buildResponse(bool $success, string $message, array $extra = []): array
+    {
+        return array_merge(
+            [
+                "success" => $success,
+                "message" => $message
+            ],
+            $extra
         );
     }
-    
+
     // check if the schedule already has bookings
-    private function hasBookings(int $scheduleId): bool {
+    private function hasBookings(int $scheduleId): bool
+    {
         $sql = "SELECT COUNT(*) AS total
             FROM bookings
             WHERE schedule_id = ?
@@ -38,9 +45,10 @@ class ScheduleRepository{
 
         return (int)$row["total"] > 0;
     }
-    
+
     // get movie duration
-    private function getMovieDuration(int $movieId): int{
+    private function getMovieDuration(int $movieId): int
+    {
         $sql = "SELECT duration FROM movies WHERE movie_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $movieId);
@@ -54,7 +62,8 @@ class ScheduleRepository{
     }
 
     // check if the cinema hall exists
-    private function hallExists(int $hallId): bool{
+    private function hallExists(int $hallId): bool
+    {
         $sql = "SELECT 1
             FROM cinema_halls
             WHERE hall_id = ?
@@ -67,11 +76,12 @@ class ScheduleRepository{
         return $stmt->get_result()->num_rows > 0;
     }
 
-    private function getStatus(string $showDate, string $startTime, string $endTime): string {
+    private function getStatus(string $showDate, string $startTime, string $endTime): string
+    {
         $now = new DateTime("now");
         $start = new DateTime("$showDate $startTime");
         $end = new DateTime("$showDate $endTime");
-        
+
         if ($now < $start) {
             return "Coming Soon";
         }
@@ -83,7 +93,8 @@ class ScheduleRepository{
 
     // -- public business logic --
     // check conflict
-    public function checkConflict(int $hallId, string $date, string $startTime, string $endTime, ?int $excludeScheduleId = null): bool{
+    public function checkConflict(int $hallId, string $date, string $startTime, string $endTime, ?int $excludeScheduleId = null): bool
+    {
         $sql = "SELECT 1 FROM show_schedules WHERE hall_id = ? AND show_date = ? AND start_time < ? AND end_time > ?";
 
         if ($excludeScheduleId !== null) {
@@ -103,7 +114,8 @@ class ScheduleRepository{
     }
 
     // get the last schedule of the day
-    public function getLastScheduleOfHall(int $hallId, string $date){
+    public function getLastScheduleOfHall(int $hallId, string $date)
+    {
         $sql = "SELECT end_time
         FROM show_schedules
         WHERE hall_id = ? AND show_date = ?
@@ -118,20 +130,22 @@ class ScheduleRepository{
     }
 
     // recommend next available start time
-    public function getRecommendedStartTime(int $hallId, string $date): ?string {
+    public function getRecommendedStartTime(int $hallId, string $date): ?string
+    {
         $last = $this->getLastScheduleOfHall($hallId, $date);
-            if (!$last) {
-                return null;
-            }
-            
+        if (!$last) {
+            return null;
+        }
+
         $earliest = $this->engine->calculateEarliestAvailableTime($last["end_time"]);
-        
+
         return $this->engine->roundToSlot($earliest);
     }
 
     // -- CRUD operations --
     // insert schedule
-    public function insert(array $data): array{
+    public function insert(array $data): array
+    {
         $duration = $this->getMovieDuration($data['movie_id']);
         if ($duration <= 0) {
             return $this->buildResponse(
@@ -148,32 +162,34 @@ class ScheduleRepository{
         }
 
         $movieEnd = $this->engine->calculateMovieEndTime(
-            $data['start_time'], 
+            $data['start_time'],
             $duration
         );
 
-        if($this->checkConflict(
+        if ($this->checkConflict(
             $data['hall_id'],
             $data['show_date'],
             $data['start_time'],
             $movieEnd
-        )){
+        )) {
             return $this->buildResponse(
                 false,
                 "Schedule conflict.",
-                ["recommended_time" => $this->getRecommendedStartTime(
-                    $data['hall_id'],
-                    $data['show_date'])
+                [
+                    "recommended_time" => $this->getRecommendedStartTime(
+                        $data['hall_id'],
+                        $data['show_date']
+                    )
                 ]
             );
         }
-        
+
         $this->conn->begin_transaction();
         try {
             $sql = "INSERT INTO show_schedules
                 (movie_id, hall_id, show_date, start_time, end_time)
                 VALUES (?, ?, ?, ?, ?)";
-            
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param(
                 "iisss",
@@ -196,10 +212,9 @@ class ScheduleRepository{
                     "schedule_id" => $this->conn->insert_id
                 ]
             );
-
         } catch (Exception $e) {
             $this->conn->rollback();
-            
+
             return $this->buildResponse(
                 false,
                 $e->getMessage()
@@ -208,7 +223,8 @@ class ScheduleRepository{
     }
 
     // update schedule
-    public function update(int $scheduleId, array $data): array {
+    public function update(int $scheduleId, array $data): array
+    {
         $duration = $this->getMovieDuration($data["movie_id"]);
         if ($duration <= 0) {
             return $this->buildResponse(
@@ -229,7 +245,7 @@ class ScheduleRepository{
             $duration
         );
 
-        if($this->checkConflict($data["hall_id"], $data["show_date"], $data["start_time"], $movieEnd, $scheduleId)){
+        if ($this->checkConflict($data["hall_id"], $data["show_date"], $data["start_time"], $movieEnd, $scheduleId)) {
             return $this->buildResponse(
                 false,
                 "Schedule conflict.",
@@ -271,7 +287,6 @@ class ScheduleRepository{
                 true,
                 "Schedule updated successfully."
             );
-
         } catch (Exception $e) {
             $this->conn->rollback();
             return $this->buildResponse(
@@ -282,7 +297,8 @@ class ScheduleRepository{
     }
 
     // delete schedule
-    public function delete(int $scheduleId): array {
+    public function delete(int $scheduleId): array
+    {
         if ($this->hasBookings($scheduleId)) {
             return $this->buildResponse(
                 false,
@@ -318,7 +334,8 @@ class ScheduleRepository{
 
     // -- data retrieval --
     // get schedule by id
-    public function getScheduleById(int $scheduleId): ?array {
+    public function getScheduleById(int $scheduleId): ?array
+    {
         $sql = "SELECT *
             FROM show_schedules
             WHERE schedule_id = ?
@@ -333,7 +350,8 @@ class ScheduleRepository{
     }
 
     // get movies available for scheduling
-    public function getMovies(): array {
+    public function getMovies(): array
+    {
         $sql = "SELECT movie_id, title, duration, poster
             FROM movies
             WHERE status IN ('Coming Soon', 'Now Showing')
@@ -345,7 +363,8 @@ class ScheduleRepository{
     }
 
     // get cinema halls
-    public function getHalls(): array {
+    public function getHalls(): array
+    {
         $sql = "SELECT hall_id, hall_name, total_seats
             FROM cinema_halls
             ORDER BY hall_name
@@ -356,7 +375,8 @@ class ScheduleRepository{
     }
 
     // get schedule by date
-    public function getSchedulesByDate(string $date): array{
+    public function getSchedulesByDate(string $date): array
+    {
         $sql = "SELECT ss.*, m.title, m.duration, m.poster, h.hall_name, h.total_seats,
             COALESCE(SUM(b.seats_booked),0) sold
             FROM show_schedules ss
@@ -376,14 +396,14 @@ class ScheduleRepository{
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $schedules=[];
-        while($row=$result->fetch_assoc()){
+        $schedules = [];
+        while ($row = $result->fetch_assoc()) {
             $row["status"] = $this->getStatus(
                 $row["show_date"],
                 $row["start_time"],
                 $row["end_time"]
             );
-            
+
             $row["percent"] = 0;
             if ($row["total_seats"] > 0) {
                 $row["percent"] = round(
@@ -391,8 +411,67 @@ class ScheduleRepository{
                     2
                 );
             }
-            $schedules[]=$row;
+            $schedules[] = $row;
         }
+        return $schedules;
+    }
+
+    public function getSchedulesByWeek(string $week): array
+    {
+        // $week format: YYYY-WW (e.g. 2026-30)
+        $start = new DateTime();
+        $start->setISODate(
+            (int) substr($week, 0, 4),
+            (int) substr($week, 5, 2)
+        );
+
+        $end = clone $start;
+        $end->modify("+6 days");
+
+        $startDate = $start->format("Y-m-d");
+        $endDate   = $end->format("Y-m-d");
+
+        $sql = "SELECT ss.*, m.title, m.duration, m.poster,
+                   h.hall_name, h.total_seats,
+                   COALESCE(SUM(b.seats_booked),0) sold
+            FROM show_schedules ss
+            JOIN movies m
+                ON ss.movie_id=m.movie_id
+            JOIN cinema_halls h
+                ON ss.hall_id=h.hall_id
+            LEFT JOIN bookings b
+                ON ss.schedule_id=b.schedule_id
+            WHERE ss.show_date BETWEEN ? AND ?
+            GROUP BY ss.schedule_id
+            ORDER BY ss.show_date, ss.start_time";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ss", $startDate, $endDate);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $schedules = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $row["status"] = $this->getStatus(
+                $row["show_date"],
+                $row["start_time"],
+                $row["end_time"]
+            );
+
+            $row["percent"] = 0;
+
+            if ($row["total_seats"] > 0) {
+                $row["percent"] = round(
+                    ($row["sold"] / $row["total_seats"]) * 100,
+                    2
+                );
+            }
+
+            $schedules[] = $row;
+        }
+
         return $schedules;
     }
 }

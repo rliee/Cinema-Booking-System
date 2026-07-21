@@ -19,36 +19,33 @@
    Stores the currently selected date.
 ---------------------------------------------------------- */
 
-let selectedDate = new Date();
+// let selectedDate = new Date();
+// The week currently being displayed.
+let currentWeek = new Date();
+
+// The selected day in that week.
+// null = weekly view.
+let selectedDate = null;
 
 /* ----------------------------------------------------------
    Converts a Date object to YYYY-MM-DD.
 ---------------------------------------------------------- */
 
 function formatDate(date) {
+  const year = date.getFullYear();
 
-    const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
 
-    const month = String(
-        date.getMonth() + 1
-    ).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
 
-    const day = String(
-        date.getDate()
-    ).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-
+  return `${year}-${month}-${day}`;
 }
 
 /* ----------------------------------------------------------
    Returns the currently selected date.
 ---------------------------------------------------------- */
-
 function getSelectedDate() {
-
-    return formatDate(selectedDate);
-
+  return selectedDate ? formatDate(selectedDate) : null;
 }
 
 /* ----------------------------------------------------------
@@ -56,77 +53,61 @@ function getSelectedDate() {
 ---------------------------------------------------------- */
 
 function renderWeekSelector() {
+  const container = document.getElementById("weekContainer");
 
-    const container =
-        document.getElementById("weekContainer");
+  clearElement(container);
 
-    clearElement(container);
+  const monday = new Date(currentWeek);
 
-    const monday = new Date(selectedDate);
+  document.getElementById("weekTitle").textContent = monday.toLocaleDateString(
+    "en-US",
+    {
+      month: "long",
+      year: "numeric",
+    },
+  );
 
-    document.getElementById("weekTitle").textContent =
-        monday.toLocaleDateString(
-            "en-US",
-            {
-                month: "long",
-                year: "numeric"
-            }
-        );
+  const day = monday.getDay();
 
-    const day =
-        monday.getDay();
+  const difference = day === 0 ? -6 : 1 - day;
 
-    const difference =
-        day === 0 ? -6 : 1 - day;
+  monday.setDate(monday.getDate() + difference);
 
-    monday.setDate(
-        monday.getDate() + difference
-    );
-
-    /* ----------------------------------------------------------
+  /* ----------------------------------------------------------
    Update Week Title
     ---------------------------------------------------------- */
 
-    const sunday = new Date(monday);
-    sunday.setDate(
-        monday.getDate() + 6
-    );
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
 
-    const sameMonth =
-    monday.getMonth() === sunday.getMonth();
+  const sameMonth = monday.getMonth() === sunday.getMonth();
 
-    let title = "";
-    if (sameMonth) {
-        title = 
-            `${monday.toLocaleDateString(
-                "en-US",
-                {month: "long"}
-            )} ${monday.getDate()} - ${sunday.getDate()}, ${sunday.getFullYear()}`;
-    }
-    else {
-        title =
-            `${monday.toLocaleDateString(
-                "en-US",
-                {month: "short"}
-            )} ${monday.getDate()} - ${sunday.toLocaleDateString(
-                "en-US",
-                {month: "short"}
-            )} ${sunday.getDate()}, ${sunday.getFullYear()}`;
+  let title = "";
+  if (sameMonth) {
+    title = `${monday.toLocaleDateString("en-US", {
+      month: "long",
+    })} ${monday.getDate()} - ${sunday.getDate()}, ${sunday.getFullYear()}`;
+  } else {
+    title = `${monday.toLocaleDateString("en-US", {
+      month: "short",
+    })} ${monday.getDate()} - ${sunday.toLocaleDateString("en-US", {
+      month: "short",
+    })} ${sunday.getDate()}, ${sunday.getFullYear()}`;
+  }
 
-    }
+  document.getElementById("weekTitle").textContent = title;
 
-    document.getElementById("weekTitle").textContent = title;
+  for (let i = 0; i < 7; i++) {
+    const current = new Date(monday);
+    current.setDate(monday.getDate() + i);
 
-    for (let i = 0; i < 7; i++) {
-        const current = new Date(monday);
-        current.setDate(monday.getDate() + i);
+    const column = createColumn();
+    column.className = "col";
 
-        const column = createColumn();
-        column.className = "col";
-
-        const active = formatDate(current) === formatDate(selectedDate);
-        const today = formatDate(current) === formatDate(new Date());
-        column.innerHTML = `
+    const active =
+      selectedDate && formatDate(current) === formatDate(selectedDate);
+    const today = formatDate(current) === formatDate(new Date());
+    column.innerHTML = `
 
 <div
     class="day-card
@@ -137,12 +118,9 @@ function renderWeekSelector() {
 
     <small class="text-uppercase">
 
-        ${current.toLocaleDateString(
-            "en-US",
-            {
-                weekday: "short"
-            }
-        )}
+        ${current.toLocaleDateString("en-US", {
+          weekday: "short",
+        })}
 
     </small>
 
@@ -156,12 +134,10 @@ function renderWeekSelector() {
 
 `;
 
-        container.appendChild(column);
+    container.appendChild(column);
+  }
 
-    }
-
-    bindWeekEvents();
-
+  bindWeekEvents();
 }
 
 /* ----------------------------------------------------------
@@ -169,17 +145,12 @@ function renderWeekSelector() {
 ---------------------------------------------------------- */
 
 function previousWeek() {
+  currentWeek.setDate(currentWeek.getDate() - 7);
+  selectedDate = null;
 
-    selectedDate.setDate(
+  renderWeekSelector();
 
-        selectedDate.getDate() - 7
-
-    );
-
-    renderWeekSelector();
-
-    notifyDateChanged();
-
+  notifyDateChanged();
 }
 
 /* ----------------------------------------------------------
@@ -187,17 +158,13 @@ function previousWeek() {
 ---------------------------------------------------------- */
 
 function nextWeek() {
+  currentWeek.setDate(currentWeek.getDate() + 7);
 
-    selectedDate.setDate(
+  selectedDate = null;
 
-        selectedDate.getDate() + 7
+  renderWeekSelector();
 
-    );
-
-    renderWeekSelector();
-
-    notifyDateChanged();
-
+  notifyDateChanged();
 }
 
 /* ----------------------------------------------------------
@@ -205,26 +172,22 @@ function nextWeek() {
 ---------------------------------------------------------- */
 
 function bindWeekEvents() {
+  document.querySelectorAll(".day-card").forEach((card) => {
+    card.onclick = function () {
+      const clicked = new Date(this.dataset.date);
 
-    document
-        .querySelectorAll(".day-card")
-        .forEach(card => {
+      if (selectedDate && formatDate(clicked) === formatDate(selectedDate)) {
+        // Clicked the selected day -> deselect it.
+        selectedDate = null;
+      } else {
+        // Select a new day.
+        selectedDate = clicked;
+      }
 
-            card.onclick = function () {
-
-                selectedDate =
-                    new Date(
-                        this.dataset.date
-                    );
-
-                renderWeekSelector();
-
-                notifyDateChanged();
-
-            };
-
-        });
-
+      renderWeekSelector();
+      notifyDateChanged();
+    };
+  });
 }
 
 /* ----------------------------------------------------------
@@ -238,11 +201,11 @@ function bindWeekEvents() {
 ---------------------------------------------------------- */
 
 function notifyDateChanged() {
-    if (typeof window.onScheduleDateChanged === "function") {
-        window.onScheduleDateChanged(
-            getSelectedDate()
-        );
-    }
+  if (typeof window.onScheduleDateChanged === "function") {
+    window.onScheduleDateChanged(
+      selectedDate ? formatDate(selectedDate) : null,
+    );
+  }
 }
 
 /* ----------------------------------------------------------
@@ -251,7 +214,13 @@ function notifyDateChanged() {
 ---------------------------------------------------------- */
 
 function setSelectedDate(dateString) {
+  if (!dateString) {
+    selectedDate = null;
+  } else {
     selectedDate = new Date(dateString);
-    renderWeekSelector();
-    notifyDateChanged();
-}
+    currentWeek = new Date(dateString);
+  }
+
+  renderWeekSelector();
+  notifyDateChanged();
+}   
