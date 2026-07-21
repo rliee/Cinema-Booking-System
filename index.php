@@ -38,20 +38,55 @@
     </div>
   </nav>
 
-  <section class="hero" id="hero">
-    <div class="container">
-      <div class="hero-label">ACTION PACKED</div>
-      <h1>Avengers: Infinity War</h1>
-      <p>Thanos has arrived, and the Avengers must stand together like never before.</p>
-      <p>From the streets of New York to far-off galaxies, every hero is drawn into a desperate battle to save the universe.</p>
-      <p>Experience the highest-stakes showdown in the MCU, filled with epic action, shocking twists, and unforgettable moments.</p>
-      <div class="hero-buttons">
-        <button class="btn-book-now" data-movie="Avengers: Infinity War">Book Now</button>
-        <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">
-          Explore Movies
-        </button>
+<section class="hero" id="hero">
+    <div class="hero-carousel" id="heroCarousel">
+      <div class="hero-slide active" data-movie="Avengers: Infinity War" data-label="ACTION PACKED" data-bg="https://images.unsplash.com/photo-1489599849228-bed96c3ee601?w=1400&h=600&fit=crop">
+        <div class="container">
+          <div class="hero-label">ACTION PACKED</div>
+          <h1>Avengers: Infinity War</h1>
+          <p>Thanos has arrived, and the Avengers must stand together like never before.</p>
+          <p>From the streets of New York to far-off galaxies, every hero is drawn into a desperate battle to save the universe.</p>
+          <p>Experience the highest-stakes showdown in the MCU, filled with epic action, shocking twists, and unforgettable moments.</p>
+          <div class="hero-buttons">
+            <button class="btn-book-now" data-movie="Avengers: Infinity War">Book Now</button>
+            <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide" data-movie="Jurassic World Rebirth" data-label="THRILLING ADVENTURE" data-bg="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1400&h=600&fit=crop">
+        <div class="container">
+          <div class="hero-label">THRILLING ADVENTURE</div>
+          <h1>Jurassic World Rebirth</h1>
+          <p>Dinosaurs once again roam the Earth in this epic new chapter of the Jurassic saga.</p>
+          <p>Ancient creatures, new threats, and a race against time to save humanity from extinction.</p>
+          <p>The park is gone. The world is now the cage. Experience the rebirth of an era.</p>
+          <div class="hero-buttons">
+            <button class="btn-book-now" data-movie="Jurassic World Rebirth">Book Now</button>
+            <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide" data-movie="The Fantastic Four: First Steps" data-label="HEROES RISE" data-bg="https://images.unsplash.com/photo-1535016120720-40c646be5580?w=1400&h=600&fit=crop">
+        <div class="container">
+          <div class="hero-label">HEROES RISE</div>
+          <h1>The Fantastic Four: First Steps</h1>
+          <p>Marvel's first family discovers their extraordinary powers in this thrilling origin story.</p>
+          <p>Four explorers, one cosmic accident, and a bond stronger than any superpower.</p>
+          <p>Witness the beginning of a legendary superhero team that will change the world forever.</p>
+          <div class="hero-buttons">
+            <button class="btn-book-now" data-movie="The Fantastic Four: First Steps">Book Now</button>
+            <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="hero-carousel-indicators">
+      <span class="indicator active" data-slide="0"></span>
+      <span class="indicator" data-slide="1"></span>
+      <span class="indicator" data-slide="2"></span>
+    </div>
+    <button class="carousel-btn carousel-prev" aria-label="Previous">&#10094;</button>
+    <button class="carousel-btn carousel-next" aria-label="Next">&#10095;</button>
   </section>
 
   <section class="now-showing" id="now-showing">
@@ -438,7 +473,56 @@
     });
   </script>
 
-  <script>
+<script>
+    // Hero Carousel
+    (function() {
+      const slides = document.querySelectorAll('.hero-slide');
+      const indicators = document.querySelectorAll('.indicator');
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
+      let currentSlide = 0;
+      let autoSlideInterval;
+
+      function goToSlide(index) {
+        slides.forEach(s => s.classList.remove('active'));
+        indicators.forEach(i => i.classList.remove('active'));
+        slides[index].classList.add('active');
+        indicators[index].classList.add('active');
+        currentSlide = index;
+      }
+
+      function nextSlide() {
+        goToSlide((currentSlide + 1) % slides.length);
+      }
+
+      function prevSlide() {
+        goToSlide((currentSlide - 1 + slides.length) % slides.length);
+      }
+
+      function startAutoSlide() {
+        stopAutoSlide();
+        autoSlideInterval = setInterval(nextSlide, 6000);
+      }
+
+      function stopAutoSlide() {
+        if (autoSlideInterval) {
+          clearInterval(autoSlideInterval);
+          autoSlideInterval = null;
+        }
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); startAutoSlide(); });
+      if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); startAutoSlide(); });
+      indicators.forEach(ind => {
+        ind.addEventListener('click', function() {
+          goToSlide(parseInt(this.dataset.slide));
+          startAutoSlide();
+        });
+      });
+
+      startAutoSlide();
+    })();
+
     let lastScrollTop = 0;
     const header = document.querySelector('.navbar');
 

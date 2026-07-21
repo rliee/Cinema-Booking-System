@@ -5,7 +5,6 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Seat Selection</title>
 
     <link href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +21,7 @@
 
             <a class="navbar-brand" href="index.php">
 
-                🎬 Cinema Royale
+                Cinema Royale
 
             </a>
 
@@ -366,13 +365,14 @@
             return {
                 regular: parseInt(counts.regular) || 0,
                 senior: parseInt(counts.senior) || 0,
+                student: parseInt(counts.student) || 0,
                 pwd: parseInt(counts.pwd) || 0
             };
         }
 
         function getTicketsTotal() {
             const c = getTicketCounts();
-            return c.regular + c.senior + c.pwd;
+            return c.regular + c.senior + c.student + c.pwd;
         }
         const tickets = getTicketsTotal() || 1;
         const baseTicketPrice = 350;
@@ -399,10 +399,11 @@
         if (cntSen) cntSen.value = storedCounts.senior || 0;
         if (cntPWD) cntPWD.value = storedCounts.pwd || 0;
 
-        function persistCountsFromInputs() {
+function persistCountsFromInputs() {
             const counts = {
                 regular: parseInt(cntReg && cntReg.value) || 0,
                 senior: parseInt(cntSen && cntSen.value) || 0,
+                student: storedCounts.student || 0,
                 pwd: parseInt(cntPWD && cntPWD.value) || 0
             };
             localStorage.setItem('ticketCounts', JSON.stringify(counts));
