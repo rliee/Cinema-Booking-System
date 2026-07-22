@@ -1,0 +1,411 @@
+/* Global reset and base font settings */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* Page background and body styling */
+body{
+background:linear-gradient(135deg,#050505,#121212);
+color:#fef8e7;
+padding:30px;
+min-height:100vh;
+}
+
+/* Centered main wrapper */
+.container_custom_transac{
+max-width:1400px;
+margin:auto;
+}
+
+/* Page title styling */
+h1{
+margin-bottom:20px;
+font-size:35px;
+font-weight:600;
+color:#ffd54a;
+}
+
+/* Tab navigation container */
+.tab-nav{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+}
+
+/* Individual tab button styling */
+.tab-btn{
+position:relative;
+padding:12px 22px;
+border:1px solid rgba(255,213,74,.25);
+border-bottom:none;
+border-radius:12px 12px 0 0;
+background:#1a1a1a;
+color:#f3e3b0;
+cursor:pointer;
+font-weight:700;
+transition:.3s;
+box-shadow:0 -4px 12px rgba(0,0,0,.18) inset;
+}
+
+/* Tab decoration shadows for polished edges */
+.tab-btn::before,
+.tab-btn::after{
+content:"";
+position:absolute;
+bottom:-1px;
+width:12px;
+height:12px;
+background:transparent;
+}
+
+.tab-btn::before{
+left:-12px;
+border-bottom-right-radius:12px;
+box-shadow:2px 2px 0 0 #1a1a1a;
+}
+
+.tab-btn::after{
+right:-12px;
+border-bottom-left-radius:12px;
+box-shadow:-2px 2px 0 0 #1a1a1a;
+}
+
+/* Active tab appearance */
+.tab-btn.active{
+background:#171717;
+color:#ffd54a;
+transform:translateY(2px);
+box-shadow:0 4px 10px rgba(255,213,74,.1);
+}
+
+/* Search and filter controls wrapper */
+.controls{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:25px;
+}
+
+/* Input and select field styling */
+.controls input,
+.controls select{
+padding:12px;
+border:1px solid rgba(255,213,74,.25);
+outline:none;
+border-radius:10px;
+background:#161616;
+color:#fff;
+flex:1;
+min-width:220px;
+transition:.3s;
+}
+
+/* Focus state for controls */
+.controls input:focus,
+.controls select:focus{
+background:#967d12;;
+border-color:#ffd54a;
+box-shadow:0 0 0 2px rgba(255,213,74,.18);
+}
+
+/* Reusable status badge styling */
+.status-badge{
+display:inline-block;
+padding:6px 12px;
+border-radius:999px;
+font-size:.9rem;
+font-weight:700;
+}
+
+/* Completed booking badge color */
+.status-badge.paid{
+background:#1b5e20;
+color:#c8f5d9;
+}
+
+/* Pending booking badge color */
+.status-badge.pending{
+background:#ff9800;
+color:#2d1400;
+}
+
+/* Transaction table styling */
+table{
+width:100%;
+border-collapse:collapse;
+background:#171717;
+border-radius:12px;
+overflow:hidden;
+border:1px solid rgba(255,213,74,.25);
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+/* Table header styling */
+th{
+background:#0b0b0b;
+color:#ffd54a;
+padding:15px;
+border-bottom:1px solid rgba(255,213,74,.25);
+}
+
+/* Table cell styling */
+td{
+padding:15px;
+text-align:center;
+border-bottom:1px solid #2d2d2d;
+color:#f3e3b0;
+}
+
+/* Hover effect for rows */
+tr:hover{
+background:#232323;
+transition:.3s;
+}
+
+/* Primary button styling used for View actions */
+button{
+padding:10px 18px;
+background:linear-gradient(135deg,#ffd54a,#b8860b);
+color:#0b0b0b;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:700;
+transition:.3s;
+box-shadow:0 4px 14px rgba(255,213,74,.18);
+}
+
+/* Button hover state */
+button:hover{
+background:linear-gradient(135deg,#ffdf70,#d8a52a);
+transform:scale(1.05);
+}
+
+/* Weekly revenue panel container */
+.weekly-panel{
+background:#171717;
+padding:20px;
+border-radius:15px;
+border:1px solid rgba(255,213,74,.25);
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+margin-bottom:25px;
+}
+
+.weekly-heading{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:15px;
+margin-bottom:20px;
+}
+
+/* Weekly panel title styling */
+.weekly-panel h2{
+margin-bottom:6px;
+color:#ffd54a;
+}
+
+/* Weekly total amount text */
+.weekly-total{
+color:#f3e3b0;
+font-size:1.05rem;
+}
+
+.weekly-caption{
+padding:6px 10px;
+background:rgba(255,213,74,.12);
+color:#ffd54a;
+border:1px solid rgba(255,213,74,.2);
+border-radius:999px;
+font-size:.8rem;
+font-weight:600;
+white-space:nowrap;
+}
+
+/* Bar chart layout for weekly revenue */
+.weekly-chart{
+position:relative;
+display:flex;
+flex-direction:column;
+gap:12px;
+padding:22px 16px 18px;
+background:linear-gradient(180deg,rgba(255,213,74,.07),rgba(255,213,74,.02));
+border:1px solid rgba(255,213,74,.14);
+border-radius:16px;
+overflow:hidden;
+}
+
+.bar-group{
+position:relative;
+display:grid;
+grid-template-columns:70px minmax(0, 1fr) 70px;
+align-items:center;
+gap:10px;
+z-index:1;
+}
+
+.bar-track{
+width:100%;
+height:14px;
+background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+border:1px solid rgba(255,213,74,.16);
+border-radius:999px;
+overflow:hidden;
+display:flex;
+align-items:center;
+padding:2px;
+box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+.bar-fill{
+height:100%;
+border-radius:999px;
+background:linear-gradient(90deg,#ffd54a 0%,#ffb300 60%,#b8860b 100%);
+box-shadow:0 4px 12px rgba(255,213,74,.2);
+transition:width .4s ease;
+}
+
+.bar-label{
+font-size:.75rem;
+color:#f3e3b0;
+font-weight:600;
+text-transform:uppercase;
+letter-spacing:.04em;
+text-align:left;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.bar-value{
+font-size:.8rem;
+color:#ffd54a;
+font-weight:700;
+text-align:right;
+}
+
+/* Responsive layout for weekly chart */
+@media(max-width:600px){
+.weekly-chart{
+padding:16px 10px 14px;
+}
+
+.bar-group{
+grid-template-columns:1fr;
+gap:6px;
+justify-items:start;
+}
+
+.bar-track{
+height:12px;
+}
+
+.bar-label{
+white-space:normal;
+font-size:.7rem;
+}
+
+.bar-value{
+text-align:left;
+font-size:.75rem;
+}
+}
+
+/* Modal overlay styling */
+.modal_custom_transac{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:none;
+justify-content:center;
+align-items:center;
+background:rgba(0,0,0,.78);
+backdrop-filter:blur(4px);
+}
+
+/* Modal window container */
+.modal-content{
+background:linear-gradient(135deg,#151515,#0b0b0b);
+padding:30px;
+width:90%;
+max-width:500px;
+border-radius:15px;
+border:1px solid rgba(255,213,74,.25);
+animation:popup .3s;
+box-shadow:0 20px 60px rgba(0,0,0,.55);
+}
+
+/* Modal open animation */
+@keyframes popup{
+from{
+transform:scale(.8);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+/* Close button within modal */
+.close{
+float:right;
+font-size:25px;
+cursor:pointer;
+color:#ffd54a;
+}
+
+.info{
+margin-top:20px;
+line-height:2;
+color:#e8d79d;
+}
+
+@media(max-width:768px){
+table,
+thead,
+tbody,
+th,
+td,
+tr{
+display:block;
+}
+
+thead{
+display:none;
+}
+
+tr{
+margin-bottom:20px;
+background:#1d1d1d;
+border-radius:12px;
+padding:10px;
+border:1px solid rgba(255,213,74,.15);
+}
+
+td{
+text-align:right;
+padding-left:50%;
+position:relative;
+}
+
+td::before{
+position:absolute;
+left:15px;
+font-weight:bold;
+text-align:left;
+color:#ffd54a;
+}
+
+td:nth-child(1)::before{content:"Transaction ID";}
+td:nth-child(2)::before{content:"Customer";}
+td:nth-child(3)::before{content:"Movie";}
+td:nth-child(4)::before{content:"Amount";}
+td:nth-child(5)::before{content:"Date";}
+td:nth-child(6)::before{content:"Action";}
+}
