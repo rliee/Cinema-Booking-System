@@ -55,6 +55,38 @@ if (isset($_GET["price_id"])) {
     exit;
 }
 
+// Retrieve a single discount (used by the Edit modal)
+if (isset($_GET["discount_id"])) {
+
+    $discountId = (int) $_GET["discount_id"];
+
+    if ($discountId <= 0) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Invalid discount."
+        ]);
+        exit;
+    }
+
+    $discount = $repository->getDiscountById($discountId);
+
+    if (!$discount) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Discount not found."
+        ]);
+        exit;
+    }
+
+    echo json_encode([
+        "success" => true,
+        "data" => $discount
+    ]);
+
+    exit;
+}
+
+
 echo json_encode([
     "success" => true,
     "data" => [

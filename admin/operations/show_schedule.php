@@ -33,11 +33,9 @@ require_once __DIR__ . "/../../includes/db.php";
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="../../libraries/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="../css/show_schedule.css">
+    <link rel="stylesheet" href="../css/ticket_pricing.css">
     <style>
-        .text-main {
-            color: #ffc700;
 
-        }
     </style>
 </head>
 
@@ -49,7 +47,7 @@ require_once __DIR__ . "/../../includes/db.php";
      NOTE:
      If your ERP already has a sidebar/navbar,
      place this inside your existing content area.
-========================================== -->
+    ========================================== -->
 
     <div class="container-fluid py-4">
 
@@ -62,12 +60,12 @@ require_once __DIR__ . "/../../includes/db.php";
                     <i class="fa-solid fa-film me-2"></i>
                     Show Scheduling
                 </h2>
-                <p class="text-white mb-0">Create, manage and monitor movie show schedules.</p>
+                <p class="text-white mb-0">Create, manage, and monitor movie show schedules.</p>
             </div>
 
             <!-- Right Side -->
             <div>
-                <button class="btn btn-primary" id="btnAddSchedule" data-bs-toggle="modal" data-bs-target="#scheduleModal">
+                <button class="btn btn-warning" id="btnAddSchedule" data-bs-toggle="modal" data-bs-target="#scheduleModal">
                     <i class="fa-solid fa-plus me-2"></i>
                     Add Schedule
                 </button>
@@ -111,13 +109,126 @@ require_once __DIR__ . "/../../includes/db.php";
             <!-- ===== SECTION HEADER ===== -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h4 class="fw-bold mb-0" id="scheduleText">Today's Schedule</h4>
-                    <small class="text-muted">Movie schedules for the selected day.</small>
+                    <h4 class="fw-bold mb-0 text-main" id="scheduleText">Today's Schedule</h4>
+                    <small class="text-white small" id="scheduleDescription">Movie schedules for the selected day.</small>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="schedule-search-wrapper mb-4" style="max-width: 30rem; min-width: 30%">
+                    <div class="input-group schedule-search">
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="scheduleSearch"
+                            placeholder="Search schedules by movie title">
+                    </div>
                 </div>
             </div>
 
             <!-- ===== SCHEDULE CONTAINER -->
             <div id="scheduleContainer" class="row g-4"></div>
+
+            <div
+                class="modal fade"
+                id="confirmationModal"
+                tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5
+                                class="modal-title d-flex align-items-center gap-2"
+                                id="confirmationModalTitle">
+
+                                <i id="confirmationModalIcon" class="fa-solid fa-trash"></i>
+
+                                <span>
+                                    Confirm Action
+                                </span>
+                            </h5>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p
+                                class="mb-0"
+                                id="confirmationModalMessage">
+                            </p>
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                id="confirmationModalConfirmButton">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =======================================================
+                MESSAGE MODAL
+            ======================================================== -->
+            <div
+                class="modal fade"
+                id="messageModal"
+                tabindex="-1"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5
+                                class="modal-title d-flex align-items-center gap-2"
+                                id="messageModalTitle">
+
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span>Message</span>
+                            </h5>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                            </button>
+
+                        </div>
+
+                        <div class="modal-body">
+                            <p
+                                class="mb-0"
+                                id="messageModalBody">
+
+                            </p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button
+                                class="btn btn-gold"
+                                data-bs-dismiss="modal">
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- ===== ADD / EDIT SCHEDULE MODAL ===== -->
             <div class="modal fade" id="scheduleModal" tabindex="-1" aria-hidden="true">
@@ -134,10 +245,16 @@ require_once __DIR__ . "/../../includes/db.php";
                             <!-- body -->
                             <div class="modal-body">
                                 <div class="row g-3">
-                                    <!-- movie -->
-                                    <div class="col-md-6">
-                                        <label for="movie_id" class="form-label">Movie</label>
-                                        <select class="form-select" id="movie" name="movie_id" required>
+                                    <!-- Movie (Add Mode) -->
+                                    <div class="col-md-6" id="movieSelectWrapper">
+                                        <label for="movie" class="form-label">Movie</label>
+
+                                        <select
+                                            class="form-select"
+                                            id="movie"
+                                            name="movie_id"
+                                            required>
+
                                             <option value="">Select Movie</option>
 
                                             <?php
@@ -149,11 +266,22 @@ require_once __DIR__ . "/../../includes/db.php";
                                                     data-duration="<?= $movie['duration'] ?>">
 
                                                     <?= htmlspecialchars($movie['title']) ?>
+
                                                 </option>
                                             <?php endwhile; ?>
                                         </select>
                                     </div>
 
+                                    <!-- Movie (Edit Mode) -->
+                                    <div class="col-md-6 d-none" id="movieDisplayWrapper">
+                                        <label class="form-label">Movie</label>
+
+                                        <input
+                                            type="text"
+                                            id="movieDisplay"
+                                            class="form-control"
+                                            readonly>
+                                    </div>
                                     <!-- hall -->
                                     <div class="col-md-6">
                                         <label for="hall_id" class="form-label">Cinema Hall</label>
@@ -209,7 +337,6 @@ require_once __DIR__ . "/../../includes/db.php";
         <!-- toast container -->
         <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3" style="z-index:1080;"></div>
 
-
         <script src="../../libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 
         <script src="../js/components/ui.js"></script>
@@ -220,6 +347,7 @@ require_once __DIR__ . "/../../includes/db.php";
         <script src="../js/components/weekSelector.js"></script>
         <script src="../js/components/statCard.js"></script>
         <script src="../js/request.js"></script>
+        <script src="../js/components/modals.js"></script>
         <script src="../js/show_schedule.js"></script>
 </body>
 

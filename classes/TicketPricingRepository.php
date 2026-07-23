@@ -39,6 +39,31 @@ class TicketPricingRepository
         return $prices;
     }
 
+    public function getByScheduleId(int $scheduleId): ?array
+    {
+        $sql = "
+        SELECT
+            tp.*,
+            m.title,
+            ss.schedule_id
+        FROM show_schedules ss
+        INNER JOIN ticket_prices tp
+            ON ss.movie_id = tp.movie_id
+        INNER JOIN movies m
+            ON ss.movie_id = m.movie_id
+        WHERE ss.schedule_id = ?
+        LIMIT 1
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $scheduleId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        return $result->fetch_assoc() ?: null;
+    }
+
     public function getDiscounts(): array
     {
         $sql = "SELECT
@@ -93,7 +118,8 @@ class TicketPricingRepository
         return $movies;
     }
 
-    public function insertTicketPrice(int $movieId, float $price): array {
+    public function insertTicketPrice(int $movieId, float $price): array
+    {
         $check = $this->conn->prepare("SELECT COUNT(*)
             FROM ticket_prices
             WHERE movie_id = ?
@@ -148,8 +174,8 @@ class TicketPricingRepository
     }
 
     public function getTicketPriceById(int $priceId): ?array
-        {
-            $sql = "SELECT
+    {
+        $sql = "SELECT
                         tp.price_id,
                         tp.movie_id,
                         m.title,
@@ -159,29 +185,30 @@ class TicketPricingRepository
                         ON tp.movie_id = m.movie_id
                     WHERE tp.price_id = ?";
 
-            $statement = $this->conn->prepare($sql);
+        $statement = $this->conn->prepare($sql);
 
-            if (!$statement) {
-                return null;
-            }
-
-            $statement->bind_param("i", $priceId);
-
-            if (!$statement->execute()) {
-                $statement->close();
-                return null;
-            }
-
-            $result = $statement->get_result();
-
-            $ticketPrice = $result->fetch_assoc();
-
-            $statement->close();
-
-            return $ticketPrice ?: null;
+        if (!$statement) {
+            return null;
         }
 
-    public function updateTicketPrice(int $priceId, float $price): array {
+        $statement->bind_param("i", $priceId);
+
+        if (!$statement->execute()) {
+            $statement->close();
+            return null;
+        }
+
+        $result = $statement->get_result();
+
+        $ticketPrice = $result->fetch_assoc();
+
+        $statement->close();
+
+        return $ticketPrice ?: null;
+    }
+
+    public function updateTicketPrice(int $priceId, float $price): array
+    {
         $sql = "UPDATE ticket_prices
             SET
                 price = ?,
@@ -218,6 +245,215 @@ class TicketPricingRepository
         ];
     }
 
+    public function deleteTicketPrice(int $priceId): array
+    {
+        $sql = "DELETE FROM ticket_prices
+                WHERE price_id = ?";
 
+        $statement = $this->conn->prepare($sql);
 
+        if (!$statement) {
+            return [
+                "success" => false,
+                "message" => "Failed to prepare statement."
+            ];
+        }
+
+        $statement->bind_param("i", $priceId);
+
+        if (!$statement->execute()) {
+            $statement->close();
+
+            return [
+                "success" => false,
+                "message" => "Failed to delete ticket price."
+            ];
+        }
+
+        $statement->close();
+
+        return [
+            "success" => true,
+            "message" => "Ticket price deleted successfully."
+        ];
+    }
+
+    public function insertDiscount(string $discountName, float $discountPercentage): array
+    {
+
+        $check = $this->conn->prepare(
+            "SELECT COUNT(*)
+            FROM discounts
+            WHERE discount_name = ?"
+        );
+
+        if (!$check) {
+            return [
+                "success" => false,
+                "message" => "Failed to prepare duplicate check."
+            ];
+        }
+
+        $check->bind_param("s", $discountName);
+        $check->execute();
+        $check->bind_result($count);
+        $check->fetch();
+        $check->close();
+
+        if ($count > 0) {
+            return [
+                "success" => false,
+                "message" => "This discount already exists."
+            ];
+        }
+
+        $statement = $this->conn->prepare(
+            "INSERT INTO discounts
+            (
+                discount_name,
+                discount_percentage
+            )
+            VALUES
+            (?, ?)"
+        );
+
+        if (!$statement) {
+            return [
+                "success" => false,
+                "message" => "Failed to prepare statement."
+            ];
+        }
+
+        $statement->bind_param(
+            "sd",
+            $discountName,
+            $discountPercentage
+        );
+
+        if (!$statement->execute()) {
+
+            $statement->close();
+
+            return [
+                "success" => false,
+                "message" => "Failed to add discount."
+            ];
+        }
+
+        $statement->close();
+
+        return [
+            "success" => true,
+            "message" => "Discount added successfully."
+        ];
+    }
+
+    public function getDiscountById(int $discountId): ?array
+    {
+        $sql = "SELECT
+                    discount_id,
+                    discount_name,
+                    discount_percentage
+                FROM discounts
+                WHERE discount_id = ?";
+
+        $statement = $this->conn->prepare($sql);
+
+        if (!$statement) {
+            return null;
+        }
+
+        $statement->bind_param("i", $discountId);
+
+        if (!$statement->execute()) {
+            $statement->close();
+            return null;
+        }
+
+        $result = $statement->get_result();
+
+        $discount = $result->fetch_assoc();
+
+        $statement->close();
+
+        return $discount ?: null;
+    }
+
+    public function updateDiscount(
+        int $discountId,
+        float $discountPercentage
+    ): array {
+
+        $statement = $this->conn->prepare(
+            "UPDATE discounts
+            SET
+                discount_percentage = ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE discount_id = ?"
+        );
+
+        if (!$statement) {
+            return [
+                "success" => false,
+                "message" => "Failed to prepare statement."
+            ];
+        }
+
+        $statement->bind_param(
+            "di",
+            $discountPercentage,
+            $discountId
+        );
+
+        if (!$statement->execute()) {
+
+            $statement->close();
+
+            return [
+                "success" => false,
+                "message" => "Failed to update discount."
+            ];
+        }
+
+        $statement->close();
+
+        return [
+            "success" => true,
+            "message" => "Discount updated successfully."
+        ];
+    }
+
+    public function deleteDiscount(int $discountId): array
+    {
+        $statement = $this->conn->prepare(
+            "DELETE FROM discounts
+            WHERE discount_id = ?"
+        );
+
+        if (!$statement) {
+            return [
+                "success" => false,
+                "message" => "Failed to prepare statement."
+            ];
+        }
+
+        $statement->bind_param("i", $discountId);
+
+        if (!$statement->execute()) {
+
+            $statement->close();
+
+            return [
+                "success" => false,
+                "message" => "Failed to delete discount."
+            ];
+        }
+
+        $statement->close();
+
+        return [
+            "success" => true,
+            "message" => "Discount deleted successfully."
+        ];
+    }
 }

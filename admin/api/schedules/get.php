@@ -52,19 +52,34 @@ if (isset($_GET["schedule_id"])) {
     exit;
 }
 
-// // retrieve schedules for a selected date (defaults to today's schedules)
-// $date = $_GET["show_date"] ?? date("Y-W");
-// $schedules = $repository->getSchedulesByDate($date);
+// retrieve all schedules of a specific movie regardless of day
+$search = trim($_GET["search"] ?? "");
+
+if ($search !== "") {
+    $schedules = $repository->searchSchedules($search);
+
+    echo json_encode([
+        "success" => true,
+        "data" => $schedules
+    ]);
+    exit;
+}
 
 if (isset($_GET["show_date"])) {
     // retrieve schedules for a selected date (defaults to today's schedules)
-    $schedules = $repository->getSchedulesByDate($_GET["show_date"]);
+    $schedules = $repository->getSchedulesByDate(
+        $_GET["show_date"],
+        $search
+    );
 } else {
 
     // default: current week
     $week = $_GET["show_week"] ?? date("o-W");
 
-    $schedules = $repository->getSchedulesByWeek($week);
+    $schedules = $repository->getSchedulesByWeek(
+        $week,
+        $search
+    );
 }
 
 // return schedules

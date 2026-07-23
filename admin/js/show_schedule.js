@@ -25,9 +25,13 @@
 
 const state = {
   selectedDate: null,
+  currentWeek: null,
   schedules: [],
   editingScheduleId: null,
+  search: null,
 };
+
+let emptyStateRendering = null;
 
 /* PAGE INITIALIZATION */
 document.addEventListener("DOMContentLoaded", initializeSchedulingPage);
@@ -43,6 +47,7 @@ function initializeSchedulingPage() {
   initializeEndTimeCalculator();
 
   state.selectedDate = null;
+  setupSearch();
   loadSchedules();
 }
 
@@ -55,6 +60,30 @@ function initializeAddScheduleForm() {
   }
 
   form.addEventListener("submit", submitSchedule);
+}
+
+function debounce(fn, delay = 300) {
+  let timer;
+
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+function setupSearch() {
+  const searchInput = document.getElementById("scheduleSearch");
+
+  const search = debounce(() => {
+    state.search = searchInput.value.trim();
+    loadSchedules();
+  }, 300);
+
+  searchInput.addEventListener("input", () => {
+    renderSkeletonCards(document.getElementById("scheduleContainer"), 6);
+
+    search();
+  });
 }
 
 /* SUBMIT SCHEDULE: sends the Add Schedule form to the server */
@@ -70,25 +99,86 @@ async function submitSchedule(event) {
   console.log("Submitting schedule...", Object.fromEntries(formData));
 }
 
+// during lab
+async function loadSearchResults() {
+  const container = document.getElementById("scheduleContainer");
+
+  const titleElement = document.getElementById("scheduleText");
+  const descriptionElement = document.getElementById("scheduleDescription");
+
+  titleElement.textContent = "Search Results";
+  descriptionElement.textContent = `Showing schedules for "${state.search}".`;
+
+  const response = await request(
+    `../api/schedules/get.php?search=${encodeURIComponent(state.search)}`,
+  );
+
+  if (!response.success) {
+    renderEmptyState(container, {
+      title: "Search Failed",
+      message: response.message,
+    });
+    return;
+  }
+
+  state.schedules = response.data;
+
+  if (state.schedules.length === 0) {
+    renderEmptyState(container, {
+      title: "No schedules found",
+      message: `No schedules found for "${state.search}".`,
+    });
+
+    updateStatistics({
+      totalShows: 0,
+      ticketsSold: 0,
+      occupancy: 0,
+      revenue: 0,
+    });
+    return;
+  }
+
+  refreshScheduleView();
+}
+
 /* LOAD SCHEDULES */
 async function loadSchedules() {
+  // during lab
+  if (state.search) {
+    return loadSearchResults();
+  }
+  // ----------
+
   const container = document.getElementById("scheduleContainer");
   const titleElement = document.getElementById("scheduleText");
+  const descriptionElement = document.getElementById("scheduleDescription");
 
   /* show loading skeletons */
-  renderSkeletonCards(container, 6);
+  const skeletonTimer = setTimeout(() => {
+    renderSkeletonCards(container, 6);
+  }, 150);
+
+  if (emptyStateRendering) {
+    clearTimeout(emptyStateRendering);
+  }
 
   /* request schedules */
   let url = "../api/schedules/get.php";
 
   if (state.selectedDate) {
     url += `?show_date=${state.selectedDate}`;
+
     titleElement.textContent = "Today's Schedule";
+    descriptionElement.textContent = "Movie schedules for the selected day.";
   } else {
+    url += `?show_week=${getSelectedWeek()}`;
+
     titleElement.textContent = "Week's Schedule";
+    descriptionElement.textContent = "Movie schedules for the week.";
   }
 
   const response = await request(url);
+  clearTimeout(skeletonTimer);
 
   /* request failed */
   if (!response.success) {
@@ -112,21 +202,63 @@ function refreshScheduleView() {
 
   /* empty state */
   if (state.schedules.length === 0) {
-    renderEmptyState(container);
-    updateStatistics({
-      totalShows: 0,
-      ticketsSold: 0,
-      occupancy: 0,
-      revenue: 0,
-    });
+    renderSkeletonCards(container, 6);
+    setTimeout(() => {
+      renderEmptyState(container);
+      updateStatistics({
+        totalShows: 0,
+        ticketsSold: 0,
+        occupancy: 0,
+        revenue: 0,
+      });
+    }, 500);
     return;
   }
 
   /* schedule cards */
   renderScheduleCards(container, state.schedules);
+  setupDeleteCards(container);
 
   /* dashboard */
   updateDashboard();
+}
+
+async function deleteScheduleItem(priceId) {
+  showConfirmationModal(
+    "Delete Schedule",
+
+    "Are you sure you want to delete this schedule?",
+
+    async () => {
+      console.log("dasdas");
+      const formData = new FormData();
+
+      formData.append("schedule_id", Number(priceId));
+
+      const response = await request("../api/schedules/delete.php", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.success) {
+        showMessageModal("Error", response.message);
+
+        return;
+      }
+
+      showMessageModal("Success", response.message);
+
+      await loadSchedules();
+    },
+  );
+}
+
+function setupDeleteCards(container) {
+  container.querySelectorAll(".deleteBtn").forEach((button) => {
+    button.addEventListener("click", () =>
+      deleteScheduleItem(button.dataset.id),
+    );
+  });
 }
 
 /* UPDATE DASHBOARD: calculates dashboard statistics
@@ -324,6 +456,9 @@ function resetScheduleModal() {
   document.getElementById("endTime").value = "";
 }
 
+document.getElementById("movieSelectWrapper").classList.remove("d-none");
+document.getElementById("movieDisplayWrapper").classList.add("d-none");
+document.getElementById("movieDisplay").value = "";
 document
   .getElementById("btnAddSchedule")
   .addEventListener("click", resetScheduleModal);
@@ -363,37 +498,26 @@ async function openEditSchedule(scheduleId) {
 
   const schedule = response.data;
 
-  /*
-        Change modal title
-    */
+  /* Switch Movie field to read-only */
+  document.getElementById("movieSelectWrapper").classList.add("d-none");
+  document.getElementById("movieDisplayWrapper").classList.remove("d-none");
 
+  document.getElementById("movieDisplay").value = schedule.title;
+
+  /* Change modal title */
   document.getElementById("scheduleModalTitle").textContent = "Edit Schedule";
 
-  /*
-        Store ID
-    */
-
+  /* Store ID */
   document.getElementById("scheduleId").value = schedule.schedule_id;
 
-  /*
-        Populate fields
-    */
-
+  /* Populate fields */
   document.getElementById("movie").value = schedule.movie_id;
-
   document.getElementById("hall").value = schedule.hall_id;
-
   document.getElementById("showDate").value = schedule.show_date;
-
   document.getElementById("startTime").value = schedule.start_time;
-
   document.getElementById("endTime").value = schedule.end_time;
 
-  /*
-        Show modal
-    */
-
+  /* Show modal */
   const modal = new bootstrap.Modal(document.getElementById("scheduleModal"));
-
   modal.show();
 }

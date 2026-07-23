@@ -28,6 +28,23 @@ class ScheduleRepository
         );
     }
 
+    private function appendSearchFilter(
+        string &$sql,
+        array &$params,
+        string &$types,
+        string $search
+    ): void {
+        $search = trim($search);
+
+        if ($search === "") {
+            return;
+        }
+
+        $sql .= " AND m.title LIKE ?";
+        $params[] = "%{$search}%";
+        $types .= "s";
+    }
+
     // check if the schedule already has bookings
     private function hasBookings(int $scheduleId): bool
     {
@@ -336,10 +353,13 @@ class ScheduleRepository
     // get schedule by id
     public function getScheduleById(int $scheduleId): ?array
     {
-        $sql = "SELECT *
-            FROM show_schedules
-            WHERE schedule_id = ?
-        ";
+        $sql = "SELECT
+                    ss.*,
+                    m.title
+                FROM show_schedules ss
+                JOIN movies m
+                    ON ss.movie_id = m.movie_id
+                WHERE ss.schedule_id = ?";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $scheduleId);
@@ -375,35 +395,46 @@ class ScheduleRepository
     }
 
     // get schedule by date
-    public function getSchedulesByDate(string $date): array
+    public function getSchedulesByDate(string $date, ?string $search = ""): array
     {
-        $sql = "SELECT ss.*, m.title, m.duration, m.poster, h.hall_name, h.total_seats,
-            COALESCE(SUM(b.seats_booked),0) sold
-            FROM show_schedules ss
-            JOIN movies m
-            ON ss.movie_id=m.movie_id
-            JOIN cinema_halls h
-            ON ss.hall_id=h.hall_id
-            LEFT JOIN bookings b
-            ON ss.schedule_id=b.schedule_id
-            WHERE ss.show_date=?
-            GROUP BY ss.schedule_id
-            ORDER BY ss.start_time
-        ";
+        $sql = "SELECT
+            ss.*,
+            m.title,
+            m.poster,
+            m.duration,
+            m.status,
+            h.hall_name,
+            h.total_seats,
+            tp.price AS ticket_price,
+            COALESCE(SUM(b.seats_booked), 0) AS sold
+        FROM show_schedules ss
+        JOIN movies m
+            ON ss.movie_id = m.movie_id
+        JOIN cinema_halls h
+            ON ss.hall_id = h.hall_id
+        LEFT JOIN ticket_prices tp
+            ON ss.movie_id = tp.movie_id
+        LEFT JOIN bookings b
+            ON ss.schedule_id = b.schedule_id
+        WHERE ss.show_date = ?
+    ";
+
+        $params = [$date];
+        $types = "s";
+
+        $this->appendSearchFilter($sql, $params, $types, $search);
+
+        $sql .= "GROUP BY ss.schedule_id
+        ORDER BY ss.start_time
+    ";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("s", $date);
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
         $result = $stmt->get_result();
 
         $schedules = [];
         while ($row = $result->fetch_assoc()) {
-            $row["status"] = $this->getStatus(
-                $row["show_date"],
-                $row["start_time"],
-                $row["end_time"]
-            );
-
             $row["percent"] = 0;
             if ($row["total_seats"] > 0) {
                 $row["percent"] = round(
@@ -416,7 +447,7 @@ class ScheduleRepository
         return $schedules;
     }
 
-    public function getSchedulesByWeek(string $week): array
+    public function getSchedulesByWeek(string $week, ?string $search = ""): array
     {
         // $week format: YYYY-WW (e.g. 2026-30)
         $start = new DateTime();
@@ -431,22 +462,45 @@ class ScheduleRepository
         $startDate = $start->format("Y-m-d");
         $endDate   = $end->format("Y-m-d");
 
-        $sql = "SELECT ss.*, m.title, m.duration, m.poster,
-                   h.hall_name, h.total_seats,
-                   COALESCE(SUM(b.seats_booked),0) sold
-            FROM show_schedules ss
-            JOIN movies m
-                ON ss.movie_id=m.movie_id
-            JOIN cinema_halls h
-                ON ss.hall_id=h.hall_id
-            LEFT JOIN bookings b
-                ON ss.schedule_id=b.schedule_id
-            WHERE ss.show_date BETWEEN ? AND ?
-            GROUP BY ss.schedule_id
-            ORDER BY ss.show_date, ss.start_time";
+        $sql = "SELECT
+            ss.*,
+            m.title,
+            m.duration,
+            m.poster,
+            m.status,
+            h.hall_name,
+            h.total_seats,
+            tp.price AS ticket_price,
+            COALESCE(SUM(b.seats_booked), 0) AS sold
+        FROM show_schedules ss
+        JOIN movies m
+            ON ss.movie_id = m.movie_id
+        JOIN cinema_halls h
+            ON ss.hall_id = h.hall_id
+        LEFT JOIN ticket_prices tp
+            ON ss.movie_id = tp.movie_id
+        LEFT JOIN bookings b
+            ON ss.schedule_id = b.schedule_id
+        WHERE ss.show_date BETWEEN ? AND ?
+    ";
+
+        $params = [$startDate, $endDate];
+        $types = "ss";
+
+        $this->appendSearchFilter($sql, $params, $types, $search);
+
+        $sql .= "
+        GROUP BY ss.schedule_id
+        ORDER BY ss.show_date, ss.start_time
+    ";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ss", $startDate, $endDate);
+
+        if (!$stmt) {
+            throw new Exception("Failed to prepare statement: " . $this->conn->error);
+        }
+
+        $stmt->bind_param($types, ...$params);
         $stmt->execute();
 
         $result = $stmt->get_result();
@@ -454,12 +508,6 @@ class ScheduleRepository
         $schedules = [];
 
         while ($row = $result->fetch_assoc()) {
-            $row["status"] = $this->getStatus(
-                $row["show_date"],
-                $row["start_time"],
-                $row["end_time"]
-            );
-
             $row["percent"] = 0;
 
             if ($row["total_seats"] > 0) {
@@ -471,6 +519,57 @@ class ScheduleRepository
 
             $schedules[] = $row;
         }
+
+        return $schedules;
+    }
+
+    public function searchSchedules(string $search): array
+    {
+        $sql = "SELECT
+                ss.*,
+                m.title,
+                m.duration,
+                m.poster,
+                m.status,
+                h.hall_name,
+                h.total_seats,
+                COALESCE(SUM(b.seats_booked), 0) AS sold
+            FROM show_schedules ss
+            JOIN movies m
+                ON ss.movie_id = m.movie_id
+            JOIN cinema_halls h
+                ON ss.hall_id = h.hall_id
+            LEFT JOIN bookings b
+                ON ss.schedule_id = b.schedule_id
+            WHERE m.title LIKE ?
+            GROUP BY ss.schedule_id
+            ORDER BY ss.show_date, ss.start_time
+        ";
+
+        $search = "%" . trim($search) . "%";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $search);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $schedules = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $row["percent"] = 0;
+
+            if ($row["total_seats"] > 0) {
+                $row["percent"] = round(
+                    ($row["sold"] / $row["total_seats"]) * 100,
+                    2
+                );
+            }
+
+            $schedules[] = $row;
+        }
+
+        $stmt->close();
 
         return $schedules;
     }

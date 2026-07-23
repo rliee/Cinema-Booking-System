@@ -48,6 +48,46 @@ function getSelectedDate() {
   return selectedDate ? formatDate(selectedDate) : null;
 }
 
+// function getSelectedWeek() {
+//   const monday = new Date(currentWeek);
+
+//   const day = monday.getDay();
+//   const difference = day === 0 ? -6 : 1 - day;
+
+//   monday.setDate(monday.getDate() + difference);
+
+//   const year = monday.getFullYear();
+
+//   const firstThursday = new Date(year, 0, 4);
+//   const firstMonday = new Date(firstThursday);
+
+//   const firstDay = firstMonday.getDay();
+//   firstMonday.setDate(
+//     firstMonday.getDate() - (firstDay === 0 ? 6 : firstDay - 1),
+//   );
+
+//   const week = Math.floor((monday - firstMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+//   return `${year}-${String(week).padStart(2, "0")}`;
+// }
+
+function getSelectedWeek() {
+  const date = new Date(currentWeek);
+
+  // Thursday determines the ISO week/year
+  date.setDate(date.getDate() + 4 - (date.getDay() || 7));
+
+  const year = date.getFullYear();
+
+  const yearStart = new Date(year, 0, 1);
+
+  const week = Math.ceil(
+    (((date - yearStart) / 86400000) + 1) / 7
+  );
+
+  return `${year}-${String(week).padStart(2, "0")}`;
+}
+
 /* ----------------------------------------------------------
    Generates the week selector.
 ---------------------------------------------------------- */
