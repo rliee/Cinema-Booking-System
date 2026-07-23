@@ -295,7 +295,11 @@ window.addEventListener("scroll", function () {
 });
 
 const modalElement = document.querySelector("#loginModal");
-const form = modalElement.querySelector("form");
-modalElement.addEventListener("hidden.bs.modal", () => {
-  form.reset();
-});
+if (modalElement) {
+  const form = modalElement.querySelector("form");
+  if (form) {
+    modalElement.addEventListener("hidden.bs.modal", () => {
+      form.reset();
+    });
+  }
+}

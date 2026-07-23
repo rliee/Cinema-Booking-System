@@ -4,27 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinema Luxe - Premium Experience</title>
+    <link rel="stylesheet" href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="libraries/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/booking.css">
-    <link rel="stylesheet" href="libraries/fontawesome/css/all.min.css">
-    <!-- <link rel="stylesheet" href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css"> -->
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">
-            <span class="logo-icon">🎬</span>
-            <div>
-                <h1>Cinema Royale</h1>
-                <p class="subtitle">PREMIUM EXPERIENCE</p>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.php">
+                <img src="logo/Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 40px; width: auto;"/>
+                <div> Cinema Royale
+                    <div class="navbar-brand-subtitle">PREMIUM EXPERIENCE</div>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#now-showing">Now Showing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#promotions">Promotions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#experience">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php#contact">Contact</a></li>
+                </ul>
+                <div class="auth-buttons ms-auto">
+                    <a href="api/login.php" class="auth-btn login-btn">Login</a>
+                    <a href="api/signup.php" class="auth-btn register-btn">Register</a>
+                </div>
             </div>
         </div>
-        <nav class="nav-links">
-            <a href="index.php" class="active">Home</a>
-            <a href="index.php#now-showing">Now Showing</a>
-            <a href="index.php#promotions">Promotions</a>
-            <a href="index.php#experience">About</a>
-            <a href="index.php#contact">Contact</a>
-        </nav>
-    </header>
+    </nav>
     <section class="hero-section">
         <div class="hero-overlay"></div>
         <div class="hero-container">
@@ -180,7 +191,7 @@
         </div>
         <div class="booking-type-section">
             <h4 class="step-title"><span class="step-num">4</span> Select Type</h4>
-            <p class="step-subtitle">Choose how many Regular, Senior Citizen and PWD tickets you want.</p>
+<p class="step-subtitle">Choose how many Regular, Senior Citizen, Student and PWD tickets you want.</p>
             <div class="type-grid">
                 <label class="type-card" data-type="Regular">
                     <div class="type-card-header">
@@ -197,6 +208,14 @@
                     </div>
                     <p class="type-description">Discounted senior price</p>
                     <input id="countSenior" class="ticket-count type-input" type="number" min="0" value="0">
+                </label>
+                <label class="type-card" data-type="Student">
+                    <div class="type-card-header">
+                        <span>Student</span>
+                        <span class="badge type-badge discount">15% off</span>
+                    </div>
+                    <p class="type-description">Discounted student price</p>
+                    <input id="countStudent" class="ticket-count type-input" type="number" min="0" value="0">
                 </label>
                 <label class="type-card" data-type="PWD">
                     <div class="type-card-header">
@@ -233,7 +252,7 @@
                     <span class="summary-val gold-text" id="summary-price">₱0</span>
                 </div>
                 <div class="summary-item">
-                    <span class="summary-lbl">Tickets (R / S / P)</span>
+<span class="summary-lbl">Tickets (R / S / St / P)</span>
                     <span class="summary-val"><span id="counts-display">0 / 0 / 0</span></span>
                 </div>
                 <div class="summary-item">
@@ -249,7 +268,7 @@
     <footer id="contact">
         <div class="container">
             <div class="footer-section">
-                <h5>🎬 Cinema Royale</h5>
+                <h5> Cinema Royale</h5>
                 <p>Experience movies the way they were meant to be seen. Premium sound, stunning visuals, and unmatched
                     comfort — only at Cinema Royale.</p>
                 <div class="footer-socials">
@@ -294,12 +313,38 @@
         </div>
     </footer>
     <script src="libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Navbar collapse close on link click
+        document.querySelectorAll(".nav-link").forEach((link) => {
+            link.addEventListener("click", () => {
+                document.querySelector(".navbar-collapse")?.classList.remove("show");
+            });
+        });
+
+        // Hide header on scroll down
+        let lastScrollTop = 0;
+        const header = document.querySelector('.navbar');
+        window.addEventListener('scroll', function () {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            if (currentScroll > lastScrollTop && currentScroll > 50) {
+                header.classList.add('hide-header');
+            } else {
+                header.classList.remove('hide-header');
+            }
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        });
+    </script>
+
     <script>
         (function() {
             const params = new URLSearchParams(window.location.search);
             const movieParam = params.get('movie') || localStorage.getItem('movie');
+// Clear ticket counts when entering booking page to start fresh
+            localStorage.removeItem('ticketCounts');
+            localStorage.removeItem('selectedSeats');
+
             const bookingTitle = document.getElementById('booking-movie-title');
-            const heroMovieTitle = document.querySelector('.movie-title');
             const summaryMovie = document.getElementById('summary-movie');
             const summaryDate = document.getElementById('summary-date');
             const summaryHall = document.getElementById('summary-hall');
@@ -319,7 +364,6 @@
             const castGrid = document.getElementById('castGrid');
             const directorNameEl = document.getElementById('directorName');
             const trailerLink = document.getElementById('trailerLink');
-            const trailerText = document.getElementById('trailerText');
             const factReleaseDate = document.getElementById('factReleaseDate');
             const factDuration = document.getElementById('factDuration');
             const factRating = document.getElementById('factRating');
@@ -571,8 +615,15 @@
                 heroSynopsis.textContent = details.synopsis;
                 detailSynopsis.textContent = details.synopsis;
                 directorNameEl.textContent = details.director;
-                trailerLink.querySelector('source').src = details.trailerUrl;
+trailerLink.querySelector('source').src = details.trailerUrl;
                 trailerLink.load();
+                trailerLink.muted = true;
+                trailerLink.addEventListener('mouseenter', function playOnHover() {
+                    this.play();
+                });
+                trailerLink.addEventListener('mouseleave', function pauseOnLeave() {
+                    this.pause();
+                });
                 factReleaseDate.textContent = details.releaseDate;
                 factDuration.textContent = details.duration;
                 factRating.textContent = details.ageRating;
@@ -595,24 +646,25 @@
                 }
             }
             const convenienceFeePerTicket = 25;
-            function getTicketCounts() {
+function getTicketCounts() {
                 const counts = JSON.parse(localStorage.getItem('ticketCounts') || '{}');
                 return {
                     regular: parseInt(counts.regular) || 0,
                     senior: parseInt(counts.senior) || 0,
+                    student: parseInt(counts.student) || 0,
                     pwd: parseInt(counts.pwd) || 0
                 };
             }
             function getTicketsTotal() {
                 const c = getTicketCounts();
-                return c.regular + c.senior + c.pwd;
+                return c.regular + c.senior + c.student + c.pwd;
             }
             function computeFinalPrice() {
                 const base = parseFloat(selectedPriceBase) || 350;
                 const counts = getTicketCounts();
                 const totalTickets = getTicketsTotal();
                 const subtotal = base * totalTickets;
-                const discount = (counts.senior + counts.pwd) * base * 0.2;
+                const discount = (counts.senior + counts.pwd) * base * 0.2 + counts.student * base * 0.15;
                 const convenienceTotal = convenienceFeePerTicket * totalTickets;
                 return Math.round(subtotal - discount + convenienceTotal);
             }
@@ -622,10 +674,10 @@
                 summaryDate.textContent = selectedDate || 'Choose a date';
                 summaryHall.textContent = selectedHall || 'Choose a hall after selecting a date';
                 summaryTime.textContent = selectedTime || 'Choose a time after selecting a hall';
-                const totalTickets = getTicketsTotal() || 1;
+                const totalTickets = getTicketsTotal();
                 selectedPrice = computeFinalPrice();
                 summaryPrice.textContent = selectedPrice ? '₱' + selectedPrice : '₱0';
-                document.getElementById('counts-display').textContent = `${counts.regular} / ${counts.senior} / ${counts.pwd}`;
+                document.getElementById('counts-display').textContent = `${counts.regular} / ${counts.senior} / ${counts.student} / ${counts.pwd}`;
                 const totalTicketsDisplay = document.getElementById('total-tickets-display');
                 if (totalTicketsDisplay) totalTicketsDisplay.textContent = totalTickets;
                 checkoutBtn.disabled = !(selectedDate && selectedHall && selectedTime && totalTickets > 0);
@@ -643,14 +695,16 @@
                 try {
                     const regularInput = document.getElementById('countRegular');
                     const seniorInput = document.getElementById('countSenior');
+                    const studentInput = document.getElementById('countStudent');
                     const pwdInput = document.getElementById('countPWD');
                     const counts = {
                         regular: parseInt(regularInput && regularInput.value) || 0,
                         senior: parseInt(seniorInput && seniorInput.value) || 0,
+                        student: parseInt(studentInput && studentInput.value) || 0,
                         pwd: parseInt(pwdInput && pwdInput.value) || 0
                     };
                     localStorage.setItem('ticketCounts', JSON.stringify(counts));
-                    const totalTickets = counts.regular + counts.senior + counts.pwd;
+                    const totalTickets = counts.regular + counts.senior + counts.student + counts.pwd;
                     localStorage.setItem('tickets', String(totalTickets));
                 } catch (e) {
                     localStorage.setItem('tickets', '0');
@@ -706,8 +760,9 @@
                     updateSummary();
                 });
             });
-            const regularInput = document.getElementById('countRegular');
+const regularInput = document.getElementById('countRegular');
             const seniorInput = document.getElementById('countSenior');
+            const studentInput = document.getElementById('countStudent');
             const pwdInput = document.getElementById('countPWD');
 
             function readCounts() {
@@ -715,6 +770,7 @@
                 return {
                     regular: parseInt(counts.regular) || 0,
                     senior: parseInt(counts.senior) || 0,
+                    student: parseInt(counts.student) || 0,
                     pwd: parseInt(counts.pwd) || 0
                 };
             }
@@ -722,6 +778,7 @@
                 const counts = {
                     regular: parseInt(regularInput && regularInput.value) || 0,
                     senior: parseInt(seniorInput && seniorInput.value) || 0,
+                    student: parseInt(studentInput && studentInput.value) || 0,
                     pwd: parseInt(pwdInput && pwdInput.value) || 0,
                 };
                 localStorage.setItem('ticketCounts', JSON.stringify(counts));
@@ -729,11 +786,13 @@
             }
             if (regularInput) regularInput.addEventListener('change', saveCounts);
             if (seniorInput) seniorInput.addEventListener('change', saveCounts);
+            if (studentInput) studentInput.addEventListener('change', saveCounts);
             if (pwdInput) pwdInput.addEventListener('change', saveCounts);
             // initialize inputs from storage
             const initialCounts = readCounts();
             if (regularInput) regularInput.value = initialCounts.regular || 0;
             if (seniorInput) seniorInput.value = initialCounts.senior || 0;
+            if (studentInput) studentInput.value = initialCounts.student || 0;
             if (pwdInput) pwdInput.value = initialCounts.pwd || 0;
 
             checkoutBtn.addEventListener('click', () => {
@@ -752,10 +811,39 @@
             if (movie) {
                 document.title = movie + ' | Cinema Luxe Booking';
             }
-            enableList(hallList, false);
+            // If a date is already selected (auto-selected first date), halls should remain enabled
+            if (selectedDate) {
+                enableList(hallList, true);
+            } else {
+                enableList(hallList, false);
+            }
             enableList(timeList, false);
             updateSummary();
-        })();
+})();
     </script>
+
+    <script src="js/app.js"></script>
+
+    <!-- Session Handler Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loggedIn = localStorage.getItem("loggedIn");
+            if (loggedIn === "true") {
+                const authButtons = document.querySelector(".auth-buttons");
+                if (authButtons) {
+                    authButtons.innerHTML = `
+                        <span class="welcome-text" style="color: #fff; margin-right: 15px;">Welcome Back!</span>
+                        <a href="#" id="logout-btn" class="auth-btn login-btn">Logout</a>
+                    `;
+                    document.getElementById("logout-btn").addEventListener("click", function (e) {
+                        e.preventDefault();
+                        localStorage.removeItem("loggedIn");
+                        window.location.href = "index.php";
+                    });
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>
