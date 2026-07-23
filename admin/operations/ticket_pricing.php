@@ -21,46 +21,191 @@ $page_title = "Ticket Pricing";
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/show_schedule.css">
+    <link rel="stylesheet" href="../css/ticket_pricing.css">
 
 </head>
 
 <body>
-    <div class="container-fluid p-4">
+    <div class="container-fluid py-4 px-4">
 
         <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="page-header">
             <div>
-                <h1 class="fw-bold">
+                <h1 class="page-title text-main">
                     Ticket Pricing
                 </h1>
-                <p class="text-muted">
+                <p class="page-description text-white">
                     Configure movie ticket prices and customer discounts.
                 </p>
             </div>
+        </div>
 
-            <button class="btn btn-outline-warning">
-                <i class="fa-solid fa-floppy-disk"></i>
-                Save Changes
-            </button>
+        <!-- Statistics -->
+        <div class="statistics-section">
+            <div class="row g-4">
+
+                <!-- Movies with Pricing -->
+                <div class="col-12 col-md-6 col-xl-3">
+                    <div class="card card-circle stat-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="stat-title">
+                                    Movies with Pricing
+                                </div>
+
+                                <div
+                                    class="stat-value"
+                                    id="totalMoviesPricing">
+                                    0
+                                </div>
+
+                                <div class="stat-subtitle">
+                                    Active ticket prices
+                                </div>
+                            </div>
+
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-film"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Average Price -->
+                <div class="col-12 col-md-6 col-xl-3">
+
+                    <div class="card card-circle stat-card">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="stat-title">
+                                    Average Price
+                                </div>
+
+                                <div
+                                    class="stat-value"
+                                    id="averageTicketPrice">
+
+                                    ₱0
+
+                                </div>
+
+                                <div class="stat-subtitle">
+                                    Current base ticket price
+                                </div>
+
+                            </div>
+
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-peso-sign"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Discounts -->
+                <div class="col-12 col-md-6 col-xl-3">
+
+                    <div class="card card-circle stat-card">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="stat-title">
+                                    Discount Categories
+                                </div>
+
+                                <div
+                                    class="stat-value"
+                                    id="totalDiscounts">
+
+                                    0
+
+                                </div>
+
+                                <div class="stat-subtitle">
+                                    Available discounts
+                                </div>
+
+                            </div>
+
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-tags"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Highest Discount -->
+                <div class="col-12 col-md-6 col-xl-3">
+
+                    <div class="card card-circle stat-card">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="stat-title">
+                                    Highest Discount
+                                </div>
+
+                                <div
+                                    class="stat-value"
+                                    id="highestDiscount">
+
+                                    0%
+
+                                </div>
+
+                                <div class="stat-subtitle">
+                                    Maximum customer discount
+                                </div>
+
+                            </div>
+
+                            <div class="stat-icon">
+                                <i class="fa-solid fa-percent"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
         <div class="row g-4">
             <!-- Ticket Prices -->
             <div class="col-12 col-lg-6">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-start">
+                <div class="pricing-table-card h-100">
+                    <div class="pricing-table-header d-flex justify-content-between align-items-start">
                         <div>
-                            <h5 class="mb-0">
+                            <h5 class="mb-0 text-main">
                                 Ticket Prices
                             </h5>
 
-                            <small class="text-muted">
+                            <small class="text-white">
                                 Manage movie ticket base prices
                             </small>
                         </div>
 
                         <button
-                            class="btn btn-primary btn-sm"
+                            class="btn btn-warning btn-sm"
                             onclick="resetTicketPriceForm()"
                             data-bs-toggle="modal"
                             data-bs-target="#ticketPriceModal">
@@ -70,16 +215,16 @@ $page_title = "Ticket Pricing";
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="pricing-table-body">
 
                         <div class="table-responsive">
 
-                            <table class="table table-dark table-hover align-middle">
+                            <table class="pricing-table">
 
                                 <thead>
                                     <tr>
                                         <th>Movie</th>
-                                        <th>Price</th>
+                                        <th>Ticket Price</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -107,37 +252,41 @@ $page_title = "Ticket Pricing";
             <!-- Discount Categories -->
             <div class="col-12 col-lg-6">
 
-                <div class="card h-100">
-
-                    <div class="card-header d-flex justify-content-between align-items-start">
+                <div class="pricing-table-card h-100">
+                    <div class="pricing-table-header d-flex justify-content-between align-items-start">
 
                         <div>
-                            <h5 class="mb-0">
+                            <h5 class="text-main mb-0">
                                 Discount Categories
                             </h5>
 
-                            <small class="text-muted">
+                            <small class="text-white">
                                 Manage customer discount percentages
                             </small>
                         </div>
 
-                        <button class="btn btn-primary btn-sm">
+                        <button
+                            class="btn btn-warning   btn-sm"
+                            onclick="resetDiscountForm()"
+                            data-bs-toggle="modal"
+                            data-bs-target="#discountModal">
+
                             <i class="fa-solid fa-plus"></i>
                             Add Discount
                         </button>
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="pricing-table-body">
 
                         <div class="table-responsive">
 
-                            <table class="table table-dark table-hover align-middle">
+                            <table class="pricing-table">
 
                                 <thead>
                                     <tr>
                                         <th>Discount</th>
-                                        <th>%</th>
+                                        <th>Discount Rate %</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -175,10 +324,12 @@ $page_title = "Ticket Pricing";
                 <div class="modal-content">
                     <form id="ticketPriceForm">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="ticketPriceModalTitle">
-                                Add Ticket Price
+                            <h5 class="modal-title d-flex align-items-center gap-2" id="ticketPriceModalTitle">
+                                <i class="fa-solid fa-ticket"></i>
+                                <span>
+                                    Add Ticket Price
+                                </span>
                             </h5>
-
                             <button
                                 type="button"
                                 class="btn-close"
@@ -191,6 +342,10 @@ $page_title = "Ticket Pricing";
                                 type="hidden"
                                 id="priceId"
                                 name="price_id">
+                            <input
+                                type="hidden"
+                                id="editMovieId"
+                                name="edit_movie_id">
 
                             <!-- Movie -->
                             <div class="mb-3">
@@ -208,13 +363,15 @@ $page_title = "Ticket Pricing";
                                         Select a movie
                                     </option>
                                 </select>
-                                
-                                <input
-                                    type="text"
-                                    class="form-control"
+
+                                <div
                                     id="movieName"
-                                    readonly
+                                    class="selected-display"
                                     style="display:none;">
+
+                                    <i class="fa-solid fa-film"></i>
+                                    <span></span>
+                                </div>
                             </div>
 
                             <!-- Price -->
@@ -233,8 +390,9 @@ $page_title = "Ticket Pricing";
                                         class="form-control"
                                         id="ticketPrice"
                                         name="price"
-                                        min="0"
+                                        min="1"
                                         step="0.01"
+                                        placeholder="Enter ticket price"
                                         required>
                                 </div>
                             </div>
@@ -261,11 +419,266 @@ $page_title = "Ticket Pricing";
                 </div>
             </div>
         </div>
+
+        <!-- Add / Edit Discount Modal -->
+        <div
+            class="modal fade"
+            id="discountModal"
+            tabindex="-1"
+            aria-hidden="true">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+
+                    <form id="discountForm">
+
+                        <div class="modal-header">
+                            <h5
+                                class="modal-title d-flex align-items-center gap-2"
+                                id="discountModalTitle">
+
+                                <i class="fa-solid fa-tags"></i>
+
+                                <span>
+                                    Add Discount
+                                </span>
+
+                            </h5>
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                            </button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <input
+                                type="hidden"
+                                id="discountId"
+                                name="discount_id">
+
+                            <!-- Discount Name -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Discount Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="discountName"
+                                    name="discount_name"
+                                    required>
+
+                                <div
+                                    id="discountNameDisplay"
+                                    class="selected-display"
+                                    style="display:none;">
+
+                                    <i class="fa-solid fa-tags"></i>
+
+                                    <span></span>
+
+                                </div>
+                            </div>
+
+                            <!-- Discount Percentage -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Discount Percentage
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="discountPercentage"
+                                        name="discount_percentage"
+                                        min="1"
+                                        max="100"
+                                        step="1"
+                                        placeholder="Enter discount percentage"
+                                        required>
+
+                                    <span class="input-group-text">
+                                        %
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="discountSubmitButton">
+
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================
+        CONFIRMATION MODAL
+    ======================================================== -->
+
+    <div
+        class="modal fade"
+        id="confirmationModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5
+                        class="modal-title d-flex align-items-center gap-2"
+                        id="confirmationModalTitle">
+
+                        <i id="confirmationModalIcon" class="fa-solid fa-trash"></i>
+
+                        <span>
+                            Confirm Action
+                        </span>
+
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p
+                        class="mb-0"
+                        id="confirmationModalMessage">
+
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger"
+                        id="confirmationModalConfirmButton">
+
+                        Delete
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =======================================================
+        MESSAGE MODAL
+    ======================================================== -->
+
+    <div
+        class="modal fade"
+        id="messageModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5
+                        class="modal-title d-flex align-items-center gap-2"
+                        id="messageModalTitle">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span>
+                            Message
+                        </span>
+
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p
+                        class="mb-0"
+                        id="messageModalBody">
+
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        class="btn btn-gold"
+                        data-bs-dismiss="modal">
+
+                        OK
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
     <script src="../../libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="../js/request.js"></script>
+    <script src="../js/components/modals.js"></script>
     <script src="../js/components/ticketPriceTable.js"></script>
     <script src="../js/components/discountTable.js"></script>
     <script src="../js/components/movieDropdown.js"></script>

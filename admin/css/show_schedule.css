@@ -44,6 +44,10 @@
    GLOBAL
 ========================================================== */
 
+.text-main {
+  color: #ffc700;
+}
+
 body {
   background: var(--bg);
 
@@ -72,15 +76,10 @@ img {
 
 .page-title {
   font-size: 2rem;
-
   font-weight: 700;
-
-  color: var(--white);
 }
 
 .page-description {
-  color: var(--gray);
-
   margin-top: 0.35rem;
 }
 
@@ -135,6 +134,8 @@ img {
 
   box-shadow: var(--shadow);
 }
+
+/*  */
 
 /* ==========================================================
    BUTTONS
@@ -400,7 +401,8 @@ img {
    OPTIONAL GLOW
 ========================================================== */
 
-#statisticsSection .card::after {
+#statisticsSection .card::after,
+.card-circle::after {
   content: "";
 
   position: absolute;
@@ -792,4 +794,8 @@ img {
 
 .schedule-details .col-xl-4:hover {
   background: rgba(255, 193, 7, 0.05);
+}
+
+.schedule-card img {
+  object-fit: cover;
 }
