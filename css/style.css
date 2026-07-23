@@ -7,9 +7,10 @@
 
 .auth-btn {
   text-decoration: none;
-  padding: 10px 22px;
+  padding: 6px 16px;
   border-radius: 25px;
   font-weight: 600;
+  font-size: 13px;
   transition: 0.3s ease;
 }
 
@@ -90,7 +91,7 @@ body {
 
 .navbar {
   background-color: black;
-  padding: 14px 0 !important;
+  padding: 6px 0 !important;
   border-bottom: none !important;
   box-shadow: none !important;
   position: sticky;
@@ -100,29 +101,29 @@ body {
 
 .navbar-brand {
   color: #ffc700 !important;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .navbar-brand-subtitle {
-  font-size: 9px;
-  letter-spacing: 1.5px;
+  font-size: 7px;
+  letter-spacing: 1px;
   font-weight: 600;
   color: #d4af37;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .nav-link {
   color: #e0e0e0 !important;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 13px;
   transition: 0.3s;
   position: relative;
-  padding: 10px 16px !important;
+  padding: 6px 10px !important;
 }
 
 .navbar-nav {
@@ -204,7 +205,6 @@ body {
   transition: opacity 0.8s ease-in-out;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   z-index: 1;
 }
 
@@ -1839,5 +1839,606 @@ footer {
 .ticket-count::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+/* ===== QR PAYMENT PAGE ===== */
+.payment-page {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.payment-page .page-title {
+  text-align: center;
+  color: #ffc700;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.payment-split-layout {
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+}
+
+.qr-panel {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.qr-panel-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.qr-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.qr-header .qr-icon {
+  font-size: 28px;
+}
+
+.qr-header h3 {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.qr-instructions {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.qr-code-wrapper {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.qr-code-wrapper img {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+
+.qr-meta {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 0;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  margin: 10px 0;
+}
+
+.qr-ref, .qr-timer {
+  text-align: center;
+}
+
+.meta-label {
+  display: block;
+  color: #888;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.meta-value {
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.timer-value {
+  color: #ffc700;
+}
+
+.qr-amount {
+  font-size: 36px;
+  font-weight: 800;
+  color: #ffc700;
+  margin-top: 10px;
+}
+
+/* Reference Form Panel */
+.ref-form-panel {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ref-form-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ref-form-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.ref-form-icon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.ref-form-header h3 {
+  color: #ffc700;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.ref-form-header p {
+  color: #999;
+  font-size: 14px;
+  margin: 0;
+}
+
+.ref-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ref-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ref-form-group label {
+  color: #ddd;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ref-input-container {
+  position: relative;
+}
+
+.ref-input {
+  width: 100%;
+  padding: 14px 16px;
+  padding-right: 48px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.ref-input:focus {
+  border-color: #ffc700;
+}
+
+.ref-input::placeholder {
+  color: #666;
+}
+
+.input-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
+.ref-hint {
+  color: #666;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.btn-pay-confirm {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  background: #ffc700;
+  color: #111;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+.btn-pay-confirm:hover {
+  background: #ffe27a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255,199,0,0.3);
+}
+
+.ref-secure-notice {
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0;
+}
+
+.secure-icon {
+  font-size: 16px;
+}
+
+/* Payment page responsive */
+@media (max-width: 768px) {
+  .payment-split-layout {
+    flex-direction: column;
+  }
+  
+  .qr-panel,
+  .ref-form-panel {
+    padding: 24px;
+  }
+  
+  .payment-page .page-title {
+    font-size: 26px;
+  }
+}
+
+/* Booking page step subtitle */
+.step-subtitle {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* About paragraph on experience section */
+.about-paragraph {
+  color: #a0a0a0;
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 720px;
+  margin: 20px auto 0;
+}
+
+/* Hero section internal layout fixes */
+.hero-section {
+  position: relative;
+  height: 480px;
+  background: linear-gradient(135deg, #3a1c05 0%, #170d04 50%, #050505 100%);
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 40px;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #050505 0%, transparent 100%);
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 4%;
+}
+
+.hero-container .movie-poster {
+  width: 220px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+  transform: translateY(20px);
+}
+
+.movie-details {
+  align-self: center;
+  max-width: 650px;
+}
+
+.movie-details .badge {
+  background-color: rgba(21,128,61,0.2);
+  color: #4ade80;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.badge .dot {
+  width: 6px;
+  height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+}
+
+/* Booking flow container */
+.booking-flow {
+  max-width: 1300px;
+  margin: 40px auto;
+  padding: 0 4%;
+}
+
+.booking-flow .section-title {
+  font-size: 28px;
+  font-family: 'Playfair Display', serif;
+}
+
+.booking-flow .section-subtitle {
+  color: #999;
+  margin-bottom: 30px;
+}
+
+/* Booking page title */
+.booking-page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  color: #ffc700;
+  margin-bottom: 30px;
+}
+
+/* Summary Checkout Bar */
+.summary-checkout-bar {
+  background: #141417;
+  border: 1px solid #242429;
+  border-radius: 12px;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.summary-details {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-lbl {
+  font-size: 11px;
+  color: #8e8e93;
+}
+
+.summary-val {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.gold-text {
+  color: #e5a93b;
+}
+
+.book-ticket-btn {
+  background: #e5a93b;
+  color: #000;
+  border: none;
+  padding: 14px 36px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.book-ticket-btn:hover {
+  background: #f1be5e;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(229,169,59,0.3);
+}
+
+.book-ticket-btn:disabled,
+.book-ticket-btn.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Hero carousel video trailer */
+.movie-preview video.trailer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.movie-card:hover .movie-preview video.trailer {
+  opacity: 1;
+}
+
+.movie-card:hover .movie-preview img {
+  opacity: 0;
+}
+
+/* Login/Register modal styles from index.php */
+.auth-card {
+  width: min(100%, 900px);
+  display: flex;
+  position: relative;
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 24px;
+  background: rgba(16,16,16,0.95);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  min-height: 560px;
+  max-width: 100%;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: #f7f3e8;
+  font-size: 1.1rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.brand-side {
+  flex: 1 1 45%;
+  background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), linear-gradient(135deg, #1a1a1a, #000);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+  border-right: 1px solid rgba(212,175,55,0.3);
+}
+
+.brand-side h2 {
+  margin: 0 0 10px;
+  color: #d4af37;
+  font-size: 1.8rem;
+}
+
+.brand-side p {
+  margin: 0;
+  color: #b5b0a1;
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+.form-side {
+  flex: 1 1 55%;
+  padding: 28px 40px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-panel {
+  width: 100%;
+  max-width: 380px;
+  margin: 12px auto 0;
+}
+
+.form-panel h1 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+}
+
+.form-panel .subtitle {
+  margin: 0 0 24px;
+  color: #b5b0a1;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #b5b0a1;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(212,175,55,0.3);
+  background: rgba(255,255,255,0.04);
+  color: #f7f3e8;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 18px;
+  font-size: 0.9rem;
+  color: #b5b0a1;
+}
+
+.actions a {
+  color: #ffd86b;
+  text-decoration: none;
+}
+
+.alt-text {
+  text-align: center;
+  color: #b5b0a1;
+  margin-top: 16px;
+  font-size: 0.94rem;
+}
+
+.alt-text a {
+  color: #ffd86b;
+  text-decoration: none;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  color: #0066cc;
 }
 

@@ -31,6 +31,20 @@
       color: var(--text);
     }
 
+    /* Fixed Hero Slide Overlapping & Display */
+    .hero-slide {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+      pointer-events: none;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -386,7 +400,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="index.php">
-        <img src="logo\Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 5rem; width: auto;" />
+        <img src="logo\Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 2.5rem; width: auto;" />
         <div>
           <span class="fs-2 p-0 m-0">Cinema Royale</span>
           <div class="navbar-brand-subtitle ms-1" style="font-size: 0.75rem">PREMIUM EXPERIENCE</div>
@@ -585,12 +599,56 @@
   <script src="js/index.js"></script>
 
   <script>
-    document.querySelectorAll("[data-movie]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const movie = button.dataset.movie;
-        const query = new URLSearchParams({ movie }).toString();
-        window.location.href = "booking.php?" + query;
-      });
+    // Remove conflicting inline [data-movie] handler that bypasses login check
+    document.querySelectorAll("[data-movie]").forEach(el => {
+      const clone = el.cloneNode(true);
+      el.parentNode.replaceChild(clone, el);
+    });
+
+    // After successful login submit, redirect to pending movie
+    document.getElementById('login-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      if (email && password) {
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('userEmail', email);
+        // Close login modal
+        const loginModalEl = document.getElementById('loginModal');
+        const loginModal = bootstrap.Modal.getInstance(loginModalEl);
+        if (loginModal) loginModal.hide();
+        const pending = localStorage.getItem('pendingMovie');
+        if (pending) {
+          localStorage.removeItem('pendingMovie');
+          window.location.href = 'booking.php?movie=' + encodeURIComponent(pending);
+        } else {
+          window.location.reload();
+        }
+      }
+    });
+
+    // After successful register submit, redirect to pending movie
+    document.getElementById('register-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      if (name && email && password) {
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', name);
+        // Close register modal
+        const registerModalEl = document.getElementById('registerModal');
+        const registerModal = bootstrap.Modal.getInstance(registerModalEl);
+        if (registerModal) registerModal.hide();
+        const pending = localStorage.getItem('pendingMovie');
+        if (pending) {
+          localStorage.removeItem('pendingMovie');
+          window.location.href = 'booking.php?movie=' + encodeURIComponent(pending);
+        } else {
+          window.location.reload();
+        }
+      }
     });
 
     (function() {
@@ -644,54 +702,58 @@
   </script>
 
   <script>
-    // Hero Carousel
-    (function() {
-      const slides = document.querySelectorAll('.hero-slide');
-      const indicators = document.querySelectorAll('.indicator');
-      const prevBtn = document.querySelector('.carousel-prev');
-      const nextBtn = document.querySelector('.carousel-next');
-      let currentSlide = 0;
-      let autoSlideInterval;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hero Carousel Fixed Logic
+      (function() {
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const prevBtn = document.querySelector('.carousel-prev');
+        const nextBtn = document.querySelector('.carousel-next');
+        let currentSlide = 0;
+        let autoSlideInterval;
 
-      function goToSlide(index) {
-        slides.forEach(s => s.classList.remove('active'));
-        indicators.forEach(i => i.classList.remove('active'));
-        slides[index].classList.add('active');
-        indicators[index].classList.add('active');
-        currentSlide = index;
-      }
+        if (!slides.length) return;
 
-      function nextSlide() {
-        goToSlide((currentSlide + 1) % slides.length);
-      }
-
-      function prevSlide() {
-        goToSlide((currentSlide - 1 + slides.length) % slides.length);
-      }
-
-      function startAutoSlide() {
-        stopAutoSlide();
-        autoSlideInterval = setInterval(nextSlide, 6000);
-      }
-
-      function stopAutoSlide() {
-        if (autoSlideInterval) {
-          clearInterval(autoSlideInterval);
-          autoSlideInterval = null;
+        function goToSlide(index) {
+          slides.forEach(s => s.classList.remove('active'));
+          indicators.forEach(i => i.classList.remove('active'));
+          slides[index].classList.add('active');
+          if (indicators[index]) indicators[index].classList.add('active');
+          currentSlide = index;
         }
-      }
 
-      if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); startAutoSlide(); });
-      if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); startAutoSlide(); });
-      indicators.forEach(ind => {
-        ind.addEventListener('click', function() {
-          goToSlide(parseInt(this.dataset.slide));
-          startAutoSlide();
+        function nextSlide() {
+          goToSlide((currentSlide + 1) % slides.length);
+        }
+
+        function prevSlide() {
+          goToSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+
+        function startAutoSlide() {
+          stopAutoSlide();
+          autoSlideInterval = setInterval(nextSlide, 6000);
+        }
+
+        function stopAutoSlide() {
+          if (autoSlideInterval) {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = null;
+          }
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); startAutoSlide(); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); startAutoSlide(); });
+        indicators.forEach(ind => {
+          ind.addEventListener('click', function() {
+            goToSlide(parseInt(this.dataset.slide));
+            startAutoSlide();
+          });
         });
-      });
 
-      startAutoSlide();
-    })();
+        startAutoSlide();
+      })();
+    });
 
     let lastScrollTop = 0;
     const header = document.querySelector('.navbar');

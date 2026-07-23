@@ -201,34 +201,43 @@ function renderTestimonials() {
     .join("");
 }
 
+function handleBookClick(movie) {
+  if (localStorage.getItem("loggedIn") === "true") {
+    localStorage.setItem("movie", movie);
+    window.location.href = "booking.php?movie=" + encodeURIComponent(movie);
+  } else {
+    // Show login modal — use Bootstrap modal if available, else fallback
+    localStorage.setItem('pendingMovie', movie);
+    const loginModalEl = document.getElementById('loginModal');
+    if (loginModalEl && typeof bootstrap !== 'undefined') {
+      const modal = bootstrap.Modal.getInstance(loginModalEl) || new bootstrap.Modal(loginModalEl);
+      modal.show();
+    } else {
+      alert('Please log in first to book tickets.');
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   renderMovieCards();
   renderFeatureCards();
   renderTestimonials();
 
+  // Attach handlers to dynamically created movie-card buttons that app.js might miss
   document
     .querySelectorAll(".btn-book-ticket, .btn-book-now")
     .forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const mv = this.dataset.movie || this.getAttribute("data-movie");
-        if (mv) {
-          localStorage.setItem("movie", mv);
-          window.location.href = "booking.php?movie=" + encodeURIComponent(mv);
-        } else {
-          window.location.href = "booking.php";
-        }
-      });
+      // Only attach if app.js hasn't already (no _attached flag)
+      if (btn.dataset._attached !== '1') {
+        btn.addEventListener("click", function (e) {
+          const mv = this.dataset.movie || this.getAttribute("data-movie");
+          if (mv) {
+            e.preventDefault();
+            handleBookClick(mv);
+          }
+        });
+      }
     });
-});
-
-document.querySelectorAll("[data-movie]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const movie = button.dataset.movie;
-    const query = new URLSearchParams({
-      movie,
-    }).toString();
-    window.location.href = "booking.php?" + query;
-  });
 });
 
 (function () {

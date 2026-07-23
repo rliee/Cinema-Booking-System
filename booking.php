@@ -8,14 +8,54 @@
 <link rel="stylesheet" href="libraries/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/booking.css">
+    <script>
+        (function() {
+            if (localStorage.getItem("loggedIn") !== "true") {
+                window.location.href = "index.php";
+            }
+        })();
+    </script>
 </head>
 <body>
+    <!-- Discount Verification Modal -->
+<div class="modal fade" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #1a1a1a; border: 1px solid rgba(255, 199, 0, 0.2); color: #fff;">
+            <div class="modal-header" style="border-bottom: 1px solid rgba(255, 199, 0, 0.1);">
+                <h5 class="modal-title gold-text" id="verificationModalLabel" style="color: #ffc700; font-weight: 700;">
+                    <i class="fa-solid fa-id-card me-2"></i><span id="modalDiscountType">ID</span> Verification Required
+                </h5>
+                <button type="button" class="btn-close btn-close-white" id="cancelVerificationBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted" style="font-size: 0.9rem;" id="modalInstructions">
+                    Please upload a valid ID to claim this discount.
+                </p>
+                <form id="verificationForm">
+                    <div class="mb-3">
+                        <label for="idNumberInput" class="form-label" style="font-weight: 600; color: #ddd;">ID / Card Number</label>
+                        <input type="text" class="form-control" id="idNumberInput" placeholder="Enter ID number" required style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid #444;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="idImageInput" class="form-label" style="font-weight: 600; color: #ddd;">Upload Valid ID Image</label>
+                        <input class="form-control" type="file" id="idImageInput" accept="image/*" required style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid #444;">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid rgba(255, 199, 0, 0.1);">
+                <button type="button" class="btn btn-outline-secondary" id="declineVerificationBtn" data-bs-dismiss="modal" style="border-radius: 20px;">Cancel</button>
+                <button type="button" class="btn btn-warning" id="saveVerificationBtn" style="background: #ffc700; font-weight: 700; border-radius: 20px;">Confirm Verification</button>
+            </div>
+        </div>
+    </div>
+</div>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index.php">
-                <img src="logo/Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 40px; width: auto;"/>
-                <div> Cinema Royale
-                    <div class="navbar-brand-subtitle">PREMIUM EXPERIENCE</div>
+                <img src="logo/Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 2.5rem; width: auto;" />
+                <div>
+                    <span class="fs-2 p-0 m-0">Cinema Royale</span>
+                    <div class="navbar-brand-subtitle ms-1" style="font-size: 0.75rem">PREMIUM EXPERIENCE</div>
                 </div>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
@@ -23,15 +63,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php#now-showing">Now Showing</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php#promotions">Promotions</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php#experience">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.php#contact">Contact</a></li>
+                    <div class="d-flex w-100 justify-content-center text-center">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php#now-showing">Now Showing</a></li>
+                    </div>
+                    <div class="d-flex w-100 justify-content-center tex-center">
+                        <li class="nav-item"><a class="nav-link" href="index.php#promotions">Promotions</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php#experience">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php#contact">Contact</a></li>
+                    </div>
                 </ul>
-                <div class="auth-buttons ms-auto">
-                    <a href="api/login.php" class="auth-btn login-btn">Login</a>
-                    <a href="api/signup.php" class="auth-btn register-btn">Register</a>
+                <div class="auth-buttons ms-auto d-flex flex-lg-row justify-content-center my-2">
+                    <button class="auth-btn login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    <button class="auth-btn register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
                 </div>
             </div>
         </div>
@@ -158,6 +202,14 @@
                         <div>
                             <div class="item-header-row">
                                 <span class="hall-title">Cinema Hall 3</span>
+                                <span class="mini-badge standard">STANDARD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="select-item item-detailed" data-value="Cinema Hall 4" data-price="350">
+                        <div>
+                            <div class="item-header-row">
+                                <span class="hall-title">Cinema Hall 4</span>
                                 <span class="mini-badge standard">STANDARD</span>
                             </div>
                         </div>
@@ -821,7 +873,148 @@ const regularInput = document.getElementById('countRegular');
             updateSummary();
 })();
     </script>
+    <script>
+        // ===== DISCOUNT VERIFICATION SYSTEM =====
+        // Works on both booking.php and seats_fixed.php (where count IDs differ)
+        (function() {
+            // Tracking Object
+            let discountVerifications = {
+                senior: { verified: false, idNumber: '', idImage: '' },
+                student: { verified: false, idNumber: '', idImage: '' },
+                pwd: { verified: false, idNumber: '', idImage: '' }
+            };
 
+            let currentPendingDiscount = null;
+            let previousCounts = { regular: 0, senior: 0, student: 0, pwd: 0 };
+
+            // Restore verification state from localStorage
+            try {
+                const saved = JSON.parse(localStorage.getItem('discountVerifications') || '{}');
+                if (saved.senior) discountVerifications.senior = saved.senior;
+                if (saved.student) discountVerifications.student = saved.student;
+                if (saved.pwd) discountVerifications.pwd = saved.pwd;
+            } catch (e) {}
+
+            const verificationModalEl = document.getElementById('verificationModal');
+            if (!verificationModalEl) return; // Not on booking page
+
+            const verificationModal = new bootstrap.Modal(verificationModalEl);
+
+            const modalDiscountType = document.getElementById('modalDiscountType');
+            const modalInstructions = document.getElementById('modalInstructions');
+            const idNumberInput = document.getElementById('idNumberInput');
+            const idImageInput = document.getElementById('idImageInput');
+            const saveVerificationBtn = document.getElementById('saveVerificationBtn');
+            const cancelVerificationBtn = document.getElementById('cancelVerificationBtn');
+            const declineVerificationBtn = document.getElementById('declineVerificationBtn');
+
+            // Helper to persist ticketCounts to localStorage
+            function persistCountsToLocal() {
+                const reg = document.getElementById('countRegular');
+                const sen = document.getElementById('countSenior');
+                const stu = document.getElementById('countStudent');
+                const pwd = document.getElementById('countPWD');
+                const counts = {
+                    regular: parseInt(reg && reg.value) || 0,
+                    senior: parseInt(sen && sen.value) || 0,
+                    student: parseInt(stu && stu.value) || 0,
+                    pwd: parseInt(pwd && pwd.value) || 0
+                };
+                localStorage.setItem('ticketCounts', JSON.stringify(counts));
+                // Trigger summary update if the updateSummary function exists in global scope
+                if (typeof updateSummary === 'function') updateSummary();
+                // Also try the booking page's saveCounts if accessible
+                if (typeof window._bookingSaveCounts === 'function') window._bookingSaveCounts();
+            }
+
+            // Function to trigger ID modal for discount options
+            function handleDiscountChange(typeKey, typeLabel, inputElement) {
+                const currentVal = parseInt(inputElement.value) || 0;
+
+                if (currentVal > 0 && !discountVerifications[typeKey].verified) {
+                    currentPendingDiscount = { key: typeKey, label: typeLabel, inputEl: inputElement, count: currentVal };
+
+                    modalDiscountType.textContent = typeLabel;
+                    modalInstructions.textContent = `Please upload a valid ${typeLabel} ID / Document to avail the discounted price.`;
+
+                    idNumberInput.value = '';
+                    idImageInput.value = '';
+
+                    verificationModal.show();
+                } else if (currentVal === 0) {
+                    discountVerifications[typeKey] = { verified: false, idNumber: '', idImage: '' };
+                    previousCounts[typeKey] = 0;
+                    persistCountsToLocal();
+                } else {
+                    previousCounts[typeKey] = currentVal;
+                    persistCountsToLocal();
+                }
+            }
+
+            // Handle Verification Confirmation
+            saveVerificationBtn.addEventListener('click', () => {
+                if (!idNumberInput.value.trim()) {
+                    alert('Please enter your ID number.');
+                    return;
+                }
+                if (idImageInput.files.length === 0) {
+                    alert('Please select an ID image to upload.');
+                    return;
+                }
+
+                if (currentPendingDiscount) {
+                    const key = currentPendingDiscount.key;
+                    discountVerifications[key].verified = true;
+                    discountVerifications[key].idNumber = idNumberInput.value.trim();
+                    discountVerifications[key].idImage = idImageInput.files[0].name;
+
+                    previousCounts[key] = currentPendingDiscount.count;
+                    persistCountsToLocal();
+                    localStorage.setItem('discountVerifications', JSON.stringify(discountVerifications));
+
+                    verificationModal.hide();
+                    currentPendingDiscount = null;
+                }
+            });
+
+            // Revert count if modal canceled without verification
+            function revertPendingDiscount() {
+                if (currentPendingDiscount) {
+                    const key = currentPendingDiscount.key;
+                    currentPendingDiscount.inputEl.value = previousCounts[key] || 0;
+                    currentPendingDiscount = null;
+                }
+            }
+
+            cancelVerificationBtn.addEventListener('click', revertPendingDiscount);
+            declineVerificationBtn.addEventListener('click', revertPendingDiscount);
+
+            // Attach Event Listeners to Ticket Input Fields
+            const regInput = document.getElementById('countRegular');
+            const senInput = document.getElementById('countSenior');
+            const stuInput = document.getElementById('countStudent');
+            const pwdInput = document.getElementById('countPWD');
+
+            if (regInput) {
+                regInput.addEventListener('change', () => {
+                    previousCounts.regular = parseInt(regInput.value) || 0;
+                    persistCountsToLocal();
+                });
+            }
+            if (senInput) {
+                senInput.addEventListener('change', () => handleDiscountChange('senior', 'Senior Citizen', senInput));
+            }
+            if (stuInput) {
+                stuInput.addEventListener('change', () => handleDiscountChange('student', 'Student', stuInput));
+            }
+            if (pwdInput) {
+                pwdInput.addEventListener('change', () => handleDiscountChange('pwd', 'PWD', pwdInput));
+            }
+
+            // Make persistCountsToLocal globally callable from seat selection page
+            window.persistDiscountCounts = persistCountsToLocal;
+        })();
+    </script>
     <script src="js/app.js"></script>
 
     <!-- Session Handler Script -->

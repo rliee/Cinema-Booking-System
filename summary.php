@@ -15,80 +15,93 @@
 
 <body>
 
-	<nav class="navbar navbar-dark">
-		<div class="container d-flex justify-content-between align-items-center">
-			<a class="navbar-brand" href="index.php">
-				🎬 Cinema Royale
+	<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+		<div class="container">
+			<a class="navbar-brand d-flex align-items-center" href="index.php">
+				<img src="logo/Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 5rem; width: auto;" />
+				<div>
+					<span class="fs-2 p-0 m-0">Cinema Royale</span>
+					<div class="navbar-brand-subtitle ms-1" style="font-size: 0.75rem">PREMIUM EXPERIENCE</div>
+				</div>
 			</a>
-
-			<div class="nav-links">
-				<a href="index.php">Home</a>
-				<a href="index.php#now-showing">Now Showing</a>
-				<a href="index.php#promotions">Promotions</a>
-				<a href="index.php#experience">About</a>
-				<a href="index.php#contact">Contact</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarMenu">
+				<ul class="navbar-nav mx-auto">
+					<div class="d-flex w-100 justify-content-center text-center">
+						<li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+						<li class="nav-item"><a class="nav-link" href="index.php#now-showing">Now Showing</a></li>
+					</div>
+					<div class="d-flex w-100 justify-content-center tex-center">
+						<li class="nav-item"><a class="nav-link" href="index.php#promotions">Promotions</a></li>
+						<li class="nav-item"><a class="nav-link" href="index.php#experience">About</a></li>
+						<li class="nav-item"><a class="nav-link" href="index.php#contact">Contact</a></li>
+					</div>
+				</ul>
+				<div class="auth-buttons ms-auto d-flex flex-lg-row justify-content-center my-2">
+					<button class="auth-btn login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+					<button class="auth-btn register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+				</div>
 			</div>
 		</div>
 	</nav>
 
-	<div class="container booking-section">
-		<div class="row g-4" style="align-items: stretch;">
-			<!-- Left Column: Booking Summary -->
-			<div class="col-lg-6">
-				<div class="booking-card" style="height: 100%; display: flex; flex-direction: column;">
-					<h2 style="color: #ffc700; margin-bottom: 24px; font-weight: 700;">Booking Summary</h2>
+    <div class="container booking-section">
+        <div class="row g-4" style="align-items: stretch;">
+            <!-- Left Column: Booking Summary -->
+            <div class="col-lg-6">
+                <div class="booking-card" style="height: 100%; display: flex; flex-direction: column; padding: 40px;">
+                    <h2 style="color: #ffc700; margin-bottom: 24px; font-weight: 700;">Booking Summary</h2>
 
-					<!-- Movie Info Box -->
-					<div class="movie-box">
-						<div class="movie-poster">
-							<img id="summaryPoster" src="" alt="Movie Poster" class="movie-poster" style="width:120px;height:auto;border-radius:8px;">
-						</div>
-						<div class="movie-info">
-							<h3 id="movie" style="margin: 0; color: #fff; font-size: 18px; font-weight: 700;"></h3>
-							<p class="meta" style="margin: 8px 0 0 0; color: #a0a0a0; font-size: 14px;"><span id="time"></span> &nbsp; • &nbsp; <span id="date"></span></p>
-						</div>
-					</div>
+                    <!-- Movie Info Box -->
+                    <div class="movie-box">
+                        <img id="summaryPoster" src="" alt="Movie Poster" style="width:120px;height:160px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#111;">
+                        <div class="movie-info">
+                            <h3 id="movie" style="margin: 0; color: #fff; font-size: 18px; font-weight: 700;"></h3>
+                            <p class="meta" style="margin: 8px 0 0 0; color: #a0a0a0; font-size: 14px;"><span id="time"></span> &nbsp; • &nbsp; <span id="date"></span></p>
+                        </div>
+                    </div>
 
-					<!-- Booking Details Section -->
-					<h4 class="section-label" style="margin-top: 24px; margin-bottom: 16px; color: #ffc700;">Booking Details</h4>
-					<div class="details-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin-bottom: 24px;">
-						<div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Date</div>
-						<div class="value" id="date-alt" style="color: #fff; font-size: 14px;"></div>
+                    <!-- Booking Details Section -->
+                    <h4 class="section-label" style="margin-top: 24px; margin-bottom: 16px; color: #ffc700;">Booking Details</h4>
+                    <div class="details-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin-bottom: 24px;">
+                        <div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Date</div>
+                        <div class="value" id="date-alt" style="color: #fff; font-size: 14px;"></div>
 
-						<div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Time</div>
-						<div class="value" id="time-alt" style="color: #fff; font-size: 14px;"></div>
+                        <div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Time</div>
+                        <div class="value" id="time-alt" style="color: #fff; font-size: 14px;"></div>
 
-						<div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Cinema</div>
-						<div class="value" id="cinema" style="color: #fff; font-size: 14px;"></div>
+                        <div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Cinema</div>
+                        <div class="value" id="cinema" style="color: #fff; font-size: 14px;"></div>
 
-						<div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Type</div>
-						<div class="value" style="color: #fff; font-size: 14px;"><span class="badge bg-warning text-dark" style="font-size: 11px;">STANDARD</span></div>
+                        <div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Type</div>
+                        <div class="value" style="color: #fff; font-size: 14px;"><span class="badge bg-warning text-dark" style="font-size: 11px;">STANDARD</span></div>
 
-						<div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Tickets (R / S / P)</div>
-						<div class="value" id="counts-display" style="color: #fff; font-size: 14px;">0 / 0 / 0</div>
-					</div>
+                        <div class="label" style="color: #888; font-size: 13px; font-weight: 600;">Tickets (R / S / St / P)</div>
+                        <div class="value" id="counts-display" style="color: #fff; font-size: 14px;">0 / 0 / 0 / 0</div>
+                    </div>
 
-					<!-- Selected Seats Section -->
-					<h4 class="section-label" style="margin-bottom: 12px; color: #ffc700;">Selected Seats</h4>
-					<div class="seats-box" style="flex: 1;">
-						<div id="seats" class="seat-list"></div>
-					</div>
-				</div>
-			</div>
+                    <!-- Selected Seats Section -->
+                    <h4 class="section-label" style="margin-bottom: 12px; color: #ffc700;">Selected Seats</h4>
+                    <div class="seats-box" style="flex: 1;">
+                        <div id="seats" class="seat-list"></div>
+                    </div>
+                </div>
+            </div>
 
-			<!-- Right Column: Price Breakdown -->
-			<div class="col-lg-6">
-				<div class="payment-card sidebar-card" style="height: 100%; display: flex; flex-direction: column;">
-					<h3 style="color: #fff; margin-bottom: 24px; font-weight: 700;">Price Breakdown</h3>
+            <!-- Right Column: Price Breakdown -->
+            <div class="col-lg-6">
+                <div class="payment-card sidebar-card" style="height: 100%; display: flex; flex-direction: column; padding: 40px; margin: 0;">
 
-					<!-- Tickets Purchased Count -->
-					<div class="row" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #444;">
+					<!-- Tickets Purchased Count (Highlighted) -->
+					<div class="row" style="margin-bottom: 20px; padding: 16px; border: 2px solid #ffc700; border-radius: 12px; background: rgba(255, 199, 0, 0.08);">
 						<div class="col">
-							<strong style="color: #fff; font-size: 14px; display: block; margin-bottom: 6px;">Total Tickets Purchased</strong>
-							<p class="text-muted small" style="color: #888; font-size: 12px; margin: 0;">Regular: <span id="count-regular">0</span> | Senior: <span id="count-senior">0</span> | PWD: <span id="count-pwd">0</span></p>
+							<strong style="color: #ffc700; font-size: 15px; display: block; margin-bottom: 6px;">Total Tickets Purchased</strong>
+							<p style="color: #ddd; font-size: 13px; margin: 0;">Regular: <strong style="color:#fff;"><span id="count-regular">0</span></strong> | Senior: <strong style="color:#fff;"><span id="count-senior">0</span></strong> | Student: <strong style="color:#fff;"><span id="count-student">0</span></strong> | PWD: <strong style="color:#fff;"><span id="count-pwd">0</span></strong></p>
 						</div>
 						<div class="col text-end">
-							<strong style="font-size: 22px; color: #ffc700; display: block;"><span id="total-tickets">0</span></strong>
+							<strong style="font-size: 28px; color: #ffc700; display: block;"><span id="total-tickets">0</span></strong>
 						</div>
 					</div>
 
@@ -104,6 +117,12 @@
 						<div class="row" style="margin-bottom: 12px; padding-bottom: 12px;">
 							<div class="col" style="color: #ccc; font-size: 14px;">Senior Discount (20%)</div>
 							<div class="col text-end" style="color: #4ade80; font-size: 14px; font-weight: 600;">-₱<span id="break-senior-discount">0</span></div>
+						</div>
+
+						<!-- Student Discount -->
+						<div class="row" style="margin-bottom: 12px; padding-bottom: 12px;">
+							<div class="col" style="color: #ccc; font-size: 14px;">Student Discount (15%)</div>
+							<div class="col text-end" style="color: #4ade80; font-size: 14px; font-weight: 600;">-₱<span id="break-student-discount">0</span></div>
 						</div>
 
 						<!-- PWD Discount -->
@@ -145,7 +164,7 @@
 					<div style="margin-top: 20px;">
 						<button class="btn btn-continue" onclick="proceedPayment()" style="width: 100%; padding: 12px; margin-bottom: 12px; background-color: #ffc700; color: #000; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer;">Continue to Payment</button>
 
-						<button class="btn btn-cancel" style="width: 100%; padding: 10px; background-color: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;">← Cancel Booking</button>
+						<button class="btn btn-cancel" onclick="cancelBooking()" style="width: 100%; padding: 10px; background-color: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer;">← Cancel Booking</button>
 						<p class="small text-muted" style="text-align: center; margin-top: 12px; color: #888; font-size: 12px;">🔒 Secure checkout powered by Stripe</p>
 					</div>
 				</div>
@@ -258,6 +277,7 @@
 			return {
 				regular: parseInt(counts.regular) || 0,
 				senior: parseInt(counts.senior) || 0,
+				student: parseInt(counts.student) || 0,
 				pwd: parseInt(counts.pwd) || 0
 			};
 		}
@@ -265,7 +285,7 @@
 		function updatePricing() {
 			const counts = getTicketCounts();
 			const seatCount = seats.length;
-			const countsTotal = counts.regular + counts.senior + counts.pwd;
+			const countsTotal = counts.regular + counts.senior + counts.student + counts.pwd;
 			const ticketCount = seatCount || countsTotal;
 
 			// Calculate subtotal (all tickets at base price)
@@ -273,8 +293,9 @@
 
 			// Calculate individual discounts
 			const seniorDiscount = counts.senior * baseTicketPrice * seniorDiscountRate;
+			const studentDiscount = counts.student * baseTicketPrice * 0.15;
 			const pwdDiscount = counts.pwd * baseTicketPrice * pwdDiscountRate;
-			const totalDiscount = seniorDiscount + pwdDiscount;
+			const totalDiscount = seniorDiscount + studentDiscount + pwdDiscount;
 
 			// Calculate convenience fee (applies to all tickets)
 			const convenienceTotal = ticketCount * convenienceFeePerTicket;
@@ -285,6 +306,7 @@
 			// Update display elements for ticket counts
 			document.getElementById("count-regular").textContent = counts.regular;
 			document.getElementById("count-senior").textContent = counts.senior;
+			document.getElementById("count-student").textContent = counts.student;
 			document.getElementById("count-pwd").textContent = counts.pwd;
 			document.getElementById("total-tickets").textContent = ticketCount;
 
@@ -308,11 +330,12 @@
 			document.getElementById("summary-convenience").textContent = convenienceTotal.toFixed(2);
 
 			// Update counts display
-			document.getElementById("counts-display").textContent = `${counts.regular} / ${counts.senior} / ${counts.pwd}`;
+			document.getElementById("counts-display").textContent = `${counts.regular} / ${counts.senior} / ${counts.student} / ${counts.pwd}`;
 
 			// Store values for payment page
 			localStorage.setItem("subtotal", subtotal.toFixed(2));
 			localStorage.setItem("seniorDiscount", seniorDiscount.toFixed(2));
+			localStorage.setItem("studentDiscount", studentDiscount.toFixed(2));
 			localStorage.setItem("pwdDiscount", pwdDiscount.toFixed(2));
 			localStorage.setItem("totalDiscount", totalDiscount.toFixed(2));
 			localStorage.setItem("convenienceFee", convenienceTotal.toFixed(2));
@@ -322,6 +345,21 @@
 
 		function proceedPayment() {
 			window.location.href = "payment.php";
+		}
+
+		function cancelBooking() {
+			if (confirm('Are you sure you want to cancel this booking? All selections will be cleared.')) {
+				localStorage.removeItem('movie');
+				localStorage.removeItem('date');
+				localStorage.removeItem('time');
+				localStorage.removeItem('cinema');
+				localStorage.removeItem('ticketCounts');
+				localStorage.removeItem('selectedSeats');
+				localStorage.removeItem('tickets');
+				localStorage.removeItem('grandTotal');
+				localStorage.removeItem('moviePoster');
+				window.location.href = 'index.php';
+			}
 		}
 
 		updatePricing();

@@ -5,297 +5,128 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seat Selection</title>
+    <title>Seat Selection - Cinema Royale</title>
 
     <link href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/seatplan.css">
+    <link rel="stylesheet" href="libraries/fontawesome/css/all.min.css">
 
 </head>
 
 <body>
 
-    <nav class="navbar navbar-dark">
-
-        <div class="container d-flex justify-content-between align-items-center">
-
-            <a class="navbar-brand" href="index.php">
-
-                Cinema Royale
-
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.php">
+                <img src="logo/Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 5rem; width: auto;" />
+                <div>
+                    <span class="fs-2 p-0 m-0">Cinema Royale</span>
+                    <div class="navbar-brand-subtitle ms-1" style="font-size: 0.75rem">PREMIUM EXPERIENCE</div>
+                </div>
             </a>
-
-            <div class="nav-links">
-                <a href="index.php">Home</a>
-                <a href="index.php#now-showing">Now Showing</a>
-                <a href="index.php#promotions">Promotions</a>
-                <a href="index.php#experience">About</a>
-                <a href="index.php#contact">Contact</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav mx-auto">
+                    <div class="d-flex w-100 justify-content-center text-center">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php#now-showing">Now Showing</a></li>
+                    </div>
+                    <div class="d-flex w-100 justify-content-center tex-center">
+                        <li class="nav-item"><a class="nav-link" href="index.php#promotions">Promotions</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php#experience">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.php#contact">Contact</a></li>
+                    </div>
+                </ul>
+                <div class="auth-buttons ms-auto d-flex flex-lg-row justify-content-center my-2">
+                    <button class="auth-btn login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    <button class="auth-btn register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                </div>
             </div>
-
         </div>
-
     </nav>
 
-    <div class="container">
+    <div class="container-seat">
 
-        <div class="container-seat">
+        <h2>Select Your Seats</h2>
 
-            <h2>Select Your Seats</h2>
+        <div class="booking-layout">
 
-            <div class="screen">
+            <!-- LEFT SIDE: Seat Map -->
+            <div style="flex:1;">
 
-                SCREEN
+                <div class="screen">
+                    SCREEN
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="box available"></div>
+                        Available
+                    </div>
+                    <div class="legend-item">
+                        <div class="box selected"></div>
+                        Selected
+                    </div>
+                    <div class="legend-item">
+                        <div class="box unavailable"></div>
+                        Booked
+                    </div>
+                </div>
+
+                <div class="seat-layout" id="seatLayout"></div>
 
             </div>
 
-            <div class="legend">
-
-                <div class="legend-item">
-
-                    <div class="box available"></div>
-
-                    Available
-
-                </div>
-
-                <div class="legend-item">
-
-                    <div class="box selected"></div>
-
-                    Selected
-
-                </div>
-
-                <div class="legend-item">
-
-                    <div class="box taken"></div>
-
-                    Unavailable
-
-                </div>
-
-            </div>
-
-            <div class="seat-layout">
-
-
-
-                <div class="seat-row">
-
-                    <div class="seat">A1</div>
-                    <div class="seat">A2</div>
-                    <div class="seat">A3</div>
-                    <div class="seat taken">A4</div>
-
-                    <div style="width:40px;"></div>
-
-                    <div class="seat">A5</div>
-                    <div class="seat">A6</div>
-                    <div class="seat taken">A7</div>
-                    <div class="seat">A8</div>
-
-                </div>
-
-
-                <div class="seat-row">
-
-                    <div class="seat">B1</div>
-                    <div class="seat">B2</div>
-                    <div class="seat">B3</div>
-                    <div class="seat">B4</div>
-
-                    <div style="width:40px;"></div>
-
-                    <div class="seat taken">B5</div>
-                    <div class="seat">B6</div>
-                    <div class="seat">B7</div>
-                    <div class="seat">B8</div>
-
-                </div>
-
-
-
-                <div class="seat-row">
-
-                    <div class="seat">C1</div>
-                    <div class="seat">C2</div>
-                    <div class="seat taken">C3</div>
-                    <div class="seat">C4</div>
-
-                    <div style="width:40px;"></div>
-
-                    <div class="seat">C5</div>
-                    <div class="seat">C6</div>
-                    <div class="seat">C7</div>
-                    <div class="seat">C8</div>
-
-                </div>
-
-
-                <div class="seat-row">
-
-                    <div class="seat">D1</div>
-                    <div class="seat">D2</div>
-                    <div class="seat">D3</div>
-                    <div class="seat">D4</div>
-
-                    <div style="width:40px;"></div>
-
-                    <div class="seat">D5</div>
-                    <div class="seat taken">D6</div>
-                    <div class="seat">D7</div>
-                    <div class="seat">D8</div>
-
-                </div>
-
-
-
-                <div class="seat-row">
-
-                    <div class="seat">E1</div>
-                    <div class="seat taken">E2</div>
-                    <div class="seat">E3</div>
-                    <div class="seat">E4</div>
-
-                    <div style="width:40px;"></div>
-
-                    <div class="seat">E5</div>
-                    <div class="seat">E6</div>
-                    <div class="seat">E7</div>
-                    <div class="seat">E8</div>
-
-                </div>
-
-
-
-                <div class="seat-row">
-
-                    <div class="seat">F1</div>
-                    <div class="seat">F2</div>
-                    <div class="seat">F3</div>
-                    <div class="seat taken">F4</div>
-
-                    <div style="width:40px;"></div>
-
-                    <div class="seat">F5</div>
-                    <div class="seat">F6</div>
-                    <div class="seat">F7</div>
-                    <div class="seat">F8</div>
-
-                </div>
-
-            </div>
-
-
+            <!-- RIGHT SIDE: Booking Summary -->
             <div class="summary">
 
-                <h4>Booking Summary</h4>
-
-                <div class="row mt-4">
-
-                    <div class="col-md-6">
-
-                        <p>
-
-                            <strong>Movie:</strong>
-
-                            <span id="movieName"></span>
-
-                        </p>
-
-                        <p>
-
-                            <strong>Date:</strong>
-
-                            <span id="movieDate"></span>
-
-                        </p>
-
-                        <p>
-
-                            <strong>Time:</strong>
-
-                            <span id="movieTime"></span>
-
-                        </p>
-
-                    </div>
-
-                    <div class="col-md-6">
-
-                        <p>
-
-                            <strong>Cinema:</strong>
-
-                            <span id="movieCinema"></span>
-
-                        </p>
-
-                        <p>
-                            <strong>Tickets:</strong>
-                            <span style="margin-left:8px">
-                                <input id="countRegular" class="ticket-count" type="number" min="0" value="0" />
-                                <input id="countSenior" class="ticket-count" type="number" min="0" value="0" />
-                                <input id="countPWD" class="ticket-count" type="number" min="0" value="0" />
-                            </span>
-                        </p>
-
-                        <p>
-
-                            <strong>Price per Ticket:</strong>
-
-                            ₱350
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <hr class="text-secondary">
+                <h3>Booking Summary</h3>
 
                 <p>
+                    <strong>Movie:</strong>
+                    <span id="movieName"></span>
+                </p>
 
+                <p>
+                    <strong>Date:</strong>
+                    <span id="movieDate"></span>
+                </p>
+
+                <p>
+                    <strong>Time:</strong>
+                    <span id="movieTime"></span>
+                </p>
+
+                <p>
+                    <strong>Cinema:</strong>
+                    <span id="movieCinema"></span>
+                </p>
+
+                <p>
                     <strong>Selected Seats:</strong>
-
-                    <span id="seatList">
-
-                        None
-
-                    </span>
-
+                    <span id="selectedSeatsDisplay">None</span>
                 </p>
 
                 <p>
-
-                    <strong>Total Selected:</strong>
-
-                    <span id="selectedCount">
-
-                        0
-
-                    </span>
-
+                    <strong>Tickets:</strong>
+                    <span id="ticketCountDisplay">0 / 0</span>
                 </p>
 
                 <p>
-
-                    <strong>Total Amount:</strong>
-
-                    ₱<span id="grandTotal">
-
-                        0
-
-                    </span>
-
+                    <strong>Total:</strong>
+                    <span id="seatTotalPrice">₱0</span>
                 </p>
 
-                <button class="btn btn-next" id="continueBtn">
-
-                    Continue to Booking Summary →
-
-                </button>
+                <div class="summary-actions" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn-next" id="proceedToPaymentBtn" disabled>
+                        <i class="fa-solid fa-arrow-right"></i> Proceed to Payment
+                    </button>
+                    <button class="btn-back" id="backToBookingBtn" style="background: transparent; color: #aaa; border: 1px solid #333; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Booking
+                    </button>
+                </div>
 
             </div>
 
@@ -303,244 +134,301 @@
 
     </div>
 
-    <footer id="contact">
+    <footer style="background: #0a0a0a; border-top: 1px solid rgba(255, 199, 0, 0.1); padding: 40px 0 20px; margin-top: 40px;">
         <div class="container">
-            <div class="footer-section">
-                <h5>🎬 Cinema Royale</h5>
-                <p>Experience movies the way they were meant to be seen. Premium sound, stunning visuals, and unmatched comfort — only at Cinema Royale.</p>
-                <div class="footer-socials">
-                    <a href="#" title="Facebook">f</a>
-                    <a href="#" title="Instagram">📷</a>
-                    <a href="#" title="Twitter">𝕏</a>
-                    <a href="#" title="YouTube">▶</a>
-                </div>
+            <div class="footer-bottom" style="text-align: center;">
+                <div class="footer-watermark" style="font-size: 48px; font-weight: 700; color: rgba(255, 199, 0, 0.08); letter-spacing: 4px; margin-bottom: 16px;">CINEMA ROYALE</div>
+                <p class="footer-copyright" style="color: #666; font-size: 13px;">&copy; 2026 Cinema Royale. All rights reserved.</p>
             </div>
-            <div class="footer-section">
-                <h5>NEWSLETTER</h5>
-                <p>Get the latest movies, exclusive offers, and event invites straight to your inbox.</p>
-                <div class="newsletter-input">
-                    <input type="email" placeholder="Your email address">
-                    <button>→</button>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h5>QUICK LINKS</h5>
-                <div class="footer-links">
-                    <a href="#now-showing">Now Showing</a>
-                    <a href="#promotions">Promotions</a>
-                    <a href="#experience">About Us</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h5>CONTACT</h5>
-                <p><i class="fa-solid fa-location-dot"></i> 📍 Trece Martires City, Cavite 4109</p>
-                <p>📞 +63 (2) 8888-1234</p>
-                <p>📧 <a href="mailto:hello@cinemaroyale.com" style="color:#ffc700;text-decoration:none;">hello@cinemaroyale.com</a></p>
-            </div>
-            <div class="footer-section">
-                <h5>TEAM</h5>
-                <p>Arliesienne Ansuas<br>Ron Andrei Castro<br>James Arnold Dutosme<br>Kier Bryant Levita<br>Kylle Jonathan Padua<br>Genesis Saliedo<br>Josiah Joshua Torrefiel</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="footer-watermark">CINEMA ROYALE</div>
-            <p class="footer-copyright">© 2026 Cinema Royale. All rights reserved.</p>
         </div>
     </footer>
-
-
 
     <script src="libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const movie = localStorage.getItem("movie");
-        const date = localStorage.getItem("date");
-        const time = localStorage.getItem("time");
-        const cinema = localStorage.getItem("cinema");
-
-        function getTicketCounts() {
-            const counts = JSON.parse(localStorage.getItem('ticketCounts') || '{}');
-            return {
-                regular: parseInt(counts.regular) || 0,
-                senior: parseInt(counts.senior) || 0,
-                student: parseInt(counts.student) || 0,
-                pwd: parseInt(counts.pwd) || 0
-            };
-        }
-
-        function getTicketsTotal() {
-            const c = getTicketCounts();
-            return c.regular + c.senior + c.student + c.pwd;
-        }
-        const tickets = getTicketsTotal() || 1;
-        const baseTicketPrice = 350;
-        const convenienceFeePerTicket = 25;
-
-        const movieNameElement = document.getElementById("movieName");
-        const movieDateElement = document.getElementById("movieDate");
-        const movieTimeElement = document.getElementById("movieTime");
-        const movieCinemaElement = document.getElementById("movieCinema");
-        const ticketCountElement = document.getElementById("ticketCount");
-
-        if (movieNameElement) movieNameElement.textContent = movie;
-        if (movieDateElement) movieDateElement.textContent = date;
-        if (movieTimeElement) movieTimeElement.textContent = time;
-        if (movieCinemaElement) movieCinemaElement.textContent = cinema;
-        if (ticketCountElement) ticketCountElement.textContent = tickets;
-
-        // initialize count inputs from storage
-        const cntReg = document.getElementById('countRegular');
-        const cntSen = document.getElementById('countSenior');
-        const cntPWD = document.getElementById('countPWD');
-        const storedCounts = getTicketCounts();
-        if (cntReg) cntReg.value = storedCounts.regular || 0;
-        if (cntSen) cntSen.value = storedCounts.senior || 0;
-        if (cntPWD) cntPWD.value = storedCounts.pwd || 0;
-
-function persistCountsFromInputs() {
-            const counts = {
-                regular: parseInt(cntReg && cntReg.value) || 0,
-                senior: parseInt(cntSen && cntSen.value) || 0,
-                student: storedCounts.student || 0,
-                pwd: parseInt(cntPWD && cntPWD.value) || 0
-            };
-            localStorage.setItem('ticketCounts', JSON.stringify(counts));
-            if (ticketCountElement) ticketCountElement.textContent = getTicketsTotal();
-        }
-        if (cntReg) cntReg.addEventListener('change', persistCountsFromInputs);
-        if (cntSen) cntSen.addEventListener('change', persistCountsFromInputs);
-        if (cntPWD) cntPWD.addEventListener('change', persistCountsFromInputs);
-
-
-
-        const seatElements = Array.from(document.querySelectorAll('.seat:not(.taken)'));
-        const seatList = document.getElementById('seatList');
-        const selectedCount = document.getElementById('selectedCount');
-        const grandTotal = document.getElementById('grandTotal');
-        const continueBtn = document.getElementById('continueBtn');
-
-        function getSavedSeats() {
-            try {
-                const saved = JSON.parse(localStorage.getItem('selectedSeats') || '[]');
-                return Array.isArray(saved) ? saved : [];
-            } catch (e) {
-                return [];
-            }
-        }
-
-        function loadSelectedSeats() {
-            const savedSeats = getSavedSeats();
-            document.querySelectorAll('.seat.selected').forEach(seat => seat.classList.remove('selected'));
-            const maxTickets = getTicketsTotal() || 1;
-            let count = 0;
-
-            savedSeats.forEach(label => {
-                if (count >= maxTickets) return;
-                const matchingSeat = Array.from(document.querySelectorAll('.seat:not(.taken)')).find(s => s.textContent.trim() === label);
-                if (matchingSeat) {
-                    matchingSeat.classList.add('selected');
-                    count += 1;
-                }
-            });
-        }
-
-        function updateSummary() {
-            const selectedSeats = Array.from(document.querySelectorAll('.seat.selected')).map(seat => seat.textContent.trim());
-
-            if (seatList) {
-                seatList.textContent = selectedSeats.length ? selectedSeats.join(', ') : 'None';
-            }
-            if (selectedCount) {
-                selectedCount.textContent = selectedSeats.length;
-            }
-
-            const counts = getTicketCounts();
-            const subtotal = selectedSeats.length * baseTicketPrice;
-            const discount = Math.round((counts.senior + counts.pwd) * baseTicketPrice * 0.2);
-            const convenience = convenienceFeePerTicket * selectedSeats.length;
-            const finalTotal = subtotal - discount + convenience;
-
-            if (grandTotal) {
-                grandTotal.textContent = finalTotal;
-            }
-
-            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-            localStorage.setItem('seatCount', String(selectedSeats.length));
-            localStorage.setItem('discount', String(discount));
-            localStorage.setItem('totalPrice', String(subtotal - discount));
-            localStorage.setItem('grandTotal', String(finalTotal));
-        }
-
-        function toggleSeatSelection(seat) {
-            if (!seat || seat.classList.contains('taken')) return;
-
-            const currentSelected = document.querySelectorAll('.seat.selected').length;
-            const maxTickets = getTicketsTotal();
-            const isSelected = seat.classList.contains('selected');
-
-            if (maxTickets <= 0) {
-                alert('Please select ticket quantities first.');
-                return;
-            }
-
-            if (!isSelected && currentSelected >= maxTickets) {
-                alert('You can only select ' + maxTickets + ' seat(s).');
-                return;
-            }
-
-            seat.classList.toggle('selected');
-            updateSummary();
-        }
-
-        seatElements.forEach(seat => {
-            seat.setAttribute('role', 'button');
-            seat.setAttribute('tabindex', '0');
-            seat.addEventListener('click', () => toggleSeatSelection(seat));
-            seat.addEventListener('keydown', event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    toggleSeatSelection(seat);
-                }
+        // Navbar collapse close on link click
+        document.querySelectorAll(".nav-link").forEach((link) => {
+            link.addEventListener("click", () => {
+                document.querySelector(".navbar-collapse")?.classList.remove("show");
             });
         });
 
-        if (continueBtn) {
-            continueBtn.addEventListener('click', function() {
-                const selectedSeatsCount = document.querySelectorAll('.seat.selected').length;
-                const required = getTicketsTotal();
-                if (required <= 0) {
-                    alert('Please add ticket quantities before continuing.');
-                    return;
-                }
-                if (selectedSeatsCount !== required) {
-                    alert('Please select exactly ' + required + ' seat(s).');
-                    return;
-                }
-                window.location.href = 'summary.php';
-            });
-        }
-
-        function updateCountsAndSummary() {
-            persistCountsFromInputs();
-            const selectedSeats = Array.from(document.querySelectorAll('.seat.selected'));
-            const maxTickets = getTicketsTotal();
-            if (selectedSeats.length > maxTickets) {
-                selectedSeats.slice(maxTickets).forEach(seat => seat.classList.remove('selected'));
+        // Hide header on scroll down
+        let lastScrollTop = 0;
+        const header = document.querySelector('.navbar');
+        window.addEventListener('scroll', function () {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            if (currentScroll > lastScrollTop && currentScroll > 50) {
+                header.classList.add('hide-header');
+            } else {
+                header.classList.remove('hide-header');
             }
-            updateSummary();
-        }
-        if (cntReg) cntReg.addEventListener('input', updateCountsAndSummary);
-        if (cntSen) cntSen.addEventListener('input', updateCountsAndSummary);
-        if (cntPWD) cntPWD.addEventListener('input', updateCountsAndSummary);
-
-        loadSelectedSeats();
-        updateSummary();
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        });
     </script>
 
-    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ====== CONFIGURATION ======
+            const ROWS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+            const SEATS_PER_ROW = 13;
+            const AISLE_AFTER = [5, 9]; // Insert gap after these seat positions (1-indexed)
+            
+            let takenSeats = [];      // Seats already booked (fetched from API)
+            let selectedSeats = [];   // Seats currently selected by user
+            let maxSelectable = 0;    // Max number of seats user can select
+            let basePrice = 350;      // Default ticket price
+            
+            // ====== DOM REFS ======
+            const seatLayout = document.getElementById('seatLayout');
+            const movieNameEl = document.getElementById('movieName');
+            const movieDateEl = document.getElementById('movieDate');
+            const movieTimeEl = document.getElementById('movieTime');
+            const movieCinemaEl = document.getElementById('movieCinema');
+            const selectedSeatsDisplay = document.getElementById('selectedSeatsDisplay');
+            const ticketCountDisplay = document.getElementById('ticketCountDisplay');
+            const seatTotalPrice = document.getElementById('seatTotalPrice');
+            const proceedBtn = document.getElementById('proceedToPaymentBtn');
+            const backBtn = document.getElementById('backToBookingBtn');
+            
+            // ====== LOAD BOOKING DATA FROM LOCALSTORAGE ======
+            const movie = localStorage.getItem('movie') || 'Unknown';
+            const date = localStorage.getItem('date') || '';
+            const cinema = localStorage.getItem('cinema') || '';
+            const time = localStorage.getItem('time') || '';
+            
+            // Get ticket counts
+            let ticketCounts = { regular: 0, senior: 0, student: 0, pwd: 0 };
+            try {
+                const saved = JSON.parse(localStorage.getItem('ticketCounts') || '{}');
+                ticketCounts = {
+                    regular: parseInt(saved.regular) || 0,
+                    senior: parseInt(saved.senior) || 0,
+                    student: parseInt(saved.student) || 0,
+                    pwd: parseInt(saved.pwd) || 0
+                };
+            } catch(e) {}
+            
+            const totalTickets = ticketCounts.regular + ticketCounts.senior + ticketCounts.student + ticketCounts.pwd;
+            maxSelectable = totalTickets;
+            
+            // ====== UPDATE SUMMARY UI ======
+            movieNameEl.textContent = movie;
+            movieDateEl.textContent = date || 'Not selected';
+            movieTimeEl.textContent = time || 'Not selected';
+            movieCinemaEl.textContent = cinema || 'Not selected';
+            
+            // ====== GENERATE SEAT GRID ======
+            function generateSeats() {
+                seatLayout.innerHTML = '';
+                
+                ROWS.forEach(function(rowLetter) {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'seat-row d-flex align-items-center justify-content-center mb-2';
+                    
+                    // Row label
+                    const rowLabel = document.createElement('div');
+                    rowLabel.style.cssText = 'width: 28px; font-weight: bold; color: #ffc700; text-align: center; font-size: 14px;';
+                    rowLabel.textContent = rowLetter;
+                    rowDiv.appendChild(rowLabel);
+                    
+                    for (let i = 1; i <= SEATS_PER_ROW; i++) {
+                        // Add aisle spacer
+                        if (AISLE_AFTER.includes(i)) {
+                            const spacer = document.createElement('div');
+                            spacer.style.cssText = 'width: 20px;';
+                            rowDiv.appendChild(spacer);
+                        }
+                        
+                        const seatId = rowLetter + i;
+                        const seat = document.createElement('div');
+                        seat.className = 'seat';
+                        seat.dataset.seatId = seatId;
+                        seat.textContent = i;
+                        
+                        // Check if seat is taken
+                        if (takenSeats.includes(seatId)) {
+                            seat.classList.add('taken');
+                            seat.title = 'Already booked';
+                        } else {
+                            seat.addEventListener('click', handleSeatClick);
+                        }
+                        
+                        rowDiv.appendChild(seat);
+                    }
+                    
+                    seatLayout.appendChild(rowDiv);
+                });
+            }
+            
+            // ====== HANDLE SEAT CLICK ======
+            function handleSeatClick(e) {
+                const seat = e.currentTarget;
+                const seatId = seat.dataset.seatId;
+                
+                // Don't allow clicking taken seats (safety check)
+                if (seat.classList.contains('taken')) return;
+                
+                if (seat.classList.contains('selected')) {
+                    // Deselect
+                    seat.classList.remove('selected');
+                    selectedSeats = selectedSeats.filter(function(s) { return s !== seatId; });
+                } else {
+                    // Check if max reached
+                    if (maxSelectable > 0 && selectedSeats.length >= maxSelectable) {
+                        alert('You can only select up to ' + maxSelectable + ' seat(s).');
+                        return;
+                    }
+                    // Select
+                    seat.classList.add('selected');
+                    selectedSeats.push(seatId);
+                }
+                
+                updateSummary();
+            }
+            
+            // ====== UPDATE SUMMARY ======
+            function updateSummary() {
+                const count = selectedSeats.length;
+                
+                // Sort seats for display (by row letter then number)
+                const sorted = selectedSeats.slice().sort(function(a, b) {
+                    const rowA = a.charAt(0);
+                    const rowB = b.charAt(0);
+                    const numA = parseInt(a.substring(1));
+                    const numB = parseInt(b.substring(1));
+                    if (rowA !== rowB) return rowA.localeCompare(rowB);
+                    return numA - numB;
+                });
+                
+                selectedSeatsDisplay.textContent = sorted.length > 0 ? sorted.join(', ') : 'None';
+                ticketCountDisplay.textContent = count + ' / ' + (maxSelectable || 'Unlimited');
+                
+                // Calculate price based on ticket type breakdown from booking page
+                const regPrice = basePrice;
+                const senPrice = Math.round(basePrice * 0.8);  // 20% off
+                const stuPrice = Math.round(basePrice * 0.85); // 15% off
+                const pwdPrice = Math.round(basePrice * 0.8);  // 20% off
+                const convenienceFee = 25;
+                
+                const totalTicketTypes = ticketCounts.regular + ticketCounts.senior + ticketCounts.student + ticketCounts.pwd;
+                
+                let subtotal = 0;
+                if (totalTicketTypes > 0 && count > 0) {
+                    // Allocate seats proportionally to ticket types
+                    const ratio = count / totalTicketTypes;
+                    const regSeats = Math.min(Math.round(ticketCounts.regular * ratio), count);
+                    const senSeats = Math.min(Math.round(ticketCounts.senior * ratio), count - regSeats);
+                    const stuSeats = Math.min(Math.round(ticketCounts.student * ratio), count - regSeats - senSeats);
+                    const pwdSeats = count - regSeats - senSeats - stuSeats;
+                    
+                    subtotal = (regSeats * regPrice) + 
+                               (senSeats * senPrice) + 
+                               (stuSeats * stuPrice) + 
+                               (pwdSeats * pwdPrice);
+                } else {
+                    subtotal = count * regPrice;
+                }
+                
+                const convenienceTotal = convenienceFee * count;
+                const total = subtotal + convenienceTotal;
+                
+                seatTotalPrice.textContent = '₱' + total.toLocaleString();
+                
+                // Save to localStorage
+                localStorage.setItem('selectedSeats', JSON.stringify(sorted));
+                localStorage.setItem('grandTotal', String(total));
+                localStorage.setItem('seatsCount', String(count));
+                
+                // Enable/disable proceed button
+                proceedBtn.disabled = count === 0;
+                proceedBtn.classList.toggle('disabled', count === 0);
+            }
+            
+            // ====== FETCH TAKEN SEATS FROM API ======
+            async function fetchTakenSeats() {
+                if (!cinema || !date || !time) {
+                    // No booking data, still generate seats normally
+                    generateSeats();
+                    updateSummary();
+                    return;
+                }
+                
+                try {
+                    const params = new URLSearchParams({
+                        cinema: cinema,
+                        date: date,
+                        time: time
+                    });
+                    
+                    const response = await fetch('api/seats.php?' + params.toString());
+                    const data = await response.json();
+                    
+                    if (data.success && data.takenSeats) {
+                        takenSeats = data.takenSeats;
+                    }
+                } catch (e) {
+                    console.warn('Could not load taken seats from API:', e);
+                }
+                
+                generateSeats();
+                updateSummary();
+            }
+            
+            // ====== BACK BUTTON ======
+            backBtn.addEventListener('click', function() {
+                window.location.href = 'booking.php?movie=' + encodeURIComponent(movie);
+            });
+            
+            // ====== PROCEED TO PAYMENT ======
+            proceedBtn.addEventListener('click', function() {
+                if (selectedSeats.length === 0) {
+                    alert('Please select at least one seat.');
+                    return;
+                }
+                
+                // Final save of selected data
+                const sorted = selectedSeats.slice().sort(function(a, b) {
+                    const rowA = a.charAt(0);
+                    const rowB = b.charAt(0);
+                    const numA = parseInt(a.substring(1));
+                    const numB = parseInt(b.substring(1));
+                    if (rowA !== rowB) return rowA.localeCompare(rowB);
+                    return numA - numB;
+                });
+                
+                localStorage.setItem('selectedSeats', JSON.stringify(sorted));
+                localStorage.setItem('seatsCount', String(sorted.length));
+                
+                window.location.href = 'payment.php';
+            });
+            
+            // ====== INIT ======
+            fetchTakenSeats();
+        });
+    </script>
+
+    <!-- Session Handler Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loggedIn = localStorage.getItem("loggedIn");
+            if (loggedIn === "true") {
+                const authButtons = document.querySelector(".auth-buttons");
+                if (authButtons) {
+                    authButtons.innerHTML = `
+                        <span class="welcome-text" style="color: #fff; margin-right: 15px;">Welcome Back!</span>
+                        <a href="#" id="logout-btn" class="auth-btn login-btn">Logout</a>
+                    `;
+                    document.getElementById("logout-btn").addEventListener("click", function (e) {
+                        e.preventDefault();
+                        localStorage.removeItem("loggedIn");
+                        window.location.href = "index.php";
+                    });
+                }
+            }
+        });
+    </script>
 
 </body>
-
 </html>
+

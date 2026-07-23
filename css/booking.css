@@ -185,6 +185,8 @@ a.logo {
 
 .movie-poster {
     width: 220px;
+    max-width: 100%;
+    height: auto;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
     transform: translateY(20px);

@@ -204,7 +204,6 @@ body {
   transition: opacity 0.8s ease-in-out;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   z-index: 1;
 }
 
@@ -1399,7 +1398,7 @@ footer p {
 }
 
 .box.available {
-    background: #0fb67a;
+    background: #888;
 }
 
 .box.selected {
@@ -1430,7 +1429,7 @@ footer p {
 .seat {
     width: 48px;
     height: 40px;
-    background: #0fb67a;
+    background: #888;
     border: 1px solid #333;
     border-radius: 6px;
     color: white;
@@ -1450,6 +1449,22 @@ footer p {
     background: #ffc700;
     color: #111;
     font-weight: bold;
+}
+
+.box.unavailable {
+    background: #e74c3c;
+}
+
+.seat.taken {
+    background: #e74c3c !important;
+    color: #fff !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.seat.taken:hover {
+    transform: none !important;
 }
 
 .summary {
