@@ -35,14 +35,25 @@ class ScheduleRepository
         string $search
     ): void {
         $search = trim($search);
-
         if ($search === "") {
             return;
         }
 
-        $sql .= " AND m.title LIKE ?";
-        $params[] = "%{$search}%";
-        $types .= "s";
+        $sql .= "
+            AND (
+                m.title LIKE ?
+                OR DATE_FORMAT(ss.show_date, '%M') LIKE ?
+                OR DATE_FORMAT(ss.show_date, '%b') LIKE ?
+            )
+        ";
+
+        $keyword = "%{$search}%";
+
+        $params[] = $keyword;
+        $params[] = $keyword;
+        $params[] = $keyword;
+
+        $types .= "sss";
     }
 
     // check if the schedule already has bookings
@@ -533,15 +544,22 @@ class ScheduleRepository
                 m.status,
                 h.hall_name,
                 h.total_seats,
+                tp.price AS ticket_price,
                 COALESCE(SUM(b.seats_booked), 0) AS sold
             FROM show_schedules ss
             JOIN movies m
                 ON ss.movie_id = m.movie_id
             JOIN cinema_halls h
                 ON ss.hall_id = h.hall_id
+            LEFT JOIN ticket_prices tp
+                ON ss.movie_id = tp.movie_id
             LEFT JOIN bookings b
                 ON ss.schedule_id = b.schedule_id
-            WHERE m.title LIKE ?
+            WHERE (
+                m.title LIKE ?
+                OR DATE_FORMAT(ss.show_date, '%M') LIKE ?
+                OR DATE_FORMAT(ss.show_date, '%b') LIKE ?
+            )
             GROUP BY ss.schedule_id
             ORDER BY ss.show_date, ss.start_time
         ";
@@ -549,7 +567,12 @@ class ScheduleRepository
         $search = "%" . trim($search) . "%";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("s", $search);
+        $stmt->bind_param(
+            "sss",
+            $search,
+            $search,
+            $search
+        );
         $stmt->execute();
 
         $result = $stmt->get_result();
