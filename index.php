@@ -12,10 +12,17 @@ require_once "auth/session.php";
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cinema Royale - Premium Movie Experience</title>
 
-  <link href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
 
-  <link rel="stylesheet" href="./css/index.css" />
+  <link
+    rel="stylesheet"
+    href="libraries/fontawesome/css/all.min.css">
 
+  <link
+    rel="stylesheet"
+    href="./css/index.css">
 </head>
 
 <body>
@@ -73,10 +80,26 @@ require_once "auth/session.php";
                     placeholder="Create a password"
                     required>
                 </div>
-                <button class="btn" type="submit">Create Account</button>
+
+                <div
+                  id="register-error"
+                  class="text-danger register-error">
+                </div>
+
+                <button class="btn confirm-logout-btn" type="submit">Register</button>
               </form>
 
-              <button class="alt-text text-button" data-bs-toggle="modal" data-bs-target="#loginModal">Already have an account? <span href="login.php">Sign in</span></button>
+              <p class="alt-text text-start">
+                Already have an account?
+                <a
+                  href="#"
+                  class="alt-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#loginModal">
+                  Login
+                </a>
+              </p>
+
             </div>
           </div>
         </div>
@@ -96,7 +119,7 @@ require_once "auth/session.php";
           <div class="form-side">
             <div class="form-panel">
               <h1>Login</h1>
-              <p class="subtitle">Sign in to continue</p>
+              <p class="subtitle">Login to continue</p>
 
               <form id="login-form" method="POST">
                 <div class="form-group">
@@ -105,6 +128,7 @@ require_once "auth/session.php";
                     id="login-email"
                     name="email"
                     type="email"
+                    autocomplete="off"
                     placeholder="Enter your email"
                     required>
                 </div>
@@ -117,22 +141,88 @@ require_once "auth/session.php";
                     placeholder="Enter your password"
                     required>
                 </div>
+
                 <div class="actions">
                   <label><input type="checkbox" /> Remember me</label>
                   <a href="#">Forgot password?</a>
                 </div>
-                <button class="btn" type="submit">Sign In</button>
+
+                <div
+                  id="login-error"
+                  class="text-danger login-error">
+                </div>
+
+                <button
+                  class="btn confirm-logout-btn"
+                  type="submit">
+                  Login
+                </button>
               </form>
 
-              <button class="alt-text text-button" data-bs-toggle="modal" data-bs-target="#registerModal">Don't have an account? <span href="signup.html">Create one</span></button>
+              <p class="alt-text text-start">
+                Don't have an account?
+                <a
+                  href="#"
+                  class="alt-link"
+                  data-bs-toggle="modal"
+                  data-bs-target="#registerModal">
+                  Create an account
+                </a>
+              </p>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Logout Confirmation Modal -->
+  <div
+    class="modal fade logout-modal-wrapper"
+    id="logoutModal"
+    tabindex="-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content logout-modal">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Confirm Logout
+          </h5>
+
+          <button
+            type="button"
+            class="btn-close logout-close"
+            data-bs-dismiss="modal">
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="logout-message">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <p>
+              Are you sure you want to log out?
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-footer logout-actions">
+          <button
+            type="button"
+            class="btn stay-btn"
+            data-bs-dismiss="modal">
+            Stay Logged In
+          </button>
+
+          <a
+            href="api/auth/logout.php"
+            class="btn confirm-logout-btn">
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
@@ -176,11 +266,13 @@ require_once "auth/session.php";
               My Bookings
             </a>
 
-            <a
-              href="api/auth/logout.php"
-              class="auth-btn register-btn">
+            <button
+              type="button"
+              class="auth-btn register-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#logoutModal">
               Logout
-            </a>
+            </button>
 
           <?php else: ?>
 

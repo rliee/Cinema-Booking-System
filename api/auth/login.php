@@ -71,8 +71,9 @@ if (!password_verify($password, $user["password"])) {
 
 session_regenerate_id(true);
 
-$_SESSION["user_id"] = $user["user_id"];
-$_SESSION["fullname"] = $user["fullname"];
+$_SESSION["id"] = $user["id"];
+$_SESSION["fullname"] =
+    $user["first_name"] . " " . $user["last_name"];
 $_SESSION["email"] = $user["email"];
 $_SESSION["role"] = $user["role"];
 
@@ -80,8 +81,9 @@ echo json_encode([
     "success" => true,
     "message" => "Login successful.",
     "user" => [
-        "user_id" => $user["user_id"],
-        "fullname" => $user["fullname"],
+        "id" => $user["id"],
+        "fullname" =>
+            $user["first_name"] . " " . $user["last_name"],
         "email" => $user["email"],
         "role" => $user["role"]
     ]

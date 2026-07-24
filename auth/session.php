@@ -14,7 +14,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 function isLoggedIn(): bool
 {
-    return isset($_SESSION["user_id"]);
+    return isset($_SESSION["id"]);
 }
 
 function currentUser(): ?array
@@ -24,7 +24,7 @@ function currentUser(): ?array
     }
 
     return [
-        "user_id"  => $_SESSION["user_id"],
+        "id"  => $_SESSION["id"],
         "fullname" => $_SESSION["fullname"],
         "email"    => $_SESSION["email"],
         "role"     => $_SESSION["role"]
@@ -33,7 +33,7 @@ function currentUser(): ?array
 
 function currentUserId(): ?int
 {
-    return $_SESSION["user_id"] ?? null;
+    return $_SESSION["id"] ?? null;
 }
 
 function currentUserRole(): ?string
@@ -44,8 +44,7 @@ function currentUserRole(): ?string
 function requireLogin(): void
 {
     if (!isLoggedIn()) {
-
-        header("Location: /index.php");
+        header("Location: /cinema-booking/index.php");
         exit;
     }
 }

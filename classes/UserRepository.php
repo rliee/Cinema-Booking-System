@@ -37,6 +37,76 @@ class UserRepository
         return $exists;
     }
 
+    public function findExistingUser(
+        string $first_name,
+        string $last_name,
+        string $email
+    ): ?string {
+        // Exact account
+        $statement = $this->conn->prepare("
+        SELECT id
+        FROM users
+        WHERE first_name = ?
+        AND last_name = ?
+        AND email = ?
+        LIMIT 1
+    ");
+
+        $statement->bind_param(
+            "sss",
+            $first_name,
+            $last_name,
+            $email
+        );
+
+        $statement->execute();
+
+        if ($statement->get_result()->num_rows > 0) {
+
+            $statement->close();
+
+            return "account";
+        }
+
+        $statement->close();
+
+
+        // Same first and last name
+        $statement = $this->conn->prepare("
+        SELECT id
+        FROM users
+        WHERE first_name = ?
+        AND last_name = ?
+        LIMIT 1
+    ");
+
+        $statement->bind_param(
+            "ss",
+            $first_name,
+            $last_name
+        );
+
+        $statement->execute();
+
+        if ($statement->get_result()->num_rows > 0) {
+
+            $statement->close();
+
+            return "person";
+        }
+
+        $statement->close();
+
+
+        // Same email
+        if ($this->emailExists($email)) {
+
+            return "email";
+        }
+
+        return null;
+    }
+
     /**
      * Get a user by email.
      */
@@ -119,11 +189,30 @@ class UserRepository
         string $role,
     ): array {
 
-        if ($this->emailExists($email)) {
+        $existing = $this->findExistingUser(
+            $first_name,
+            $last_name,
+            $email
+        );
 
+        if ($existing === "account") {
             return [
                 "success" => false,
-                "message" => "Email already exists."
+                "message" => "Account already exists. Please login instead."
+            ];
+        }
+
+        if ($existing === "person") {
+            return [
+                "success" => false,
+                "message" => "User already exists. Please login instead."
+            ];
+        }
+
+        if ($existing === "email") {
+            return [
+                "success" => false,
+                "message" => "This email is already registered."
             ];
         }
 

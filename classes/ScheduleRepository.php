@@ -104,20 +104,66 @@ class ScheduleRepository
         return $stmt->get_result()->num_rows > 0;
     }
 
-    private function getStatus(string $showDate, string $startTime, string $endTime): string
-    {
-        $now = new DateTime("now");
-        $start = new DateTime("$showDate $startTime");
-        $end = new DateTime("$showDate $endTime");
+    // check if the same movie is already scheduled
+    // in the same hall on the same date
+    private function movieAlreadyScheduled(
+        int $movieId,
+        int $hallId,
+        string $showDate,
+        ?int $excludeScheduleId = null
+    ): bool {
 
-        if ($now < $start) {
-            return "Coming Soon";
+        $sql = "
+        SELECT 1
+        FROM show_schedules
+        WHERE
+            movie_id = ?
+            AND hall_id = ?
+            AND show_date = ?
+    ";
+
+        if ($excludeScheduleId !== null) {
+            $sql .= " AND schedule_id <> ?";
         }
-        if ($now >= $start && $now <= $end) {
-            return "Now Showing";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if ($excludeScheduleId === null) {
+            $stmt->bind_param(
+                "iis",
+                $movieId,
+                $hallId,
+                $showDate
+            );
+        } else {
+            $stmt->bind_param(
+                "iisi",
+                $movieId,
+                $hallId,
+                $showDate,
+                $excludeScheduleId
+            );
         }
-        return "Completed";
+
+        $stmt->execute();
+
+        return $stmt->get_result()->num_rows > 0;
     }
+
+    // private function getStatus(string $showDate, string $startTime, string $endTime): string
+    // {
+    //     $now = new DateTime("now");
+    //     $start = new DateTime("$showDate $startTime");
+    //     $end = new DateTime("$showDate $endTime");
+
+    //     if ($now < $start) {
+    //         return "Coming Soon";
+    //     }
+    //     if ($now >= $start && $now <= $end) {
+    //         return "Now Showing";
+    //     }
+    //     return "Completed";
+    // }
 
     // -- public business logic --
     // check conflict
@@ -186,6 +232,19 @@ class ScheduleRepository
             return $this->buildResponse(
                 false,
                 "The selected cinema hall does not exist."
+            );
+        }
+
+        if (
+            $this->movieAlreadyScheduled(
+                $data["movie_id"],
+                $data["hall_id"],
+                $data["show_date"]
+            )
+        ) {
+            return $this->buildResponse(
+                false,
+                "This movie is already scheduled in the selected hall for this date."
             );
         }
 
@@ -265,6 +324,20 @@ class ScheduleRepository
             return $this->buildResponse(
                 false,
                 "The selected cinema hall does not exist."
+            );
+        }
+
+        if (
+            $this->movieAlreadyScheduled(
+                $data["movie_id"],
+                $data["hall_id"],
+                $data["show_date"],
+                $scheduleId
+            )
+        ) {
+            return $this->buildResponse(
+                false,
+                "This movie is already scheduled in the selected hall for this date."
             );
         }
 

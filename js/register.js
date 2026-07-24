@@ -26,12 +26,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   registerForm.addEventListener("submit", handleRegister);
+
+  const firstNameInput = document.getElementById("register-firstname");
+  const lastNameInput = document.getElementById("register-lastname");
+
+  [firstNameInput, lastNameInput].forEach((input) => {
+    input.addEventListener("input", () => {
+      input.value = formatName(input.value);
+    });
+  });
+
+  // Reset form whenever the modal is closed
+  const registerModal = document.getElementById("registerModal");
+
+  registerModal.addEventListener("hidden.bs.modal", () => {
+    registerForm.reset();
+
+    const errorBox = document.getElementById("register-error");
+    errorBox.textContent = "";
+    errorBox.style.display = "none";
+  });
 });
+
+function formatName(value) {
+  return value
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trimStart()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
 
 async function handleRegister(event) {
   event.preventDefault();
 
   const form = event.target;
+
+  const errorBox = document.getElementById("register-error");
+
+  errorBox.textContent = "";
+  errorBox.style.display = "none";
 
   const formData = new FormData(form);
 
@@ -45,7 +78,8 @@ async function handleRegister(event) {
     const result = await response.json();
 
     if (!result.success) {
-      alert(result.message);
+      errorBox.textContent = result.message;
+      errorBox.style.display = "block";
 
       return;
     }

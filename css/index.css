@@ -109,7 +109,7 @@ body {
 
 .form-side {
   flex: 1 1 55%;
-  padding: 28px 40px 40px;
+  padding: 28px 40px 15px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -118,7 +118,7 @@ body {
 .form-panel {
   width: 100%;
   max-width: 380px;
-  margin: 12px auto 0;
+  margin: 6px auto 0;
 }
 
 .text-button {
@@ -488,19 +488,25 @@ body {
 }
 
 .hero-slide:nth-child(1) {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(173, 168, 23, 0.7)), url('https://images.unsplash.com/photo-1489599849228-bed96c3ee601?w=1400&h=600&fit=crop');
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(173, 168, 23, 0.7)),
+    url("https://images.unsplash.com/photo-1489599849228-bed96c3ee601?w=1400&h=600&fit=crop");
   background-size: cover;
   background-position: center;
 }
 
 .hero-slide:nth-child(2) {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(61, 40, 23, 0.8)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1400&h=600&fit=crop');
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(61, 40, 23, 0.8)),
+    url("https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1400&h=600&fit=crop");
   background-size: cover;
   background-position: center;
 }
 
 .hero-slide:nth-child(3) {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(107, 68, 35, 0.7)), url('https://images.unsplash.com/photo-1535016120720-40c646be5580?w=1400&h=600&fit=crop');
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(107, 68, 35, 0.7)),
+    url("https://images.unsplash.com/photo-1535016120720-40c646be5580?w=1400&h=600&fit=crop");
   background-size: cover;
   background-position: center;
 }
@@ -521,7 +527,9 @@ body {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
   border: 2px solid rgba(255, 199, 0, 0.3);
 }
 
@@ -2201,7 +2209,8 @@ footer {
   margin: 10px 0;
 }
 
-.qr-ref, .qr-timer {
+.qr-ref,
+.qr-timer {
   text-align: center;
 }
 
@@ -2298,7 +2307,7 @@ footer {
   padding-right: 48px;
   border-radius: 10px;
   border: 1px solid #444;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   color: #fff;
   font-size: 15px;
   outline: none;
@@ -2349,7 +2358,7 @@ footer {
 .btn-pay-confirm:hover {
   background: #ffe27a;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255,199,0,0.3);
+  box-shadow: 0 6px 20px rgba(255, 199, 0, 0.3);
 }
 
 .ref-secure-notice {
@@ -2372,12 +2381,12 @@ footer {
   .payment-split-layout {
     flex-direction: column;
   }
-  
+
   .qr-panel,
   .ref-form-panel {
     padding: 24px;
   }
-  
+
   .payment-page .page-title {
     font-size: 26px;
   }
@@ -2430,7 +2439,7 @@ footer {
   width: 220px;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
   transform: translateY(20px);
 }
 
@@ -2440,7 +2449,7 @@ footer {
 }
 
 .movie-details .badge {
-  background-color: rgba(21,128,61,0.2);
+  background-color: rgba(21, 128, 61, 0.2);
   color: #4ade80;
   padding: 6px 14px;
   border-radius: 20px;
@@ -2469,7 +2478,7 @@ footer {
 
 .booking-flow .section-title {
   font-size: 28px;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 
 .booking-flow .section-subtitle {
@@ -2479,7 +2488,7 @@ footer {
 
 /* Booking page title */
 .booking-page-title {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 36px;
   color: #ffc700;
   margin-bottom: 30px;
@@ -2542,7 +2551,7 @@ footer {
 .book-ticket-btn:hover {
   background: #f1be5e;
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(229,169,59,0.3);
+  box-shadow: 0 8px 20px rgba(229, 169, 59, 0.3);
 }
 
 .book-ticket-btn:disabled,
@@ -2578,10 +2587,10 @@ footer {
   width: min(100%, 900px);
   display: flex;
   position: relative;
-  border: 1px solid rgba(212,175,55,0.3);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 24px;
-  background: rgba(16,16,16,0.95);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  background: rgba(16, 16, 16, 0.95);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(8px);
   overflow: hidden;
   min-height: 560px;
@@ -2596,7 +2605,7 @@ footer {
   height: 36px;
   border: 0;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   color: #f7f3e8;
   font-size: 1.1rem;
   cursor: pointer;
@@ -2605,14 +2614,16 @@ footer {
 
 .brand-side {
   flex: 1 1 45%;
-  background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), linear-gradient(135deg, #1a1a1a, #000);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.72)),
+    linear-gradient(135deg, #1a1a1a, #000);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 40px;
   text-align: center;
-  border-right: 1px solid rgba(212,175,55,0.3);
+  border-right: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .brand-side h2 {
@@ -2668,8 +2679,8 @@ footer {
   width: 100%;
   padding: 13px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(212,175,55,0.3);
-  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(255, 255, 255, 0.04);
   color: #f7f3e8;
   outline: none;
   box-sizing: border-box;
@@ -2677,7 +2688,7 @@ footer {
 
 .form-group input:focus {
   border-color: #d4af37;
-  box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
 }
 
 .actions {
@@ -2716,3 +2727,178 @@ footer {
   color: #0066cc;
 }
 
+/* ===============================
+   LOGOUT CONFIRMATION MODAL
+================================ */
+
+.logout-modal-wrapper .modal-dialog {
+  max-width: 420px;
+}
+
+.logout-modal {
+  background: #0f0f0f !important;
+
+  border: 1px solid rgba(255, 199, 0, 0.25) !important;
+
+  border-radius: 20px !important;
+
+  overflow: hidden;
+
+  color: white;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* Header */
+
+.logout-modal .modal-header {
+  border-bottom: none !important;
+
+  padding: 20px 25px;
+}
+
+.logout-modal .modal-title {
+  color: #ffc700;
+
+  font-weight: 700;
+
+  font-size: 22px;
+}
+
+.logout-modal .modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logout-modal .modal-title i {
+  color: #ffc700;
+  font-size: 20px;
+}
+
+/* Close button */
+
+.logout-close {
+  filter: invert(1);
+}
+
+/* Body */
+
+.logout-modal .modal-body {
+  text-align: center;
+
+  padding: 30px;
+
+  color: #b5b0a1;
+
+  font-size: 16px;
+}
+
+.logout-message {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.logout-message i {
+  color: #ffc700;
+
+  font-size: 42px;
+}
+
+.logout-message p {
+  margin: 0;
+
+  color: #b5b0a1;
+
+  font-size: 16px;
+}
+
+/* Footer */
+.logout-modal .modal-footer.logout-actions {
+  border-top: none !important;
+
+  display: flex !important;
+
+  flex-direction: row !important;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 15px;
+
+  flex-wrap: nowrap !important;
+
+  padding: 20px 25px;
+}
+
+.logout-modal .logout-actions .btn {
+  flex: 0 0 auto;
+
+  width: auto !important;
+
+  min-width: 140px;
+}
+
+/* Stay logged in button */
+
+.stay-btn {
+  background: transparent !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+  color: white !important;
+
+  border-radius: 12px;
+}
+
+.stay-btn:hover {
+  border-color: #ffc700 !important;
+
+  color: #ffc700 !important;
+}
+
+/* Logout button */
+
+.confirm-logout-btn {
+  background: #ffc700 !important;
+  color: #111 !important;
+  border: none !important;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.confirm-logout-btn:hover {
+  background: #ffe07a !important;
+  color: #111 !important;
+}
+
+.alt-link {
+  color: white;
+  background: none;
+  border: none;
+  padding: 0;
+  font-weight: 400;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.alt-link:hover {
+  color: #ffc700;
+  font-weight: 700;
+}
+
+.login-error,
+.register-error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  display: none;
+}

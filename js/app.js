@@ -20,9 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     */
 
   document.body.addEventListener("click", async (event) => {
-    const button = event.target.closest(
-      ".btn-book-ticket, .btn-book-now, [data-movie]",
-    );
+    const button = event.target.closest(".btn-book-ticket, .btn-book-now");
 
     if (!button) {
       return;
@@ -38,9 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.stopPropagation();
 
     try {
-      const response = await fetch("auth/session.php");
-
-      const session = await response.json();
+      const session = await Auth.getSession();
 
       if (session.loggedIn) {
         window.location.href = "booking.php?movie=" + encodeURIComponent(movie);

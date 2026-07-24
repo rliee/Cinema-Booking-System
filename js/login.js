@@ -26,12 +26,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   loginForm.addEventListener("submit", handleLogin);
+
+  // Reset form whenever the modal is closed
+  const loginModal = document.getElementById("loginModal");
+
+  loginModal.addEventListener("hidden.bs.modal", () => {
+    loginForm.reset();
+
+    const errorBox = document.getElementById("login-error");
+    errorBox.textContent = "";
+    errorBox.style.display = "none";
+  });
 });
 
 async function handleLogin(event) {
   event.preventDefault();
 
   const form = event.target;
+
+  const errorBox = document.getElementById("login-error");
+
+  errorBox.textContent = "";
+  errorBox.style.display = "none";
 
   const formData = new FormData(form);
 
@@ -45,7 +61,8 @@ async function handleLogin(event) {
     const result = await response.json();
 
     if (!result.success) {
-      alert(result.message);
+      errorBox.textContent = result.message;
+      errorBox.style.display = "block";
 
       return;
     }
