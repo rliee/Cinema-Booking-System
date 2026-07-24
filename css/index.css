@@ -2902,3 +2902,8 @@ footer {
   margin-bottom: 12px;
   display: none;
 }
+
+.welcome-name {
+  color: #ffc700;
+  font-weight: 700;
+}

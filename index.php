@@ -253,11 +253,13 @@ require_once "auth/session.php";
 
           <?php if (isLoggedIn()): ?>
 
+            <?php
+            $firstName = explode(" ", $_SESSION["fullname"])[0];
+            ?>
+
             <span class="text-white me-3">
               Welcome,
-              <strong>
-                <?= htmlspecialchars($_SESSION["fullname"]) ?>
-              </strong>
+              <strong class="welcome-name"><?= htmlspecialchars($firstName) ?></strong>!
             </span>
 
             <a
