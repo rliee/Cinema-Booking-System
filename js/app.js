@@ -1,61 +1,125 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Use event delegation on document body for all book buttons
-    // This works for both static buttons (hero) and dynamically rendered ones (movie cards)
-    document.body.addEventListener('click', function (e) {
-        const btn = e.target.closest('.btn-book-ticket, .btn-book-now, [data-movie]');
-        if (!btn) return;
+/**
+ * ==========================================================
+ * Customer App
+ * ----------------------------------------------------------
+ * PURPOSE:
+ * Handles client-side interactions shared across pages.
+ *
+ * RESPONSIBILITIES:
+ * - Booking button handling
+ * - Session checking
+ * - Customer type synchronization
+ * ==========================================================
+ */
 
-        const mv = btn.dataset.movie || btn.getAttribute('data-movie');
-        if (!mv) return;
+document.addEventListener("DOMContentLoaded", () => {
+  /*
+    |--------------------------------------------------------------------------
+    | Booking Buttons
+    |--------------------------------------------------------------------------
+    */
 
-        e.preventDefault();
-        e.stopPropagation();
+  document.body.addEventListener("click", async (event) => {
+    const button = event.target.closest(
+      ".btn-book-ticket, .btn-book-now, [data-movie]",
+    );
 
-        // Check login status
-        if (localStorage.getItem('loggedIn') === 'true') {
-            localStorage.setItem('movie', mv);
-            window.location.href = 'booking.php?movie=' + encodeURIComponent(mv);
-        } else {
-            // Save pending movie
-            localStorage.setItem('pendingMovie', mv);
-            localStorage.setItem('movie', mv);
-
-            // Try to show login modal (only exists on index.php)
-            const loginModalEl = document.getElementById('loginModal');
-            if (loginModalEl && typeof bootstrap !== 'undefined') {
-                const modal = bootstrap.Modal.getInstance(loginModalEl) || new bootstrap.Modal(loginModalEl);
-                modal.show();
-            } else {
-                alert('Please log in first to book tickets.');
-            }
-        }
-    });
-
-    // Synchronize customer type selector across pages
-    function wireCustomerType(sel) {
-        try {
-            const saved = localStorage.getItem('customerType') || 'Regular';
-            sel.value = saved;
-            if (sel.dataset._attached === '1') return;
-            sel.addEventListener('change', function () {
-                localStorage.setItem('customerType', this.value);
-                window.dispatchEvent(new CustomEvent('customerTypeChanged', { detail: this.value }));
-            });
-            sel.dataset._attached = '1';
-        } catch (e) { /* ignore */ }
+    if (!button) {
+      return;
     }
 
-    document.querySelectorAll('#customerTypeSelect').forEach(wireCustomerType);
+    const movie = button.dataset.movie || button.getAttribute("data-movie");
 
-    const observer = new MutationObserver(function (mutations) {
-        for (const m of mutations) {
-            for (const node of m.addedNodes) {
-                if (node.querySelectorAll) {
-                    node.querySelectorAll('#customerTypeSelect').forEach(wireCustomerType);
-                }
-            }
-        }
+    if (!movie) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    try {
+      const response = await fetch("auth/session.php");
+
+      const session = await response.json();
+
+      if (session.loggedIn) {
+        window.location.href = "booking.php?movie=" + encodeURIComponent(movie);
+
+        return;
+      }
+
+      /*
+            |--------------------------------------------------------------------------
+            | Not logged in
+            |--------------------------------------------------------------------------
+            */
+
+      sessionStorage.setItem("pendingMovie", movie);
+
+      const loginModalElement = document.getElementById("loginModal");
+
+      if (loginModalElement) {
+        bootstrap.Modal.getOrCreateInstance(loginModalElement).show();
+
+        return;
+      }
+
+      alert("Please log in first.");
+    } catch (error) {
+      console.error(error);
+
+      alert("Unable to verify your login session.");
+    }
+  });
+
+  /*
+    |--------------------------------------------------------------------------
+    | Customer Type Synchronization
+    |--------------------------------------------------------------------------
+    */
+
+  function initializeCustomerType(select) {
+    const savedType = localStorage.getItem("customerType") || "Regular";
+
+    select.value = savedType;
+
+    if (select.dataset.initialized) {
+      return;
+    }
+
+    select.addEventListener("change", () => {
+      localStorage.setItem("customerType", select.value);
+
+      window.dispatchEvent(
+        new CustomEvent("customerTypeChanged", {
+          detail: select.value,
+        }),
+      );
     });
-    observer.observe(document.body, { childList: true, subtree: true });
-});
 
+    select.dataset.initialized = "true";
+  }
+
+  document
+    .querySelectorAll("#customerTypeSelect")
+    .forEach(initializeCustomerType);
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (!node.querySelectorAll) {
+          return;
+        }
+
+        node
+          .querySelectorAll("#customerTypeSelect")
+          .forEach(initializeCustomerType);
+      });
+    });
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+});

@@ -33,11 +33,11 @@ if ($discountName === "") {
     exit;
 }
 
-if ($discountPercentage < 0 || $discountPercentage > 100) {
+if ($discountPercentage < 0 || $discountPercentage >= 100) {
 
     echo json_encode([
         "success" => false,
-        "message" => "Discount percentage must be between 0 and 100."
+        "message" => "Discount percentage must be between 0 and 99."
     ]);
 
     exit;

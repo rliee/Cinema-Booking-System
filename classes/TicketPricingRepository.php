@@ -209,6 +209,22 @@ class TicketPricingRepository
 
     public function updateTicketPrice(int $priceId, float $price): array
     {
+        $current = $this->getTicketPriceById($priceId);
+
+        if (!$current) {
+            return [
+                "success" => false,
+                "message" => "Ticket price not found."
+            ];
+        }
+
+        if ((float) $current["price"] === $price) {
+            return [
+                "success" => false,
+                "message" => "No changes were made."
+            ];
+        }
+
         $sql = "UPDATE ticket_prices
             SET
                 price = ?,
@@ -383,6 +399,22 @@ class TicketPricingRepository
         int $discountId,
         float $discountPercentage
     ): array {
+
+        $current = $this->getDiscountById($discountId);
+
+        if (!$current) {
+            return [
+                "success" => false,
+                "message" => "Discount not found."
+            ];
+        }
+
+        if ((float) $current["discount_percentage"] === $discountPercentage) {
+            return [
+                "success" => false,
+                "message" => "No changes were made."
+            ];
+        }    
 
         $statement = $this->conn->prepare(
             "UPDATE discounts

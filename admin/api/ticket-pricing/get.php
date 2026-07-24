@@ -1,7 +1,5 @@
 <?php
-
 declare(strict_types=1);
-
 
 header("Content-Type: application/json");
 header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -17,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] !== "GET") {
         "success" => false,
         "message" => "Invalid request method."
     ]);
-
     exit;
 }
 
@@ -26,9 +23,7 @@ $repository = new TicketPricingRepository($conn);
 
 // Retrieve a single ticket price (used by the Edit modal)
 if (isset($_GET["price_id"])) {
-
     $priceId = (int) $_GET["price_id"];
-
     if ($priceId <= 0) {
         echo json_encode([
             "success" => false,
@@ -51,7 +46,34 @@ if (isset($_GET["price_id"])) {
         "success" => true,
         "data" => $ticketPrice
     ]);
+    exit;
+}
 
+if (isset($_GET["discount_id"])) {
+    $discountId = (int) $_GET["discount_id"];
+
+    if ($discountId <= 0) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Invalid discount."
+        ]);
+        exit;
+    }
+
+    $discount = $repository->getDiscountById($discountId);
+
+    if (!$discount) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Discount not found."
+        ]);
+        exit;
+    }
+
+    echo json_encode([
+        "success" => true,
+        "data" => $discount
+    ]);
     exit;
 }
 

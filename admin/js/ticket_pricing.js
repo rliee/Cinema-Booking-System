@@ -272,11 +272,8 @@ async function openEditDiscountModal(discountId) {
 
   discountNameDisplay.style.display = "flex";
 
-  discountNameDisplay.querySelector("span").textContent =
-    discount.discount_name;
-
-  document.getElementById("discountPercentage").value =
-    discount.discount_percentage;
+  discountNameDisplay.querySelector("span").textContent = discount.discount_name;
+  document.getElementById("discountPercentage").value = discount.discount_percentage;
 
   document
     .getElementById("discountModalTitle")

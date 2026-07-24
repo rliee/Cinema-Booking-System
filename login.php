@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +14,9 @@
       --border: rgba(212, 175, 55, 0.3);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -59,7 +62,7 @@
       height: 36px;
       border: 0;
       border-radius: 50%;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.08);
       color: var(--text);
       font-size: 1.1rem;
       cursor: pointer;
@@ -211,7 +214,7 @@
       padding: 13px 14px;
       border-radius: 12px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text);
       outline: none;
     }
@@ -260,12 +263,13 @@
     }
   </style>
 </head>
+
 <body>
   <div class="modal-overlay">
     <div class="auth-card">
       <button class="close-btn" type="button" aria-label="Close">×</button>
       <div class="brand-side">
-         <img src="Black logo.png" alt="Logo" class="logo-box" />
+        <img src="Black logo.png" alt="Logo" class="logo-box" />
         <h2>CINEMA ROYALE</h2>
       </div>
       <div class="form-side">
@@ -275,23 +279,23 @@
 
           <form id="login-form" action="login.php" method="POST">
             <div class="form-group">
-    <label for="login-email">Email</label>
-    <input
-        id="login-email"
-        name="email"
-        type="email"
-        placeholder="Enter your email"
-        required>
-</div>
+              <label for="login-email">Email</label>
+              <input
+                id="login-email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                required>
+            </div>
             <div class="form-group">
-    <label for="login-password">Password</label>
-    <input
-        id="login-password"
-        name="password"
-        type="password"
-        placeholder="Enter your password"
-        required>
-</div>
+              <label for="login-password">Password</label>
+              <input
+                id="login-password"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                required>
+            </div>
             <div class="actions">
               <label><input type="checkbox" /> Remember me</label>
               <a href="#">Forgot password?</a>
@@ -339,4 +343,5 @@
     });
   </script>
 </body>
+
 </html>

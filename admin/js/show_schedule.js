@@ -28,10 +28,12 @@ const state = {
   currentWeek: null,
   schedules: [],
   editingScheduleId: null,
-  search: null,
+  search: "",
 };
 
-let emptyStateRendering = null;
+let latestRequest = 0;
+let latestEditRequest = 0;
+let emptyStateTimer = null;
 
 /* PAGE INITIALIZATION */
 document.addEventListener("DOMContentLoaded", initializeSchedulingPage);
@@ -44,22 +46,25 @@ function initializeSchedulingPage() {
 
   /* generate week selector */
   renderWeekSelector();
+
+  /* initialize components */
   initializeEndTimeCalculator();
+  initializeScheduleForm();
+  setupSearch();
 
   state.selectedDate = null;
-  setupSearch();
+
+  /* load schedules */
   loadSchedules();
 }
 
-/* INITIALIZE ADD SCHEDULE FORM: attaches the submit event to the Add Schedule form */
-function initializeAddScheduleForm() {
+function initializeScheduleForm() {
   const form = document.getElementById("addScheduleForm");
 
   if (!form) {
     return;
   }
-
-  form.addEventListener("submit", submitSchedule);
+  form.addEventListener("submit", submitScheduleForm);
 }
 
 function debounce(fn, delay = 300) {
@@ -74,8 +79,13 @@ function debounce(fn, delay = 300) {
 function setupSearch() {
   const searchInput = document.getElementById("scheduleSearch");
 
+  if (!searchInput) {
+    return;
+  }
+
   const search = debounce(() => {
     state.search = searchInput.value.trim();
+
     loadSchedules();
   }, 300);
 
@@ -86,69 +96,10 @@ function setupSearch() {
   });
 }
 
-/* SUBMIT SCHEDULE: sends the Add Schedule form to the server */
-async function submitSchedule(event) {
-  /* prevent page refresh */
-  event.preventDefault();
-
-  /* form reference */
-  const form = event.target;
-
-  /* convert form into FormData */
-  const formData = new FormData(form);
-  console.log("Submitting schedule...", Object.fromEntries(formData));
-}
-
-// during lab
-async function loadSearchResults() {
-  const container = document.getElementById("scheduleContainer");
-
-  const titleElement = document.getElementById("scheduleText");
-  const descriptionElement = document.getElementById("scheduleDescription");
-
-  titleElement.textContent = "Search Results";
-  descriptionElement.textContent = `Showing schedules for "${state.search}".`;
-
-  const response = await request(
-    `../api/schedules/get.php?search=${encodeURIComponent(state.search)}`,
-  );
-
-  if (!response.success) {
-    renderEmptyState(container, {
-      title: "Search Failed",
-      message: response.message,
-    });
-    return;
-  }
-
-  state.schedules = response.data;
-
-  if (state.schedules.length === 0) {
-    renderEmptyState(container, {
-      title: "No schedules found",
-      message: `No schedules found for "${state.search}".`,
-    });
-
-    updateStatistics({
-      totalShows: 0,
-      ticketsSold: 0,
-      occupancy: 0,
-      revenue: 0,
-    });
-    return;
-  }
-
-  refreshScheduleView();
-}
-
 /* LOAD SCHEDULES */
 async function loadSchedules() {
-  // during lab
-  if (state.search) {
-    return loadSearchResults();
-  }
-  // ----------
-
+  const requestId = ++latestRequest;
+  clearTimeout(emptyStateTimer);
   const container = document.getElementById("scheduleContainer");
   const titleElement = document.getElementById("scheduleText");
   const descriptionElement = document.getElementById("scheduleDescription");
@@ -157,31 +108,54 @@ async function loadSchedules() {
   const skeletonTimer = setTimeout(() => {
     renderSkeletonCards(container, 6);
   }, 150);
-
-  if (emptyStateRendering) {
-    clearTimeout(emptyStateRendering);
-  }
-
-  /* request schedules */
   let url = "../api/schedules/get.php";
+  const params = new URLSearchParams();
 
-  if (state.selectedDate) {
-    url += `?show_date=${state.selectedDate}`;
+  // if (state.selectedDate) {
+  //   params.append("show_date", state.selectedDate);
+  // } else {
+  //   params.append("show_week", getSelectedWeek());
+  // }
 
-    titleElement.textContent = "Today's Schedule";
-    descriptionElement.textContent = "Movie schedules for the selected day.";
+  // if (state.search) {
+  //   titleElement.textContent = "Search Results";
+  //   descriptionElement.textContent = `Showing schedules matching "${state.search}".`;
+
+  //   params.append("search", state.search);
+  // } else if (state.selectedDate) {
+  //   titleElement.textContent = "Today's Schedule";
+  //   descriptionElement.textContent = "Movie schedules for the selected day.";
+  // } else {
+  //   titleElement.textContent = "Week's Schedule";
+  //   descriptionElement.textContent = "Movie schedules for the week.";
+  // }
+  if (state.search) {
+    params.append("search", state.search);
+
+    if (state.selectedDate) {
+      params.append("show_date", state.selectedDate);
+    }
   } else {
-    url += `?show_week=${getSelectedWeek()}`;
-
-    titleElement.textContent = "Week's Schedule";
-    descriptionElement.textContent = "Movie schedules for the week.";
+    if (state.selectedDate) {
+      params.append("show_date", state.selectedDate);
+    } else {
+      params.append("show_week", getSelectedWeek());
+    }
   }
+
+  url += `?${params.toString()}`;
 
   const response = await request(url);
   clearTimeout(skeletonTimer);
 
+  if (requestId !== latestRequest) {
+    return;
+  }
+
   /* request failed */
   if (!response.success) {
+    clearTimeout(emptyStateTimer);
+
     renderEmptyState(container, {
       title: "Unable to load schedules",
       message: response.message,
@@ -196,15 +170,25 @@ async function loadSchedules() {
   refreshScheduleView();
 }
 
-/* REFRESH PAGE: updates every UI component using the current state */
 function refreshScheduleView() {
   const container = document.getElementById("scheduleContainer");
 
   /* empty state */
   if (state.schedules.length === 0) {
     renderSkeletonCards(container, 6);
-    setTimeout(() => {
-      renderEmptyState(container);
+    clearTimeout(emptyStateTimer);
+
+    emptyStateTimer = setTimeout(() => {
+      renderEmptyState(
+        container,
+        state.search
+          ? {
+              title: "No schedules found",
+              message: `No schedules match "${state.search}".`,
+            }
+          : undefined,
+      );
+
       updateStatistics({
         totalShows: 0,
         ticketsSold: 0,
@@ -214,6 +198,8 @@ function refreshScheduleView() {
     }, 500);
     return;
   }
+
+  clearTimeout(emptyStateTimer);
 
   /* schedule cards */
   renderScheduleCards(container, state.schedules);
@@ -230,7 +216,6 @@ async function deleteScheduleItem(priceId) {
     "Are you sure you want to delete this schedule?",
 
     async () => {
-      console.log("dasdas");
       const formData = new FormData();
 
       formData.append("schedule_id", Number(priceId));
@@ -311,28 +296,6 @@ window.onScheduleDateChanged = function (date) {
 
   loadSchedules();
 };
-
-/* ==========================================================
-   ADD SCHEDULE FORM
-========================================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-
-  function () {
-    initializeEndTimeCalculator();
-
-    const form = document.getElementById("addScheduleForm");
-
-    if (!form) return;
-
-    form.addEventListener(
-      "submit",
-
-      submitScheduleForm,
-    );
-  },
-);
 
 /* ==========================================================
    SUBMIT ADD SCHEDULE
@@ -454,11 +417,12 @@ function resetScheduleModal() {
 
   /* Clear calculated end time */
   document.getElementById("endTime").value = "";
+
+  document.getElementById("movieSelectWrapper").classList.remove("d-none");
+  document.getElementById("movieDisplayWrapper").classList.add("d-none");
+  document.getElementById("movieDisplay").value = "";
 }
 
-document.getElementById("movieSelectWrapper").classList.remove("d-none");
-document.getElementById("movieDisplayWrapper").classList.add("d-none");
-document.getElementById("movieDisplay").value = "";
 document
   .getElementById("btnAddSchedule")
   .addEventListener("click", resetScheduleModal);
@@ -484,11 +448,16 @@ document.addEventListener("click", function (event) {
 });
 
 async function openEditSchedule(scheduleId) {
+  const requestId = ++latestEditRequest;
   state.editingScheduleId = scheduleId;
 
   const response = await request(
     `../api/schedules/get.php?schedule_id=${scheduleId}`,
   );
+
+  if (requestId !== latestEditRequest) {
+    return;
+  }
 
   if (!response.success) {
     errorToast(response.message);

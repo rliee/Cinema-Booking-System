@@ -502,7 +502,7 @@ $page_title = "Ticket Pricing";
                                         id="discountPercentage"
                                         name="discount_percentage"
                                         min="1"
-                                        max="100"
+                                        max="99"
                                         step="1"
                                         placeholder="Enter discount percentage"
                                         required>

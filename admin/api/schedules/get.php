@@ -52,19 +52,53 @@ if (isset($_GET["schedule_id"])) {
     exit;
 }
 
-// // retrieve schedules for a selected date (defaults to today's schedules)
-// $date = $_GET["show_date"] ?? date("Y-W");
-// $schedules = $repository->getSchedulesByDate($date);
+// $search = trim($_GET["search"] ?? "");
 
-if (isset($_GET["show_date"])) {
-    // retrieve schedules for a selected date (defaults to today's schedules)
-    $schedules = $repository->getSchedulesByDate($_GET["show_date"]);
+// if (isset($_GET["show_date"])) {
+
+//     $schedules = $repository->getSchedulesByDate(
+//         $_GET["show_date"],
+//         $search
+//     );
+// } else {
+
+//     $week = $_GET["show_week"] ?? date("o-W");
+
+//     $schedules = $repository->getSchedulesByWeek(
+//         $week,
+//         $search
+//     );
+// }
+
+$search = trim($_GET["search"] ?? "");
+
+/* search mode */
+if ($search !== "") {
+
+    // Search within selected day
+    if (isset($_GET["show_date"])) {
+
+        $schedules = $repository->getSchedulesByDate(
+            $_GET["show_date"],
+            $search
+        );
+    }
+    // Search entire database
+    else {
+        $schedules = $repository->searchSchedules($search);
+    }
 } else {
+    if (isset($_GET["show_date"])) {
 
-    // default: current week
-    $week = $_GET["show_week"] ?? date("o-W");
+        $schedules = $repository->getSchedulesByDate(
+            $_GET["show_date"]
+        );
+    } else {
 
-    $schedules = $repository->getSchedulesByWeek($week);
+        $week = $_GET["show_week"] ?? date("o-W");
+
+        $schedules = $repository->getSchedulesByWeek($week);
+    }
 }
 
 // return schedules

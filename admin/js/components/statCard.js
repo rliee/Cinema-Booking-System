@@ -124,7 +124,7 @@ function renderStatistics() {
     createStatCard({
       id: "todayRevenue",
 
-      title: "Today's Revenue",
+      title: "Total Revenue",
 
       icon: "fa-solid fa-peso-sign",
 

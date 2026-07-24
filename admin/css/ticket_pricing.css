@@ -210,11 +210,8 @@ a {
 
 .stat-value {
   color: var(--white);
-
   font-size: 2rem;
-
   font-weight: 700;
-
   margin-top: 8px;
 }
 
@@ -314,25 +311,17 @@ a {
 
 .selected-display {
   display: flex;
-
   align-items: center;
-
   gap: 10px;
-
   padding: 12px 14px;
-
   border-radius: 8px;
-
   background: rgba(255, 255, 255, 0.05);
-
   border: 1px solid rgba(255, 255, 255, 0.1);
-
   color: #fff;
 }
 
 .selected-display i {
   color: #ffc107;
-
   font-size: 18px;
 }
 
@@ -693,21 +682,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .selected-display {
   margin-top: 8px;
-
   display: flex;
-
   align-items: center;
-
   gap: 10px;
-
   padding: 12px 14px;
-
   background: rgba(255, 193, 7, 0.08);
-
   border: 1px solid rgba(255, 193, 7, 0.25);
-
   border-radius: 10px;
-
   color: var(--white);
 }
 

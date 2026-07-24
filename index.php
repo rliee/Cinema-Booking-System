@@ -1,3 +1,9 @@
+<?php
+
+require_once "auth/session.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,29 +35,29 @@
 
               <form id="register-form" method="POST">
                 <div class="form-group">
-                  <label for="signup-name">Firstname</label>
+                  <label for="first_name">Firstname</label>
                   <input
-                    id="signup-name"
-                    name="fullname"
+                    id="register-firstname"
+                    name="first_name"
                     type="text"
                     placeholder="Enter your firstname"
                     required>
                 </div>
 
                 <div class="form-group">
-                  <label for="signup-name">Last Name</label>
+                  <label for="last_name">Last Name</label>
                   <input
-                    id="signup-name"
-                    name="fullname"
+                    id="register-lastname"
+                    name="last_name"
                     type="text"
                     placeholder="Enter your last name"
                     required>
                 </div>
 
                 <div class="form-group">
-                  <label for="signup-email">Email</label>
+                  <label for="email">Email</label>
                   <input
-                    id="signup-email"
+                    id="register-email"
                     name="email"
                     type="email"
                     placeholder="Enter your email"
@@ -59,9 +65,9 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="signup-password">Password</label>
+                  <label for="password">Password</label>
                   <input
-                    id="signup-password"
+                    id="register-password"
                     name="password"
                     type="password"
                     placeholder="Create a password"
@@ -153,9 +159,47 @@
             <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
           </div>
         </ul>
-        <div class="auth-buttons ms-auto d-flex flex-lg-row justify-content-center my-2">
-          <button class="auth-btn login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-          <button class="auth-btn register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+        <div class="auth-buttons ms-auto d-flex flex-lg-row align-items-center justify-content-center my-2">
+
+          <?php if (isLoggedIn()): ?>
+
+            <span class="text-white me-3">
+              Welcome,
+              <strong>
+                <?= htmlspecialchars($_SESSION["fullname"]) ?>
+              </strong>
+            </span>
+
+            <a
+              href="booking.php"
+              class="auth-btn login-btn me-2">
+              My Bookings
+            </a>
+
+            <a
+              href="api/auth/logout.php"
+              class="auth-btn register-btn">
+              Logout
+            </a>
+
+          <?php else: ?>
+
+            <button
+              class="auth-btn login-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal">
+              Login
+            </button>
+
+            <button
+              class="auth-btn register-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#registerModal">
+              Register
+            </button>
+
+          <?php endif; ?>
+
         </div>
       </div>
     </div>
@@ -326,179 +370,14 @@
   </footer>
 
   <script src="libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
   <script src="js/app.js"></script>
   <script src="js/index.js"></script>
 
-  <script>
-    // Remove conflicting inline [data-movie] handler that bypasses login check
-    document.querySelectorAll("[data-movie]").forEach(el => {
-      const clone = el.cloneNode(true);
-      el.parentNode.replaceChild(clone, el);
-    });
-
-    // After successful login submit, redirect to pending movie
-    document.getElementById('login-form')?.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      if (email && password) {
-        localStorage.setItem('loggedIn', 'true');
-        localStorage.setItem('userEmail', email);
-        // Close login modal
-        const loginModalEl = document.getElementById('loginModal');
-        const loginModal = bootstrap.Modal.getInstance(loginModalEl);
-        if (loginModal) loginModal.hide();
-        const pending = localStorage.getItem('pendingMovie');
-        if (pending) {
-          localStorage.removeItem('pendingMovie');
-          window.location.href = 'booking.php?movie=' + encodeURIComponent(pending);
-        } else {
-          window.location.reload();
-        }
-      }
-    });
-
-    // After successful register submit, redirect to pending movie
-    document.getElementById('register-form')?.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('signup-name').value;
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-      if (name && email && password) {
-        localStorage.setItem('loggedIn', 'true');
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('userName', name);
-        // Close register modal
-        const registerModalEl = document.getElementById('registerModal');
-        const registerModal = bootstrap.Modal.getInstance(registerModalEl);
-        if (registerModal) registerModal.hide();
-        const pending = localStorage.getItem('pendingMovie');
-        if (pending) {
-          localStorage.removeItem('pendingMovie');
-          window.location.href = 'booking.php?movie=' + encodeURIComponent(pending);
-        } else {
-          window.location.reload();
-        }
-      }
-    });
-
-    (function() {
-      if ("ontouchstart" in window || navigator.maxTouchPoints > 0) return;
-      document.querySelectorAll(".movie-card").forEach(function(card) {
-        var video = card.querySelector("video.trailer");
-        if (!video) return;
-        video.muted = true;
-        video.preload = "metadata";
-        card.addEventListener("mouseenter", function() {
-          try {
-            video.currentTime = 0;
-            video.play();
-          } catch (e) {}
-        });
-        card.addEventListener("mouseleave", function() {
-          try {
-            video.pause();
-            video.currentTime = 0;
-          } catch (e) {}
-        });
-      });
-    })();
-
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      link.addEventListener("click", () => {
-        document.querySelector(".navbar-collapse").classList.remove("show");
-      });
-    });
-  </script>
-
-  <!-- Restored Session Handler Script -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const loggedIn = localStorage.getItem("loggedIn");
-        if (loggedIn === "true") {
-            const authButtons = document.querySelector(".auth-buttons");
-            if (authButtons) {
-                authButtons.innerHTML = `
-                    <span class="welcome-text" style="color: #fff; margin-right: 15px;">Welcome Back!</span>
-                    <a href="#" id="logout-btn" class="auth-btn login-btn">Logout</a>
-                `;
-                document.getElementById("logout-btn").addEventListener("click", function (e) {
-                    e.preventDefault();
-                    localStorage.removeItem("loggedIn");
-                    window.location.href = "index.php";
-                });
-            }
-        }
-    });
-  </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Hero Carousel Fixed Logic
-      (function() {
-        const slides = document.querySelectorAll('.hero-slide');
-        const indicators = document.querySelectorAll('.indicator');
-        const prevBtn = document.querySelector('.carousel-prev');
-        const nextBtn = document.querySelector('.carousel-next');
-        let currentSlide = 0;
-        let autoSlideInterval;
-
-        if (!slides.length) return;
-
-        function goToSlide(index) {
-          slides.forEach(s => s.classList.remove('active'));
-          indicators.forEach(i => i.classList.remove('active'));
-          slides[index].classList.add('active');
-          if (indicators[index]) indicators[index].classList.add('active');
-          currentSlide = index;
-        }
-
-        function nextSlide() {
-          goToSlide((currentSlide + 1) % slides.length);
-        }
-
-        function prevSlide() {
-          goToSlide((currentSlide - 1 + slides.length) % slides.length);
-        }
-
-        function startAutoSlide() {
-          stopAutoSlide();
-          autoSlideInterval = setInterval(nextSlide, 6000);
-        }
-
-        function stopAutoSlide() {
-          if (autoSlideInterval) {
-            clearInterval(autoSlideInterval);
-            autoSlideInterval = null;
-          }
-        }
-
-        if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); startAutoSlide(); });
-        if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); startAutoSlide(); });
-        indicators.forEach(ind => {
-          ind.addEventListener('click', function() {
-            goToSlide(parseInt(this.dataset.slide));
-            startAutoSlide();
-          });
-        });
-
-        startAutoSlide();
-      })();
-    });
-
-    let lastScrollTop = 0;
-    const header = document.querySelector('.navbar');
-
-    window.addEventListener('scroll', function () {
-        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        if (currentScroll > lastScrollTop && currentScroll > 50) {
-            header.classList.add('hide-header');
-        } else {
-            header.classList.remove('hide-header');
-        }
-        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-    });
-  </script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/register.js"></script>
+  <script src="js/register.js"></script>
 
 </body>
 

@@ -29,8 +29,8 @@
 
 function createEmptyState({
     icon = "fa-solid fa-folder-open",
-    title = "No Data Found",
-    message = "There is currently no available data.",
+    title = "No Schedule Found",
+    message = "There is currently no scheduled movie.",
     buttonText = "",
     buttonId = ""
 } = {}) {
@@ -65,19 +65,19 @@ function createEmptyState({
             <div class="mb-4">
 
                 <i
-                    class="${icon}"
-                    style="font-size:72px;color:#adb5bd;">
+                    class="${icon} text-main"
+                    style="font-size:72px;">
                 </i>
 
             </div>
 
-            <h3 class="fw-bold">
+            <h3 class="fw-bold text-main">
 
                 ${title}
 
             </h3>
 
-            <p class="text-muted mb-4">
+            <p class="text-white mb-4">
 
                 ${message}
 
