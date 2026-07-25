@@ -1,5 +1,5 @@
 <?php
-include 'sale_db.php';
+include __DIR__ . '/sale-report_dp.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,12 +8,12 @@ include 'sale_db.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Report</title>
-    <link href="finance.css" rel="stylesheet">
-    <link href="bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="sale-report.css">
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
-    <script src="js/chart.js"></script>
-    <script src="js/chartjs-plugin-datalabels.min.js"></script>
+    <link href="../css/finance.css" rel="stylesheet">
+    <link href="../../libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/sale-report.css">
+    <link rel="stylesheet" href="../../libraries/fontawesome/css/all.min.css">
+    <script src="../js/chart.js"></script>
+    <script src="../js/chartjs-plugin-datalabels.min.js"></script>
 </head>
 
 <body>
@@ -197,6 +197,6 @@ include 'sale_db.php';
         const movieLabels = <?= json_encode($movieLabels); ?>;
         const movieData = <?= json_encode($movieData); ?>;
     </script>
-    <script src="sale-report.js"></script>
+    <script src="../js/sale-report.js"></script>
 </body>
 </html>

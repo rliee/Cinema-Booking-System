@@ -1,5 +1,5 @@
 <?php
-include 'finance_db.php';
+include __DIR__ . '/finance_db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,11 +8,11 @@ include 'finance_db.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Dashboard</title>
-    <link href="finance.css" rel="stylesheet">
-    <link href="bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="fontawesome/css/all.min.css">
-    <script src="js/chart.js"></script>
-    <script src="js/chartjs-plugin-datalabels.min.js"></script>
+    <link href="../css/finance.css" rel="stylesheet">
+    <link href="../../libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../libraries/fontawesome/css/all.min.css" rel="stylesheet">
+    <script src="../js/chart.js"></script>
+    <script src="../js/chartjs-plugin-datalabels.min.js"></script>
 </head>
 
 <body>
@@ -287,7 +287,7 @@ include 'finance_db.php';
             const movieData = <?= json_encode($movieData); ?>;
         </script>
 
-        <script src="js/finance.js"></script>
+        <script src="../js/finance.js"></script>
 </body>
 
 </html>
