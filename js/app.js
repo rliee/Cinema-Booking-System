@@ -26,9 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const movie = button.dataset.movie || button.getAttribute("data-movie");
+    const movieId =
+      button.dataset.movieId || button.getAttribute("data-movie-id");
 
-    if (!movie) {
+    if (!movieId) {
       return;
     }
 
@@ -36,21 +37,20 @@ document.addEventListener("DOMContentLoaded", () => {
     event.stopPropagation();
 
     try {
-      const session = await Auth.getSession();
-
-      if (session.loggedIn) {
-        window.location.href = "booking.php?movie=" + encodeURIComponent(movie);
+      if (await Auth.isLoggedIn()) {
+        window.location.href =
+          "booking.php?movie_id=" + encodeURIComponent(movieId);
 
         return;
       }
 
       /*
-            |--------------------------------------------------------------------------
-            | Not logged in
-            |--------------------------------------------------------------------------
-            */
+    |--------------------------------------------------------------------------
+    | Not logged in
+    |--------------------------------------------------------------------------
+    */
 
-      sessionStorage.setItem("pendingMovie", movie);
+      sessionStorage.setItem("pendingMovieId", movieId);
 
       const loginModalElement = document.getElementById("loginModal");
 

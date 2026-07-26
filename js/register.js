@@ -88,13 +88,13 @@ async function handleRegister(event) {
 
     form.reset();
 
-    const pendingMovie = sessionStorage.getItem("pendingMovie");
+    const pendingMovieId = sessionStorage.getItem("pendingMovieId");
 
-    if (pendingMovie) {
-      sessionStorage.removeItem("pendingMovie");
+    if (pendingMovieId) {
+      sessionStorage.removeItem("pendingMovieId");
 
       window.location.href =
-        "booking.php?movie=" + encodeURIComponent(pendingMovie);
+        "booking.php?movie_id=" + encodeURIComponent(pendingMovieId);
 
       return;
     }

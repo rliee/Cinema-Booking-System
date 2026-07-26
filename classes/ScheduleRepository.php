@@ -484,7 +484,7 @@ class ScheduleRepository
         $sql = "SELECT
             ss.*,
             m.title,
-            m.poster,
+            m.poster_url,
             m.duration,
             m.status,
             h.hall_name,
@@ -550,7 +550,7 @@ class ScheduleRepository
             ss.*,
             m.title,
             m.duration,
-            m.poster,
+            m.poster_url,
             m.status,
             h.hall_name,
             h.total_seats,
@@ -613,7 +613,7 @@ class ScheduleRepository
                 ss.*,
                 m.title,
                 m.duration,
-                m.poster,
+                m.poster_url,
                 m.status,
                 h.hall_name,
                 h.total_seats,
@@ -668,5 +668,85 @@ class ScheduleRepository
         $stmt->close();
 
         return $schedules;
+    }
+
+    public function getSchedulesByMovieId(int $movieId): array
+    {
+        $sql = "
+        SELECT
+            ss.schedule_id,
+            ss.show_date,
+            ss.start_time,
+            ss.end_time,
+            m.movie_id,
+            m.title,
+            m.poster_url,
+            m.duration,
+            m.age_rating,
+            m.synopsis,
+            h.hall_id,
+            h.hall_name,
+            tp.price
+
+        FROM show_schedules ss
+
+        INNER JOIN movies m
+            ON ss.movie_id = m.movie_id
+
+        INNER JOIN cinema_halls h
+            ON ss.hall_id = h.hall_id
+
+        LEFT JOIN ticket_prices tp
+            ON tp.movie_id = m.movie_id
+
+        WHERE
+            ss.movie_id = ?
+            AND ss.show_date >= CURDATE()
+
+        ORDER BY
+            ss.show_date,
+            ss.start_time
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bind_param("i", $movieId);
+
+        $stmt->execute();
+
+        return $stmt
+            ->get_result()
+            ->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    public function getSeatsBySchedule(int $scheduleId): array
+    {
+        $sql = "
+        SELECT
+            s.seat_id,
+            s.hall_id,
+            s.seat_row,
+            s.seat_number,
+            s.seat_label,
+            s.seat_status
+        FROM show_schedules ss
+        INNER JOIN seats s
+            ON ss.hall_id = s.hall_id
+        WHERE ss.schedule_id = ?
+        ORDER BY
+            s.seat_row ASC,
+            CAST(s.seat_number AS UNSIGNED) ASC
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bind_param("i", $scheduleId);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }

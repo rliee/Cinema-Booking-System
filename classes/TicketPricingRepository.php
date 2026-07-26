@@ -173,6 +173,33 @@ class TicketPricingRepository
         ];
     }
 
+    public function getTicketPriceByMovieId(int $movieId)
+    {
+        $query = "
+         SELECT `price_id`,  `price`, `created_at`, `updated_at` FROM `ticket_prices` 
+            WHERE movie_id = ?
+        ";
+
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param(
+            "i",
+            $movieId
+        );
+
+        $stmt->execute();
+
+
+        $result = $stmt->get_result();
+
+        $movieData = $result->fetch_assoc();
+
+        $stmt->close();
+
+        return $movieData ?: null;
+    }
+
     public function getTicketPriceById(int $priceId): ?array
     {
         $sql = "SELECT
@@ -414,7 +441,7 @@ class TicketPricingRepository
                 "success" => false,
                 "message" => "No changes were made."
             ];
-        }    
+        }
 
         $statement = $this->conn->prepare(
             "UPDATE discounts

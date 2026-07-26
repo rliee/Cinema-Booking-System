@@ -1,6 +1,6 @@
 <?php
 
-require_once "auth/session.php";
+require_once __DIR__ . "/auth/session.php";
 
 ?>
 
@@ -22,7 +22,7 @@ require_once "auth/session.php";
 
   <link
     rel="stylesheet"
-    href="./css/index.css">
+    href="css/index.css">
 </head>
 
 <body>
@@ -241,6 +241,7 @@ require_once "auth/session.php";
           <div class="d-flex w-100 justify-content-center text-center">
             <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="#now-showing">Now Showing</a></li>
+            <li class="nav-item"><a class="nav-link" href="#coming-soon">Coming Soon</a></li>
           </div>
           <div class="d-flex w-100 justify-content-center tex-center">
             <li class="nav-item"><a class="nav-link" href="#promotions">Promotions</a></li>
@@ -299,9 +300,11 @@ require_once "auth/session.php";
     </div>
   </nav>
 
+
+  <!-- Hero Section -->
   <section class="hero" id="hero">
     <div class="hero-carousel" id="heroCarousel">
-      <div class="hero-slide active" data-movie="Avengers: Infinity War" data-label="ACTION PACKED" data-bg="https://images.unsplash.com/photo-1489599849228-bed96c3ee601?w=1400&h=600&fit=crop">
+      <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)), url('assets/images/poster/image1.jpg');">
         <div class="container">
           <div class="hero-label">ACTION PACKED</div>
           <h1>Avengers: Infinity War</h1>
@@ -309,12 +312,12 @@ require_once "auth/session.php";
           <p>From the streets of New York to far-off galaxies, every hero is drawn into a desperate battle to save the universe.</p>
           <p>Experience the highest-stakes showdown in the MCU, filled with epic action, shocking twists, and unforgettable moments.</p>
           <div class="hero-buttons">
-            <button class="btn-book-now" data-movie="Avengers: Infinity War">Book Now</button>
+            <button class="btn-book-now" data-movie-id="1">Book Now</button>
             <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
           </div>
         </div>
       </div>
-      <div class="hero-slide" data-movie="Jurassic World Rebirth" data-label="THRILLING ADVENTURE" data-bg="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1400&h=600&fit=crop">
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)), url('assets/images/poster/image5.jpg');">
         <div class="container">
           <div class="hero-label">THRILLING ADVENTURE</div>
           <h1>Jurassic World Rebirth</h1>
@@ -322,12 +325,12 @@ require_once "auth/session.php";
           <p>Ancient creatures, new threats, and a race against time to save humanity from extinction.</p>
           <p>The park is gone. The world is now the cage. Experience the rebirth of an era.</p>
           <div class="hero-buttons">
-            <button class="btn-book-now" data-movie="Jurassic World Rebirth">Book Now</button>
+            <button class="btn-book-now" data-movie-id="5">Book Now</button>
             <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
           </div>
         </div>
       </div>
-      <div class="hero-slide" data-movie="The Fantastic Four: First Steps" data-label="HEROES RISE" data-bg="https://images.unsplash.com/photo-1535016120720-40c646be5580?w=1400&h=600&fit=crop">
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)), url('assets/images/poster/image8.jpg');">
         <div class="container">
           <div class="hero-label">HEROES RISE</div>
           <h1>The Fantastic Four: First Steps</h1>
@@ -335,7 +338,7 @@ require_once "auth/session.php";
           <p>Four explorers, one cosmic accident, and a bond stronger than any superpower.</p>
           <p>Witness the beginning of a legendary superhero team that will change the world forever.</p>
           <div class="hero-buttons">
-            <button class="btn-book-now" data-movie="The Fantastic Four: First Steps">Book Now</button>
+            <button class="btn-book-now" data-movie-id="8">Book Now</button>
             <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
           </div>
         </div>
@@ -350,7 +353,7 @@ require_once "auth/session.php";
     <button class="carousel-btn carousel-next" aria-label="Next">&#10095;</button>
   </section>
 
-  <section class="now-showing" id="now-showing">
+  <!-- <section class="now-showing" id="now-showing">
     <div class="container">
       <div class="section-label">NOW SHOWING</div>
       <h2 class="section-title">Now Showing</h2>
@@ -358,6 +361,115 @@ require_once "auth/session.php";
         Catch the biggest blockbusters and award-winning films on the big screen. New experiences every week.
       </p>
       <div class="movie-grid" id="movieGrid"></div>
+    </div>
+  </section> -->
+
+  <section class="now-showing" id="now-showing">
+    <div class="container">
+      <div class="section-label">NOW SHOWING</div>
+      <h2 class="section-title">Now Showing</h2>
+      <p class="section-subtitle">
+        Catch the biggest blockbusters and award-winning films on the big screen. New experiences every month!
+      </p>
+
+      <div class="movie-grid" id="movieGrid">
+        <?php
+        require_once __DIR__ . "/includes/db.php";
+
+        $sql = "
+        SELECT 
+            movies.movie_id,
+            movies.title,
+            movies.duration,
+            movies.age_rating,
+            movies.poster_url,
+            genres.genre_name
+
+        FROM movies
+        INNER JOIN genres
+        ON movies.genre_id = genres.genre_id
+        WHERE movies.status = 'Now Showing'
+        ORDER BY movies.created_at DESC
+    ";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0):
+          while ($movie = mysqli_fetch_assoc($result)):
+        ?>
+            <div class="movie-card">
+              <div class="movie-preview">
+                <img
+                  src="<?= htmlspecialchars($movie['poster_url']) ?>"
+                  alt="<?= htmlspecialchars($movie['title']) ?>">
+              </div>
+
+              <div class="card-body">
+                <h3 class="movie-title">
+                  <?= htmlspecialchars($movie['title']) ?>
+                </h3>
+
+                <div class="movie-meta">
+                  <span>
+                    <?= gmdate(
+                      "H\h i\m",
+                      $movie['duration'] * 60
+                    ) ?>
+                  </span>
+
+                  <span>|</span>
+
+                  <span>
+                    <?= htmlspecialchars($movie['age_rating']) ?>
+                  </span>
+                  <span>|</span>
+                  <span class="movie-genre">
+                    <?= htmlspecialchars($movie['genre_name']) ?>
+                  </span>
+                </div>
+
+
+                <button
+                  class="btn-book-now"
+                  data-movie-id="<?= $movie['movie_id'] ?>">
+                  Book Ticket
+                </button>
+              </div>
+            </div>
+          <?php
+
+          endwhile;
+        else:
+          ?>
+
+          <p class="text-center text-white">
+            No movies currently showing.
+          </p>
+
+        <?php
+        endif;
+        ?>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="coming-soon" id="coming-soon">
+    <div class="container">
+
+      <div class="section-label">
+        COMING SOON
+      </div>
+
+      <h2 class="section-title">
+        Coming Soon
+      </h2>
+
+      <p class="section-subtitle">
+        Get ready for upcoming releases and exciting cinematic experiences!
+      </p>
+
+      <div class="movie-grid" id="comingSoonGrid"></div>
+
     </div>
   </section>
 
@@ -470,7 +582,6 @@ require_once "auth/session.php";
 
   <script src="js/auth.js"></script>
   <script src="js/login.js"></script>
-  <script src="js/register.js"></script>
   <script src="js/register.js"></script>
 
 </body>

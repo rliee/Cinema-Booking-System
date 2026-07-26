@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema Royale - Premium Movie Experience</title>
+
+  <link href="../libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+
+  <!-- Register Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-transparent border-0 text-white">
+        <div class="auth-card">
+          <button class="close-btn" type="button" data-bs-dismiss="modal" aria-label="Close">×</button>
+          <div class="brand-side">
+            <img src="logo/Logo w text_.png" alt="Logo" class="logo-box" />
+            <h2>CINEMA ROYALE</h2>
+          </div>
+          <div class="form-side">
+            <div class="form-panel">
+              <h1>Create Account</h1>
+
+              <form id="register-form" method="POST">
+                <div class="form-group">
+                  <label for="signup-firstname">First Name</label>
+                  <input id="signup-firstname" name="firstname" type="text" placeholder="Enter your firstname" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="signup-lastname">Last Name</label>
+                  <input id="signup-lastname" name="lastname" type="text" placeholder="Enter your last name" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="signup-email">Email</label>
+                  <input id="signup-email" name="email" type="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="signup-password">Password</label>
+                  <input id="signup-password" name="password" type="password" placeholder="Create a password" required>
+                </div>
+                <button class="btn" type="submit">Create Account</button>
+              </form>
+
+              <button class="alt-text text-button" data-bs-toggle="modal" data-bs-target="#loginModal">Already have an account? <span>Sign in</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content bg-transparent border-0 text-white">
+        <div class="auth-card">
+          <button class="close-btn" type="button" data-bs-dismiss="modal" aria-label="Close">×</button>
+          <div class="brand-side">
+            <img src="logo/Logo w text_.png" alt="Logo" class="logo-box" style="background-color: transparent; border:none;" />
+            <h2>CINEMA ROYALE</h2>
+          </div>
+          <div class="form-side">
+            <div class="form-panel">
+              <h1>Login</h1>
+              <p class="subtitle">Sign in to continue</p>
+
+              <form id="login-form" method="POST">
+                <div class="form-group">
+                  <label for="login-email">Email</label>
+                  <input id="login-email" name="email" type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                  <label for="login-password">Password</label>
+                  <input id="login-password" name="password" type="password" placeholder="Enter your password" required>
+                </div>
+                <div class="actions">
+                  <label><input type="checkbox" /> Remember me</label>
+                  <a href="#">Forgot password?</a>
+                </div>
+                <button class="btn" type="submit">Sign In</button>
+              </form>
+
+              <button class="alt-text text-button" data-bs-toggle="modal" data-bs-target="#registerModal">Don't have an account? <span>Create one</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar Header -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.php">
+        <img src="logo/Logo.png" alt="Cinema Royale Logo" class="navbar-logo me-2" style="height: 2.5rem; width: auto;" />
+        <div>
+          <span class="fs-2 p-0 m-0">Cinema Royale</span>
+          <div class="navbar-brand-subtitle ms-1">PREMIUM EXPERIENCE</div>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav mx-auto">
+          <div class="d-flex w-100 justify-content-center text-center">
+            <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#now-showing">Now Showing</a></li>
+          </div>
+          <div class="d-flex w-100 justify-content-center text-center">
+            <li class="nav-item"><a class="nav-link" href="#promotions">Promotions</a></li>
+            <li class="nav-item"><a class="nav-link" href="#experience">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          </div>
+        </ul>
+        <div class="auth-buttons ms-auto d-flex flex-lg-row justify-content-center my-2">
+          <button class="auth-btn login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+          <button class="auth-btn register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-carousel" id="heroCarousel">
+      <div class="hero-slide active" data-movie="Avengers: Infinity War" data-label="ACTION PACKED" data-bg="assets/images/poster/image1.jpg">
+        <div class="container">
+          <div class="hero-label">ACTION PACKED</div>
+          <h1>Avengers: Infinity War</h1>
+          <p>Thanos has arrived, and the Avengers must stand together like never before.</p>
+          <p>From the streets of New York to far-off galaxies, every hero is drawn into a desperate battle to save the universe.</p>
+          <p>Experience the highest-stakes showdown in the MCU, filled with epic action, shocking twists, and unforgettable moments.</p>
+          <div class="hero-buttons">
+            <button class="btn-book-now" data-movie="Avengers: Infinity War">Book Now</button>
+            <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide" data-movie="Jurassic World Rebirth" data-label="THRILLING ADVENTURE" data-bg="assets/images/poster/image5.jpg">
+        <div class="container">
+          <div class="hero-label">THRILLING ADVENTURE</div>
+          <h1>Jurassic World Rebirth</h1>
+          <p>Dinosaurs once again roam the Earth in this epic new chapter of the Jurassic saga.</p>
+          <p>Ancient creatures, new threats, and a race against time to save humanity from extinction.</p>
+          <p>The park is gone. The world is now the cage. Experience the rebirth of an era.</p>
+          <div class="hero-buttons">
+            <button class="btn-book-now" data-movie="Jurassic World Rebirth">Book Now</button>
+            <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide" data-movie="The Fantastic Four: First Steps" data-label="HEROES RISE" data-bg="assets/images/poster/image8.jpg">
+        <div class="container">
+          <div class="hero-label">HEROES RISE</div>
+          <h1>The Fantastic Four: First Steps</h1>
+          <p>Marvel's first family discovers their extraordinary powers in this thrilling origin story.</p>
+          <p>Four explorers, one cosmic accident, and a bond stronger than any superpower.</p>
+          <p>Witness the beginning of a legendary superhero team that will change the world forever.</p>
+          <div class="hero-buttons">
+            <button class="btn-book-now" data-movie="The Fantastic Four: First Steps">Book Now</button>
+            <button class="btn-explore" onclick="document.getElementById('now-showing').scrollIntoView({ behavior: 'smooth' })">Explore Movies</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-carousel-indicators">
+      <span class="indicator active" data-slide="0"></span>
+      <span class="indicator" data-slide="1"></span>
+      <span class="indicator" data-slide="2"></span>
+    </div>
+    <button class="carousel-btn carousel-prev" aria-label="Previous">&#10094;</button>
+    <button class="carousel-btn carousel-next" aria-label="Next">&#10095;</button>
+  </section>
+
+  <!-- Now Showing Section -->
+  <section class="now-showing" id="now-showing">
+    <div class="container">
+      <div class="section-label">NOW SHOWING</div>
+      <h2 class="section-title">Now Showing</h2>
+      <p class="section-subtitle">
+        Catch the biggest blockbusters and award-winning films on the big screen. New experiences every week.
+      </p>
+      <div class="movie-grid" id="movieGrid"></div>
+    </div>
+  </section>
+
+  <!-- Promotions Section -->
+  <section class="promotions" id="promotions">
+    <div class="container">
+      <div class="section-label">SPECIAL OFFERS</div>
+      <h2 class="section-title">Exclusive Promotions</h2>
+      <p class="section-subtitle">Unlock amazing deals and make every movie night extraordinary with our handpicked promotions.</p>
+      <div class="promotion-card">
+        <img src="assets/images/promotions/promotion1.jpg" alt="Summer Blockbuster" class="promotion-image" />
+        <div class="promotion-content">
+          <div class="promotion-label">LIMITED OFFER</div>
+          <h3>Summer Blockbuster Pass</h3>
+          <p>Watch any 5 movies this summer for only ₱1,499. Save up to 40% on regular ticket prices.</p>
+          <button class="btn-claim">Claim Offer</button>
+        </div>
+      </div>
+      <div class="promotion-card" style="direction: rtl">
+        <img src="assets/images/promotions/promotion2.png" alt="Family Night" class="promotion-image" />
+        <div class="promotion-content" style="direction: ltr">
+          <div class="promotion-label">FAMILY FUN</div>
+          <h3>Family Night Special</h3>
+          <p>Bring your family and enjoy 4 tickets + popcorn combo for just ₱999. Perfect for weekend outings!</p>
+          <button class="btn-claim">Claim Offer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Experience Section -->
+  <section class="experience" id="experience">
+    <div class="container">
+      <div class="experience-intro">
+        <h2>
+          We don't just show movies. We create <span class="highlight">unforgettable moments</span> that stay with you long after the credits roll.
+        </h2>
+        <p class="about-paragraph">
+          Cinema Royale blends cutting-edge technology, luxurious comfort, and friendly service to make every screening feel like an exclusive event for movie lovers.
+        </p>
+      </div>
+      <div class="section-label">/ THE EXPERIENCE</div>
+      <div class="experience-features" id="featureGrid"></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-label">/ TESTIMONIALS /</div>
+      <div class="testimonial-header">
+        <h2 class="section-title">What Our Guests Say</h2>
+      </div>
+      <div class="testimonials-container" id="testimonialGrid"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-section">
+        <h5>🎬 Cinema Royale</h5>
+        <p>
+          Experience movies the way they were meant to be seen. Premium sound, stunning visuals, and unmatched comfort — only at Cinema Royale.
+        </p>
+        <div class="footer-socials">
+          <a href="#" title="Facebook">f</a>
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="Twitter">𝕏</a>
+          <a href="#" title="YouTube">▶</a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h5>NEWSLETTER</h5>
+        <p>Get the latest movies, exclusive offers, and event invites straight to your inbox.</p>
+        <div class="newsletter-input">
+          <input type="email" placeholder="Your email address" />
+          <button>→</button>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h5>QUICK LINKS</h5>
+        <div class="footer-links">
+          <a href="#now-showing">Now Showing</a>
+          <a href="#promotions">Promotions</a>
+          <a href="#experience">About Us</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h5>CONTACT</h5>
+        <p>📍 Trece Martires City, Cavite 4109</p>
+        <p>📞 +63 949 141 3401</p>
+        <p>📧 <a href="mailto:hello@cinemaroyale.com" style="color: #ffc700; text-decoration: none">hello@cinemaroyale.com</a></p>
+      </div>
+      <div class="footer-section">
+        <h5>TEAM</h5>
+        <p>
+          Arliesienne Ansuas<br />Genesis Saliedo<br />James Arnold Dutosme<br />Josiah Joshua Torrefiel
+          <br />Kier Bryant Levita<br />Kylle Jonathan Padua<br />Ron Andrei Castro
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-watermark">CINEMA ROYALE</div>
+      <p class="footer-copyright">© 2026 Cinema Royale. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/index.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. Session state handler
+      const loggedIn = localStorage.getItem("loggedIn");
+      const userName = localStorage.getItem("userName") || "User";
+
+      if (loggedIn === "true") {
+        const authButtons = document.querySelector(".auth-buttons");
+        if (authButtons) {
+          authButtons.innerHTML = `
+            <span class="welcome-text" style="color: #fff; margin-right: 15px; font-weight: 600;">
+                Welcome, ${userName}!
+            </span>
+            <a href="#" id="logout-btn" class="auth-btn login-btn" style="text-decoration: none;">Logout</a>
+          `;
+
+          document.getElementById("logout-btn").addEventListener("click", function(e) {
+            e.preventDefault();
+            localStorage.removeItem("loggedIn");
+            localStorage.removeItem("userName");
+            localStorage.removeItem("userEmail");
+            window.location.href = "index.php";
+          });
+        }
+      }
+
+      // 2. Book Now buttons handler
+      document.querySelectorAll(".btn-book-now").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.preventDefault();
+          const movie = this.getAttribute("data-movie");
+          const isUserLoggedIn = localStorage.getItem("loggedIn") === "true";
+
+          if (isUserLoggedIn) {
+            window.location.href = 'booking.php?movie=' + encodeURIComponent(movie);
+          } else {
+            localStorage.setItem('pendingMovie', movie);
+            const loginModalEl = document.getElementById('loginModal');
+            const loginModal = new bootstrap.Modal(loginModalEl);
+            loginModal.show();
+          }
+        });
+      });
+
+      // 3. Login form submission
+      document.getElementById('login-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        if (email && password) {
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('userEmail', email);
+
+          const loginModalEl = document.getElementById('loginModal');
+          const loginModal = bootstrap.Modal.getInstance(loginModalEl);
+          if (loginModal) loginModal.hide();
+
+          const pending = localStorage.getItem('pendingMovie');
+          if (pending) {
+            localStorage.removeItem('pendingMovie');
+            window.location.href = 'booking.php?movie=' + encodeURIComponent(pending);
+          } else {
+            window.location.reload();
+          }
+        }
+      });
+
+      // 4. Registration form submission
+      document.getElementById('register-form')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const firstname = document.getElementById('signup-firstname').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        if (firstname && email && password) {
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('userEmail', email);
+          localStorage.setItem('userName', firstname);
+
+          const registerModalEl = document.getElementById('registerModal');
+          const registerModal = bootstrap.Modal.getInstance(registerModalEl);
+          if (registerModal) registerModal.hide();
+
+          const pending = localStorage.getItem('pendingMovie');
+          if (pending) {
+            localStorage.removeItem('pendingMovie');
+            window.location.href = 'booking.php?movie=' + encodeURIComponent(pending);
+          } else {
+            window.location.reload();
+          }
+        }
+      });
+
+      // 5. Video trailer hover handler
+      if (!("ontouchstart" in window || navigator.maxTouchPoints > 0)) {
+        document.querySelectorAll(".movie-card").forEach(function(card) {
+          var video = card.querySelector("video.trailer");
+          if (!video) return;
+          video.muted = true;
+          video.preload = "metadata";
+          card.addEventListener("mouseenter", function() {
+            try {
+              video.currentTime = 0;
+              video.play();
+            } catch (e) {}
+          });
+          card.addEventListener("mouseleave", function() {
+            try {
+              video.pause();
+              video.currentTime = 0;
+            } catch (e) {}
+          });
+        });
+      }
+
+      // 6. Navbar mobile collapse on click
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          const navbar = document.querySelector(".navbar-collapse");
+          if (navbar && navbar.classList.contains("show")) {
+            navbar.classList.remove("show");
+          }
+        });
+      });
+
+      // 7. Hero Carousel Logic
+      const slides = document.querySelectorAll('.hero-slide');
+      const indicators = document.querySelectorAll('.indicator');
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
+      let currentSlide = 0;
+      let autoSlideInterval;
+
+      if (slides.length > 0) {
+        function goToSlide(index) {
+          slides.forEach(s => s.classList.remove('active'));
+          indicators.forEach(i => i.classList.remove('active'));
+
+          slides[index].classList.add('active');
+          if (indicators[index]) indicators[index].classList.add('active');
+
+          const bgUrl = slides[index].getAttribute('data-bg');
+          if (bgUrl) {
+            slides[index].style.backgroundImage = `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('${bgUrl}')`;
+            slides[index].style.backgroundSize = 'cover';
+            slides[index].style.backgroundPosition = 'center';
+            slides[index].style.backgroundRepeat = 'no-repeat';
+          }
+          currentSlide = index;
+        }
+
+        function nextSlide() {
+          goToSlide((currentSlide + 1) % slides.length);
+        }
+
+        function prevSlide() {
+          goToSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+
+        function startAutoSlide() {
+          stopAutoSlide();
+          autoSlideInterval = setInterval(nextSlide, 6000);
+        }
+
+        function stopAutoSlide() {
+          if (autoSlideInterval) {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = null;
+          }
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', function() {
+          prevSlide();
+          startAutoSlide();
+        });
+        if (nextBtn) nextBtn.addEventListener('click', function() {
+          nextSlide();
+          startAutoSlide();
+        });
+
+        indicators.forEach(ind => {
+          ind.addEventListener('click', function() {
+            goToSlide(parseInt(this.dataset.slide));
+            startAutoSlide();
+          });
+        });
+
+        goToSlide(0);
+        startAutoSlide();
+      }
+
+      // 8. Sticky Header Scroll Behavior
+      let lastScrollTop = 0;
+      const header = document.querySelector('.navbar');
+
+      window.addEventListener('scroll', function() {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScroll > lastScrollTop && currentScroll > 50) {
+          header.classList.add('hide-header');
+        } else {
+          header.classList.remove('hide-header');
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+      });
+    });
+  </script>
+
+</body>
+
+</html>
