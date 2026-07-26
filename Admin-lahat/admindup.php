@@ -365,7 +365,7 @@ $reportResult = $conn->query("
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="Base/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../libraries/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="Base/base.css">
     <link rel="stylesheet" href="Base/component.css">
     <link rel="stylesheet" href="Operations/Movie_Management/movie-manager.css">
@@ -2260,7 +2260,7 @@ $reportResult = $conn->query("
         </div>
     </div>
 
-    <script src="Base/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../libraries/bootstrap-5.3.8-dist/js/bootstrap.bundle.js"></script>
     <script src="Base/navigation.js"></script>
     <script src="Base/page-router.js"></script>
     <script src="Dashboard/dashboard1.js"></script>

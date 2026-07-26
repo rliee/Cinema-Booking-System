@@ -1,34 +1,68 @@
 <?php
 // connection for complete button in pending  to databases
 
-include "customer-transaction-php/connection.php";
+require_once __DIR__ . "/customer-transaction-php/connection.php";
 
-if(isset($_POST['transaction_code'])){
 
-    $transaction_code = $_POST['transaction_code'];
 
-    $stmt = $conn->prepare("UPDATE booking_transactions
-                            SET booking_status='Completed'
-                            WHERE transaction_code=?");
+if (isset($_POST["transaction_code"])) {
 
-    $stmt->bind_param("s", $transaction_code);
 
-    if($stmt->execute()){
+    $transactionCode = $_POST["transaction_code"];
 
-        if($stmt->affected_rows > 0){
+
+
+    $stmt = $conn->prepare("
+
+    UPDATE payments p
+
+    INNER JOIN bookings b
+        ON p.booking_id = b.booking_id
+
+    SET 
+        p.payment_status = 'Paid'
+
+    WHERE 
+        b.booking_reference = ?
+
+");
+
+
+
+    $stmt->bind_param(
+        "s",
+        $transactionCode
+    );
+
+
+
+    if ($stmt->execute()) {
+
+
+        if ($stmt->affected_rows > 0) {
+
+
             echo "success";
-        }else{
+        } else {
+
+
             echo "No rows updated";
         }
+    } else {
 
-    }else{
+
         echo $stmt->error;
     }
 
+
+
     $stmt->close();
-}else{
+} else {
+
+
     echo "transaction_code not received";
 }
 
+
+
 $conn->close();
-?>

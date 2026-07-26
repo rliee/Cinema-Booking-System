@@ -1,24 +1,120 @@
 <?php
 include("customer-transaction-php/connection.php");
 $sql = "
-SELECT
-    booking_transactions.transaction_code,
-    customers.customer_name,
-    movies.movie_title,
-    booking_transactions.total_amount,
-    booking_transactions.booking_date,
-    booking_transactions.booking_status,
-    booking_transactions.seats,
-    booking_transactions.total_tickets
-FROM booking_transactions
-INNER JOIN customers
-    ON booking_transactions.customer_id = customers.customer_id
-INNER JOIN movies
-    ON booking_transactions.movie_id = movies.movie_id
-ORDER BY booking_transactions.booking_date DESC
-";
-$result = $conn->query($sql);
 
+SELECT
+
+    b.booking_reference AS transaction_code,
+
+
+    CONCAT(
+        u.first_name,
+        ' ',
+        u.last_name
+    ) AS customer_name,
+
+
+    m.title AS movie_title,
+
+
+    SUM(
+
+        tp.price -
+        (
+            tp.price *
+            IFNULL(
+                d.discount_percentage,
+                0
+            ) / 100
+        )
+
+    ) AS total_amount,
+
+
+    b.booking_date,
+
+
+    p.payment_status AS booking_status,
+
+
+    GROUP_CONCAT(
+        s.seat_label
+        ORDER BY s.seat_label
+        SEPARATOR ', '
+    ) AS seats,
+
+
+    COUNT(
+        bs.seat_id
+    ) AS total_tickets
+
+
+
+FROM bookings b
+
+
+
+INNER JOIN users u
+
+ON b.user_id = u.id
+
+
+
+INNER JOIN show_schedules ss
+
+ON b.schedule_id = ss.schedule_id
+
+
+
+INNER JOIN movies m
+
+ON ss.movie_id = m.movie_id
+
+
+
+INNER JOIN booking_seats bs
+
+ON b.booking_id = bs.booking_id
+
+
+
+INNER JOIN payments p
+
+ON p.booking_id = bs.booking_id
+
+
+
+INNER JOIN seats s
+
+ON bs.seat_id = s.seat_id
+
+
+
+INNER JOIN ticket_prices tp
+
+ON m.movie_id = tp.movie_id
+
+
+
+LEFT JOIN discounts d
+
+ON bs.discount_id = d.discount_id
+
+
+GROUP BY
+
+b.booking_id
+
+
+
+ORDER BY
+
+b.booking_date DESC
+
+";
+
+
+$result = $conn->query($sql);
 
 ?>
 
@@ -41,7 +137,7 @@ $result = $conn->query($sql);
         <h1>Customers Transactions</h1>
         <!-- Tab navigation wrapper for filtering completed, pending, and weekly revenue views -->
         <div class="tab-nav" role="tablist" aria-label="Transaction tabs">
-            <button type="button" class="tab-btn active" data-tab="completed">Completed</button>
+            <button type="button" class="tab-btn active" data-tab="paid">Completed</button>
             <button type="button" class="tab-btn" data-tab="pending">Pending</button>
             <button type="button" class="tab-btn" data-tab="weekly">Weekly Revenue</button>
         </div>
@@ -85,53 +181,53 @@ $result = $conn->query($sql);
 
             <tbody>
 
-                <?php while($row = $result->fetch_assoc()) { ?>
+                <?php while ($row = $result->fetch_assoc()) { ?>
 
-                <tr>
+                    <tr>
 
-                    <td>
-                        <?= htmlspecialchars($row['transaction_code']); ?>
-                    </td>
+                        <td>
+                            <?= htmlspecialchars($row['transaction_code']); ?>
+                        </td>
 
-                    <td>
-                        <?= htmlspecialchars($row['customer_name']); ?>
-                    </td>
+                        <td>
+                            <?= htmlspecialchars($row['customer_name']); ?>
+                        </td>
 
-                    <td>
-                        <?= htmlspecialchars($row['movie_title']); ?>
-                    </td>
+                        <td>
+                            <?= htmlspecialchars($row['movie_title']); ?>
+                        </td>
 
-                    <td data-amount="<?= (float) $row['total_amount']; ?>">
-                        ₱
-                        <?= number_format($row['total_amount'], 2); ?>
-                    </td>
+                        <td data-amount="<?= (float) $row['total_amount']; ?>">
+                            ₱
+                            <?= number_format($row['total_amount'], 2); ?>
+                        </td>
 
-                    <td>
-                        <?= htmlspecialchars($row['booking_date']); ?>
-                    </td>
+                        <td>
+                            <?= htmlspecialchars($row['booking_date']); ?>
+                        </td>
 
-                    <td>
-                        <span
-                            class="status-badge <?= strtolower($row['booking_status']) == 'completed' ? 'paid' : 'pending'; ?>">
-                            <?= htmlspecialchars($row['booking_status']); ?>
-                        </span>
-                    </td>
 
-                    <td>
-                        <button onclick="details(
+                        <td>
+                            <span class="status-badge <?= strtolower($row['booking_status'])  ?>">
+                                <?= htmlspecialchars($row['booking_status']); ?>
+                            </span>
+                        </td>
+
+                        <td>
+                            <button onclick="details(
                             '<?= htmlspecialchars($row['transaction_code']); ?>',
                             '<?= htmlspecialchars($row['customer_name']); ?>',
                             '<?= htmlspecialchars($row['movie_title']); ?>',
-                            '₱<?= number_format($row['total_amount'],2); ?>',
+                            '₱<?= number_format($row['total_amount'], 2); ?>',
                             '<?= htmlspecialchars($row['seats']); ?>',
                             '<?= htmlspecialchars($row['total_tickets']); ?> Tickets',
                             '<?= htmlspecialchars($row['booking_status']); ?>'
                             )">
-                            View
-                        </button>
-                    </td>
+                                View
+                            </button>
+                        </td>
 
-                </tr>
+                    </tr>
 
                 <?php } ?>
 
@@ -146,8 +242,8 @@ $result = $conn->query($sql);
             <h2>Booking Details</h2>
             <div class="info" id="bookingInfo"></div>
             <button id="completeBookingBtn"
-                    class="complete-btn"
-                    onclick="completeBooking()">
+                class="complete-btn"
+                onclick="completeBooking()">
                 Completed
             </button>
         </div>

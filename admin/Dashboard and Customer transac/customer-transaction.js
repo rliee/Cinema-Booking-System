@@ -11,7 +11,7 @@ const weeklyTotal = document.getElementById("weeklyTotal");
 const weeklyDays = document.getElementById("weeklyDays");
 
 // Current active tab state
-let activeTab = "completed";
+let activeTab = "paid";
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const chartDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -34,18 +34,22 @@ function computeWeeklyRevenue() {
 
 
   rows.forEach(row => {
-    const amount = Number(
-      (row.cells[3].dataset.amount ||
-        row.cells[3].innerText)
-        .replace(/[₱,\s]/g, "")
-    ) || 0;
+    if (row.cells[5].textContent.toLowerCase().trim() == "paid") {
+      const amount = Number(
+        (row.cells[3].dataset.amount ||
+          row.cells[3].innerText)
+          .replace(/[₱,\s]/g, "")
+      ) || 0;
 
-    const dateText = row.cells[4].innerText;
-    const date = new Date(dateText);
-    const weekday = dayNames[date.getDay()];
-    totals[weekday] += amount;
-    weeklySum += amount;
+
+      const dateText = row.cells[4].innerText;
+      const date = new Date(dateText);
+      const weekday = dayNames[date.getDay()];
+      totals[weekday] += amount;
+      weeklySum += amount;
+    }
   });
+
 
   const maximumValue = Math.max(...Object.values(totals), 1);
   weeklyTotal.textContent = `₱${weeklySum.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -70,7 +74,7 @@ function computeWeeklyRevenue() {
  */
 function updateView() {
   const showTable = activeTab != "weekly";
-  const hideStatusFilter = activeTab === "completed" || activeTab === "pending";
+  const hideStatusFilter = activeTab === "paid" || activeTab === "pending";
   tableControls.style.display = showTable ? "flex" : "none";
   statusFilter.style.display = hideStatusFilter ? "none" : "inline-block";
   document.getElementById("transactionTable").style.display = showTable ? "table" : "none";
@@ -150,7 +154,7 @@ function details(transactionCode, name, movie, amount, seats, tickets, status) {
 
   const completeBtn = document.getElementById("completeBookingBtn");
 
-  if (status.trim().toLowerCase() === "completed") {
+  if (status.trim().toLowerCase() === "paid") {
     completeBtn.style.display = "none";
   } else {
     completeBtn.style.display = "block"; // or "inline-block"
