@@ -1,0 +1,524 @@
+/* ==========================================================================
+   1. BOOTSTRAP MODAL OVERRIDES (ADD, EDIT, DELETE & HALL STATUS)
+   ========================================================================== */
+
+.modal {
+    z-index: 1300;
+}
+
+.modal-backdrop {
+    z-index: 1250;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    border: none;
+    box-shadow: none;
+}
+
+.modal-header,
+.modal-footer {
+    border: none;
+}
+.modal-header .btn-close{
+    margin-right: 5px;
+}
+
+.modal-dialog-centered {
+    display: flex !important;
+    align-items: center !important;
+    min-height: calc(100% - 3.5rem) !important;
+}
+
+@media (min-width: 768px) {
+    #addMovieModal .modal-dialog,
+    #editMovieModal .modal-dialog {
+        max-width: 760px !important;
+        width: 100% !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+    }
+}
+
+#addMovieModal .modal-content,
+#editMovieModal .modal-content {
+    background-color: #1a1a1a !important;
+    border: 1px solid #2f2f2f !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
+    max-height: 90vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
+#addMovieModal .modal-header,
+#editMovieModal .modal-header {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #2f2f2f !important;
+}
+
+#addMovieModal .modal-header .modal-title,
+#editMovieModal .modal-header .modal-title {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #ffc107 !important;
+}
+
+#addMovieModal .modal-body,
+#editMovieModal .modal-body {
+    padding: 24px !important;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 140px) !important;
+}
+
+#addMovieModal .modal-body .col-md-6,
+#editMovieModal .modal-body .col-md-6 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+#addMovieModal .modal-body label.form-label,
+#editMovieModal .modal-body label.form-label {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.75px !important;
+    color: #9b9b9b !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+
+#addMovieModal .modal-body .form-control,
+#addMovieModal .modal-body select.form-control,
+#addMovieModal .modal-body .form-select,
+#editMovieModal .modal-body .form-control,
+#editMovieModal .modal-body select.form-control,
+#editMovieModal .modal-body .form-select {
+    background-color: #2f2f2f !important;
+    border: 1px solid #333333 !important;
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    padding: 10px 14px !important;
+    border-radius: 6px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 42px !important;
+}
+
+#addMovieModal .modal-body .form-control[type="file"],
+#editMovieModal .modal-body .form-control[type="file"] {
+    height: auto !important;
+}
+
+#addMovieModal .modal-body .form-control::file-selector-button,
+#editMovieModal .modal-body .form-control::file-selector-button {
+    background-color: #333333 !important;
+    border: none !important;
+    color: #ffffff !important;
+    border-radius: 4px !important;
+    margin-right: 8px !important;
+    font-size: 0.8rem !important;
+    padding: 4px 8px !important;
+    cursor: pointer !important;
+}
+
+#addMovieModal .modal-body .form-control::file-selector-button:hover,
+#editMovieModal .modal-body .form-control::file-selector-button:hover {
+    background-color: #444444 !important;
+}
+
+#addMovieModal .modal-body .form-control:focus,
+#addMovieModal .modal-body .form-select:focus,
+#editMovieModal .modal-body .form-control:focus,
+#editMovieModal .modal-body .form-select:focus {
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.15) !important;
+    background-color: #2f2f2f !important;
+}
+
+#addMovieModal .modal-body .form-control::placeholder,
+#editMovieModal .modal-body .form-control::placeholder {
+    color: #8e8e8e !important;
+    opacity: 1 !important;
+}
+
+#addMovieModal .modal-body textarea.form-control,
+#editMovieModal .modal-body textarea.form-control {
+    resize: none !important;
+    height: 100px !important;
+}
+
+#addMovieModal .modal-footer,
+#editMovieModal .modal-footer {
+    padding: 16px 24px !important;
+    border-top: 1px solid #2f2f2f !important;
+    background-color: #161616 !important;
+}
+
+#addMovieModal .modal-footer .btn,
+#editMovieModal .modal-footer .btn {
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    transition: all 0.15s ease !important;
+}
+
+/* Custom Scrollbar for Modals */
+#addMovieModal .modal-body,
+#editMovieModal .modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: #333333 transparent;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar,
+#editMovieModal .modal-body::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar-track,
+#editMovieModal .modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar-thumb,
+#editMovieModal .modal-body::-webkit-scrollbar-thumb {
+    background-color: #2f2f2f;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+}
+
+#addMovieModal .modal-body::-webkit-scrollbar-thumb:hover,
+#editMovieModal .modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: #444444;
+    border-color: #444444;
+}
+
+/* Delete Modal Styling */
+@media (min-width: 576px) {
+    #deleteMovieModal .modal-dialog {
+        max-width: 440px !important;
+        width: 100% !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+    }
+}
+
+#deleteMovieModal .modal-content {
+    background-color: #1a1a1a !important;
+    border: 1px solid #dc35453d !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+}
+
+#deleteMovieModal .modal-header {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #2f2f2f !important;
+}
+
+#deleteMovieModal .modal-header .modal-title {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #dc3545 !important;
+}
+
+#deleteMovieModal .modal-footer {
+    padding: 16px 24px !important;
+    border-top: 1px solid #2f2f2f !important;
+    background-color: #161616 !important;
+}
+
+#deleteMovieModal .modal-body {
+    padding: 24px !important;
+    color: #e4e4e7 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Cinema Hall Status Modal Extension */
+#hallStatusModalContent {
+    background-color: #1a1a1a !important;
+    border: 1px solid #2f2f2f !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    width: 100% !important;
+}
+
+#hallStatusModalContent .modal-header {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #2f2f2f !important;
+}
+
+#hallStatusModalContent .modal-header .modal-title {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #ffc107 !important;
+}
+
+#hallStatusModalContent .modal-body {
+    padding: 24px !important;
+}
+
+#hallStatusModalContent .modal-body label.form-label {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.75px !important;
+    color: #9b9b9b !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+
+#hallStatusModalContent .modal-body .form-control {
+    background-color: #2f2f2f !important;
+    border: 1px solid #333333 !important;
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    padding: 10px 14px !important;
+    border-radius: 6px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 42px !important;
+}
+
+#hallStatusModalContent .modal-body .form-control:focus {
+    border-color: #ffc107 !important;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.15) !important;
+    background-color: #2f2f2f !important;
+}
+
+#hallStatusModalContent .modal-footer {
+    padding: 12px 24px !important;
+    border-top: 1px solid #2f2f2f !important;
+    background-color: #161616 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+}
+
+#hallStatusModalContent .btn-cancel-action {
+    background-color: transparent !important;
+    border: 1px solid #838385 !important;
+    color: #bcbcbd !important;
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+#hallStatusModalContent .btn-cancel-action:hover {
+    background-color: #2f2f2f00 !important;
+    border-color: #ffc107 !important;
+    color: #ffc107 !important;
+}
+
+#hallStatusModalContent .btn-save-action {
+    background-color: #ffc107 !important;
+    border: 1px solid #ffc107 !important;
+    color: #030303 !important;
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+#hallStatusModalContent .btn-save-action:hover {
+    background-color: #ca8b0402 !important;
+    border-color: #ca8a04 !important;
+    color: #ca8a04 !important;
+}
+
+#hallStatusModalContent .btn-save-action:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   2. VIEW SEATS PREVIEW MODAL SIZING & GRID OVERRIDES
+   ========================================================================== */
+
+.modal-content.bg-cinema-dark {
+    background-color: #141414 !important;
+    border: 1px solid #2f2f2f !important;
+    color: #ffffff !important;
+}
+
+.seating-quad-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 28px;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+.seat-group-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.seat-row-strip {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.seat-box {
+    width: 100%;
+    max-width: 26px;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    transition: transform 0.12s ease, background-color 0.12s ease;
+    cursor: pointer;
+}
+
+.seat-box:hover {
+    transform: scale(1.2);
+    z-index: 5;
+}
+
+.seat-box.available {
+    background-color: #2f2f2f;
+    border: 1px solid #333333;
+}
+
+.seat-box.available:hover {
+    background-color: #ffc107;
+    border-color: #ffde9e;
+}
+
+.seat-box.reserved,
+.seat-box.occupied {
+    background-color: #b91c1c;
+    border: 1px solid #b91c1c;
+    cursor: not-allowed;
+}
+
+.seat-box.unavailable {
+    background-color: #ac4800;
+    border: 1px solid #ac4800;
+    cursor: not-allowed;
+}
+
+/* Modal Fluid Seating Layout */
+.unified-page-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: clamp(6px, 1.5vw, 12px);
+    row-gap: clamp(6px, 1.5vw, 12px);
+    width: 100% !important;
+    max-width: 520px;
+    margin: 0 auto !important;
+    box-sizing: border-box;
+}
+
+.unified-seat-grid-container .sle-page-group {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: clamp(1px, 0.4vw, 3px) !important;
+}
+
+.unified-seat-grid-container .sle-p-seat {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    border-radius: 3px !important;
+    font-size: clamp(5px, 1.2vw, 8px) !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+    cursor: default !important;
+}
+
+/* Read-only preview: no interactive hover-zoom like the live editor has */
+.unified-seat-grid-container .sle-p-seat:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    z-index: auto !important;
+}
+
+/* ==========================================================================
+   3. SLE MODAL LEGEND & SWATCH STYLES
+   ========================================================================== */
+
+/* Legend Container - Enforces horizontal alignment */
+.sle-modal-legend {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 24px !important;
+    margin-top: 20px !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+}
+
+/* Individual Legend Items */
+.sle-modal-legend-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #e4e4e7 !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Base Color Swatch Box */
+.sle-modal-swatch {
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 3px !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+}
+
+/* Available - Dark Gray */
+.sle-modal-swatch.available {
+    background-color: #262626 !important;
+    border: 1px solid #333333 !important;
+}
+
+/* Occupied - Red Glow */
+.sle-modal-swatch.occupied {
+    background-color: #b91c1c !important;
+    border: 1px solid #dc2626 !important;
+    box-shadow: 0 0 6px rgba(185, 28, 28, 0.4) !important;
+}
+
+/* Unavailable - Amber Glow */
+.sle-modal-swatch.unavailable {
+    background-color: #ac4800 !important;
+    border: 1px solid #c2410c !important;
+    box-shadow: 0 0 6px rgba(172, 72, 0, 0.4) !important;
+}
+
+/* Legend Text Label */
+.sle-modal-legend-text {
+    font-size: 13px !important;
+    color: #e4e4e7 !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+}

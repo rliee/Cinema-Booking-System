@@ -1,0 +1,497 @@
+#page-sales .table-scroll-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+}
+
+/* Page title styling */
+#page-sales h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #ffc107;
+}
+
+/* Tab navigation container */
+#page-sales .tab-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+/* Individual tab button styling */
+#page-sales .tab-btn {
+    position: relative;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #1a1a1a;
+    color: #f3e3b0;
+    cursor: pointer;
+    font-weight: 700;
+    transition: .3s;
+}
+
+#page-sales .tab-btn::before {
+    border-radius: 12px;
+    box-shadow: 2px 2px 0 0 #121212;
+}
+
+#page-sales .tab-btn::after {
+    border-radius: 12px;
+    box-shadow: -2px 2px 0 0 #121212;
+}
+
+/* Active tab appearance */
+#page-sales .tab-btn.active {
+    background: #121212;
+    color: #ffc107;
+    transform: translateY(2px);
+}
+
+/* Search and filter controls wrapper */
+#page-sales .controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+/* Input and select field styling */
+#page-sales .controls input,
+#page-sales .controls select {
+    padding: 12px;
+    border: 1px solid var(--border);
+    outline: none;
+    border-radius: 10px;
+    background: #161616;
+    color: #fff;
+    flex: 1;
+    min-width: 220px;
+    transition: .3s;
+}
+
+/* Focus state for controls */
+#page-sales .controls input:focus,
+#page-sales .controls select:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 2px rgba(255, 213, 74, .18);
+}
+
+/* Reusable status badge styling
+   (renamed from .status-badge -> .txn-status-badge to avoid colliding
+   with the unscoped, absolutely-positioned .status-badge rule in
+   movie-manager.css, which was pulling this badge out of the table
+   cell entirely) */
+#page-sales .txn-status-badge {
+    display: inline-block;
+    position: static;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+/* Completed booking badge color */
+#page-sales .txn-status-badge.paid {
+    background: #1b5e20;
+    color: #c8f5d9;
+}
+
+/* Pending booking badge color */
+#page-sales .txn-status-badge.pending {
+    background: #ff9800;
+    color: #2d1400;
+}
+
+/* Cancelled booking badge color */
+#page-sales .txn-status-badge.cancelled {
+    background: #3b1414;
+    color: #ff8a8a;
+    border: 1px solid rgba(239, 68, 68, .35);
+}
+
+/* Transaction table styling */
+#page-sales table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #171717;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+
+/* Table header styling */
+#page-sales th {
+    background: #0b0b0b;
+    color: #ffc107;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+/* Table cell styling */
+#page-sales td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #2d2d2d;
+    color: #f3e3b0;
+}
+
+/* Primary button styling used for View actions */
+#page-sales button {
+    padding: 6px 18px;
+    color: #0b0b0b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: .3s;
+}
+
+/* Button hover state */
+#page-sales button:hover {
+    color: #0b0b0b;
+    background: #e9c130;
+}
+
+/* Weekly revenue panel container */
+#page-sales .weekly-panel_custom_transac {
+    background: #171717;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+    margin-bottom: 25px;
+}
+
+#page-sales .weekly-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+/* Weekly panel title styling */
+#page-sales .weekly-heading h2 {
+    margin-bottom: 6px;
+    color: #ffc107;
+}
+
+/* Weekly total amount text */
+#page-sales .weekly-total {
+    color: #f3e3b0;
+    font-size: 1.05rem;
+}
+
+#page-sales .weekly-caption {
+    padding: 6px 10px;
+    background: rgba(255, 213, 74, .12);
+    color: #ffc107;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Bar chart layout for weekly revenue */
+#page-sales .weekly-chart {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 22px 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#page-sales .bar-group {
+    position: relative;
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr) 70px;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+}
+
+#page-sales .bar-track {
+    width: 100%;
+    height: 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .02));
+    border: 1px solid rgba(255, 213, 74, .16);
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .03);
+}
+
+#page-sales .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ffe180 0%,#ecc239 50%,#573e01 100%);
+    box-shadow: 0 4px 12px rgba(255, 213, 74, .2);
+    transition: width .4s ease;
+}
+
+#page-sales .bar-label {
+    font-size: .75rem;
+    color: #f3e3b0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#page-sales .bar-value {
+    font-size: .8rem;
+    color: #ffc107;
+    font-weight: 700;
+    text-align: right;
+}
+
+/* Responsive layout for weekly chart */
+@media (max-width:600px) {
+    #page-sales .weekly-chart {
+        padding: 16px 10px 14px;
+    }
+
+    #page-sales .bar-group {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        justify-items: start;
+    }
+
+    #page-sales .bar-track {
+        height: 12px;
+    }
+
+    #page-sales .bar-label {
+        white-space: normal;
+        font-size: .7rem;
+    }
+
+    #page-sales .bar-value {
+        text-align: left;
+        font-size: .75rem;
+    }
+}
+
+/* Modal overlay styling
+   (scoped to #salesModal, not #page-sales, since the modal now lives
+   as a direct child of <body> — see admindup.php — so its position:fixed
+   centers on the real viewport instead of a transformed ancestor) */
+#salesModal.transaction-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, .78);
+    backdrop-filter: blur(4px);
+    z-index: 1300;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+#salesModal.transaction-modal h2{
+    color: #ffc107;
+}
+
+#salesModal * {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Modal window container */
+#salesModal .modal-content {
+    position: relative;
+    background: linear-gradient(135deg, #151515, #0b0b0b);
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 213, 74, .25);
+    animation: salesPopup .3s;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .55);
+    box-sizing: border-box;
+}
+
+/* Modal open animation */
+@keyframes salesPopup {
+    from {
+        transform: scale(.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Close button within modal — pinned to the top-right corner of the
+   card so it always sits beside the "Booking Details" title,
+   regardless of where the element falls in the HTML flow. */
+#salesModal .close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 25px;
+    line-height: 1;
+    padding: 6px 8px;
+    cursor: pointer;
+    color: #ffc107;
+    transition: color 0.2s ease;
+}
+
+#salesModal .close:hover {
+    color: #fff;
+}
+
+#salesModal .info {
+    margin-top: 20px;
+    line-height: 2;
+    color: #e8d79d;
+}
+
+/* Small muted annotation next to the refund amount, explaining the
+   ₱20 convenience fee deduction without competing with the main text. */
+#salesModal .info .fee-note {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #9b9b9b;
+}
+
+/* "Completed" button inside the modal — previously relied entirely on
+   the generic #page-sales button rule, which no longer reaches this
+   element now that the modal lives outside #page-sales. */
+/* Wraps the Completed + Cancel Booking buttons side by side */
+#salesModal .modal-btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#salesModal .complete-btn {
+    flex: 1;
+    margin-top: 0;
+    padding: 6px 18px;
+    color: #0b0b0b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    background: #ffc107;
+    transition: .3s;
+}
+
+#salesModal .complete-btn:hover {
+    background: #e9c130;
+}
+
+/* Cancel Booking action — kept visually distinct (red/danger) so it
+   reads as the destructive/refund path, separate from Completed. */
+#salesModal .cancel-btn {
+    flex: 1;
+    margin-top: 0;
+    padding: 6px 18px;
+    color: #ff8a8a;
+    border: 1px solid rgba(239, 68, 68, .5);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    background: transparent;
+    transition: .3s;
+}
+
+#salesModal .cancel-btn:hover {
+    background: rgba(239, 68, 68, .12);
+    border-color: #dc3545;
+    color: #ffffff;
+}
+
+@media (max-width:768px) {
+
+    /* Keep the real table layout at every width — the table itself
+       stays a normal table (no display:block hacks). It's just given
+       a min-width so it can't be squeezed below a usable size; the
+       .table-scroll-wrapper (see above) handles the horizontal scroll,
+       so the table can never bleed past the card's edge. */
+    #page-sales table {
+        min-width: 700px;
+    }
+
+    #page-sales th,
+    #page-sales td {
+        white-space: nowrap;
+    }
+
+    /* Let tabs wrap instead of overflowing on narrow screens */
+    #page-sales .tab-nav {
+        flex-wrap: wrap;
+    }
+
+    /* Prevent the weekly heading (title + caption) from overflowing */
+    #page-sales .weekly-heading {
+        flex-wrap: wrap;
+    }
+
+    /* Thin, visible scrollbar as a hint that the table scrolls horizontally */
+    #page-sales .table-scroll-wrapper {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 213, 74, .4) transparent;
+    }
+
+    #page-sales .table-scroll-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    #page-sales .table-scroll-wrapper::-webkit-scrollbar-thumb {
+        background: rgba(255, 213, 74, .4);
+        border-radius: 999px;
+    }
+}
+
+/* Scale sizing (not layout) further down for phones — table stays a
+   real table, just a bit more compact so more columns are visible
+   before the user needs to scroll. */
+@media (max-width:480px) {
+    #page-sales th,
+    #page-sales td {
+        padding: 10px 12px;
+        font-size: .85rem;
+    }
+
+    #page-sales .txn-status-badge {
+        padding: 5px 10px;
+        font-size: .8rem;
+    }
+
+    #page-sales button {
+        padding: 5px 14px;
+        font-size: .85rem;
+    }
+
+    #page-sales h2 {
+        font-size: 1.3rem;
+    }
+
+    #salesModal .modal-content {
+        padding: 20px;
+        width: 94%;
+    }
+}

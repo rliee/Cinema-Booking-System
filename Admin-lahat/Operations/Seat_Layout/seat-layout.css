@@ -1,0 +1,342 @@
+/* ==========================================================================
+   SEAT LAYOUT EDITOR (SLE) COMPONENT STYLES
+   ========================================================================== */
+
+/* Layout view sizing lock for wide viewports */
+@media (min-width: 768px) {
+    #page-seats {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    #page-seats {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT WORKSPACE SPLIT WRAPPER
+   ========================================================================== */
+
+/* Mobile & Tablet First: Stacks vertically with normal vertical gap flow */
+.sle-workspace-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sle-workspace-column-left,
+.sle-workspace-column-right {
+    width: 100%;
+}
+
+/* Fullscreen Desktop Viewport Split Structure */
+@media (min-width: 1024px) {
+    .sle-workspace-layout-wrapper {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .sle-page-grid-container {
+        width: 100% !important;
+        max-width: 580px;
+        margin: 0 auto !important;
+    }
+
+    .sle-hall-item-row {
+        margin: 0 4px !important;
+    }
+}
+
+/* Edit Layout Action Button */
+.sle-btn-action-edit {
+    background: transparent;
+    border: 1px solid #ffc107;
+    color: #ffc107;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.sle-btn-action-edit:hover {
+    border: 1px solid #a0b6ffaf !important;
+    color: #a0b6ffaf !important;
+}
+
+.sle-icon-pencil-svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Base Panel Background Layout Card */
+.sle-panel-card-wrapper {
+    background-color: #141414;
+    border: 1px solid #222222;
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.sle-panel-main-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 20px 0;
+}
+
+/* Vertical Stack Setup */
+.sle-hall-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Selection Row Layouts */
+.sle-hall-item-row {
+    border: 1px solid #222222;
+    margin: 0 20px;
+    border-radius: 6px;
+    padding: 12px 18px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.sle-hall-item-row:hover {
+    border-color: #443620;
+    background-color: rgba(255, 193, 7, 0.06);
+}
+
+/* Selected Active Row State */
+.sle-hall-item-row.sle-status-selected {
+    border-color: #ffc107 !important;
+    background-color: rgba(255, 193, 7, 0.06);
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.1);
+}
+
+/* Typography States */
+.sle-hall-name-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #7c7c7c;
+    margin-bottom: 4px;
+    transition: color 0.15s ease;
+}
+
+.sle-hall-item-row.sle-status-selected .sle-hall-name-text {
+    color: #ffc107;
+}
+
+.sle-hall-desc-text {
+    font-size: 12px;
+    color: #7c7c7c;
+}
+
+/* Screen Orientation Component */
+.screen-container {
+    text-align: center;
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.screen-bar {
+    height: 6px;
+    background: linear-gradient(90deg, transparent, #ffc107, transparent);
+    box-shadow: 0 4px 12px #ffc10766;
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+
+.screen-text {
+    text-align: center;
+    font-size: 0.65rem;
+    color: #71717a;
+    letter-spacing: 3px;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+}
+
+/* ==========================================================================
+   SLE LEGEND WITH COUNTS COMPONENT
+   ========================================================================== */
+.sle-legend-container {
+    background-color: #141414;
+    border: 1px solid #222222;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.sle-legend-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7c7c7c;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sle-legend-items-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.sle-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sle-legend-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.sle-legend-swatch.sle-legend-available {
+    background-color: #262626;
+    border: 1px solid #3f3f46;
+}
+
+.sle-legend-swatch.sle-legend-occupied {
+    background-color: #b91c1c;
+}
+
+.sle-legend-swatch.sle-legend-unavailable {
+    background-color: #ac4800;
+}
+
+.sle-legend-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.sle-legend-count {
+    color: #7c7c7c;
+    font-weight: 400;
+    margin-left: 2px;
+}
+
+/* ==========================================================================
+   SLE INTERACTIVE IN-PAGE SEATING MODULE (4 GROUPS x 6x6 MATRIX)
+   ========================================================================== */
+.sle-seating-card-wrapper {
+    background-color: #141414;
+    border: 1px solid #222222;
+    border-radius: 10px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Master Grid Layout with Fluid Spacing */
+.sle-page-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: clamp(8px, 2vw, 16px);
+    row-gap: clamp(8px, 2vw, 16px);
+    width: 100%;
+    max-width: 580px;
+    margin: 0 auto !important;
+    /* Fixed hardcoded 18% margin bug */
+    box-sizing: border-box;
+}
+
+/* Individual Group Matrix Block (6x6) */
+.sle-page-group {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: clamp(1px, 0.5vw, 3px) !important;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   UNIFIED FLUID SEAT BLOCKS & INTERACTIVE STATES
+   ========================================================================== */
+
+/* Universal seat block structure */
+.sle-p-seat {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: none;
+    transition: transform 0.12s ease, background-color 0.12s ease, box-shadow 0.12s ease;
+    cursor: pointer;
+    /* ✅ Always allow cursor pointer so seats respond to clicks */
+
+    /* Dead-Center Alignment */
+    display: grid !important;
+    place-items: center !important;
+    text-align: center !important;
+
+    /* Spacing & Line Height Resets */
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+
+    /* Dynamic Fluid Typography */
+    font-size: clamp(6px, 1.5vw, 10px) !important;
+    font-weight: 500 !important;
+    color: #ffffff !important;
+    user-select: none;
+    overflow: hidden;
+}
+
+/* Unified Color Schemes with !important to prevent framework overrides */
+.sle-p-seat.available {
+    background-color: #262626 !important;
+    border: 1px solid #3f3f46 !important;
+}
+
+.sle-p-seat.occupied,
+.sle-p-seat.reserved {
+    background-color: #b91c1c !important;
+    /* Red */
+    border: 1px solid #dc2626 !important;
+}
+
+.sle-p-seat.unavailable {
+    background-color: #ac4800 !important;
+    /* Orange */
+    border: 1px solid #d97706 !important;
+}
+
+/* Interactive Hover States */
+.sle-p-seat:hover {
+    transform: scale(1.15);
+    z-index: 10;
+}
+
+.sle-p-seat.available:hover {
+    border-color: #ffc107 !important;
+    background-color: #ffc10733 !important;
+    box-shadow: 0 0 8px #ffc10766;
+}
+
+.sle-p-seat.occupied:hover,
+.sle-p-seat.reserved:hover {
+    box-shadow: 0 0 8px rgba(185, 28, 28, 0.8);
+}
+
+.sle-p-seat.unavailable:hover {
+    box-shadow: 0 0 8px rgba(172, 72, 0, 0.8);
+}

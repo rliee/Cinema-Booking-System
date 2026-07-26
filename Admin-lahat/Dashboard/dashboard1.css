@@ -1,0 +1,295 @@
+/* Header row layout for title and profile */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Cards grid layout for summary metrics */
+#page-dashboard .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+/* Individual dashboard card styling */
+#page-dashboard .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    border-left: 5px solid #ffd54f;
+    transition: .25s;
+    cursor: pointer;
+}
+
+/* Hover effect for individual cards */
+#page-dashboard .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Heading styling inside metric cards */
+#page-dashboard .card h3 {
+    margin: 6px 0;
+    color: #e8d79d;
+    font-size: 14px;
+}
+
+/* Main value styling inside metric cards */
+#page-dashboard .card h1 {
+    color: #ffc107;
+    font-size: 24px;
+}
+
+/* Icon styling used in cards */
+#page-dashboard .icon {
+    font-size: 28px;
+    color: #ffc107;
+}
+
+/* Small caption under a metric card's value, explaining how the
+   number is gathered (e.g. "Completed bookings dated today") */
+#page-dashboard .card-caption {
+    margin: 2px 0 0;
+    color: #a89a6c;
+    font-size: 11px;
+}
+
+/* Bottom section layout for transactions and schedule */
+#page-dashboard .bottom {
+    display: grid;
+    overflow: hidden;
+    border-collapse: collapse;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+/* Shared styling for transaction and schedule panels */
+#page-dashboard .transactions,
+#page-dashboard .schedule {
+    background: #161616;
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+}
+
+/* Enable horizontal scrolling for the transactions panel on small screens */
+#page-dashboard .transactions {
+    overflow-x: auto;
+}
+
+/* Table styling for recent transactions */
+#page-dashboard .transactions table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    max-width: 100%;
+}
+
+/* Shared table cell styles for readability */
+#page-dashboard .transactions th,
+#page-dashboard .transactions td {
+    color: #ffc107;
+    padding: 10px;
+    white-space: normal;
+    word-break: break-word;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* Table header color styling */
+#page-dashboard .transactions th {
+    color: #ffc107;
+}
+
+/* Table body cell styling */
+#page-dashboard .transactions td {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #f2e4af;
+}
+
+/* Status column - centered, matching the badge's inline-block layout */
+#page-dashboard .transactions th:nth-child(5),
+#page-dashboard .transactions td:nth-child(5) {
+    text-align: center;
+}
+
+/* Status badge inside the Recent Transactions table
+   (mirrors #page-sales .txn-status-badge from customer-transaction.css,
+   scoped here since this table lives under #page-dashboard, not #page-sales) */
+#page-dashboard .transactions .txn-status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+#page-dashboard .transactions .txn-status-badge.paid {
+    background: #1b5e20;
+    color: #c8f5d9;
+}
+
+#page-dashboard .transactions .txn-status-badge.pending {
+    background: #ff9800;
+    color: #2d1400;
+}
+
+#page-dashboard .transactions .txn-status-badge.cancelled {
+    background: #3b1414;
+    color: #ff8a8a;
+    border: 1px solid rgba(239, 68, 68, .35);
+}
+
+/* Schedule list spacing */
+#page-dashboard .schedule ul {
+    margin-top: 20px;
+}
+
+/* Individual schedule item styling */
+#page-dashboard .schedule li {
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #222;
+    border-left: 5px solid #ffc107;
+    list-style: none;
+    transition: .4s;
+    color: #f5e8ba;
+}
+
+/* Hover effect for schedule items */
+#page-dashboard .schedule li:hover {
+    transform: translateX(10px);
+}
+
+/* Screening Container Card */
+#page-dashboard .screening-list {
+    background-color: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: auto;
+    color: #e0e0e0;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Header Styling */
+#page-dashboard .screening-list h2 {
+    color: #ffc107;
+    /* Dashboard accent gold */
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #333333;
+}
+
+/* List Reset & Spacing */
+#page-dashboard .screening-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* List Item Card Styling */
+#page-dashboard .screening-ul li {
+    background-color: #242424;
+    border-left: 4px solid #ffc107;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Hover Effect for Screenings */
+#page-dashboard .screening-ul li:hover {
+    background-color: #2d2d2d;
+    transform: translateX(4px);
+}
+
+/* Empty State / Fallback Styling (when no shows exist) */
+#page-dashboard .screening-ul li:only-child {
+    border-left-color: #555555;
+    color: #a0a0a0;
+    font-style: italic;
+    background-color: #202020;
+}
+
+/* Responsive adjustment: stack bottom panels on narrower screens */
+@media(max-width:1100px) {
+    #page-dashboard .bottom {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsive layout modifications for smaller tablet screens */
+@media(max-width:900px) {
+    body {
+        flex-direction: column;
+    }
+
+    .main {
+        padding: 20px;
+    }
+
+    #page-dashboard .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Responsive layout for mobile devices */
+@media(max-width:600px) {
+    .main {
+        padding: 15px;
+    }
+
+    #page-dashboard .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    #page-dashboard .card h1 {
+        font-size: 22px;
+    }
+
+    #page-dashboard .transactions th,
+    #page-dashboard .transactions td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    #page-dashboard .schedule li {
+        font-size: 14px;
+    }
+}
+
+/* Very small screen adjustments for the profile badge and card padding */
+@media(max-width:400px) {
+    .profile {
+        width: 100%;
+        text-align: center;
+    }
+
+    #page-dashboard .card {
+        padding: 14px;
+    }
+}

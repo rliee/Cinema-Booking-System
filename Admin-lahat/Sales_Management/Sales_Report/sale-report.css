@@ -1,0 +1,378 @@
+/* =========================================================
+   Sales Report CSS (With Flex & Equal-Height Alignment)
+   ========================================================= */
+
+.sales-report-page .container {
+    max-width: 1600px;
+    background-color: #181818 !important;
+}
+
+.sales-report-page .container h1 {
+    color: #ffc107;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+/* Forces side-by-side columns to stretch to equal heights */
+.sales-report-page .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.sales-report-page .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: .25s ease;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.sales-report-page .dashboard-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 17px 12px 17px;
+    transition: .25s;
+    height: 100%;
+}
+
+.sales-report-page .dashboard-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+    box-shadow: var(--shadow-hover);
+}
+
+.sales-report-page .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.sales-report-page .card-left {
+    display: flex;
+    align-items: center;
+}
+
+.sales-report-page .card-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+}
+
+.sales-report-page .card-icon i {
+    font-size: 24px;
+}
+
+.sales-report-page .card-icon.gold {
+    color: #ffc107;
+}
+
+.sales-report-page .card-icon.blue {
+    color: #5DA4FF;
+}
+
+.sales-report-page .card-icon.green {
+    color: #6EE7A8;
+}
+
+.sales-report-page .card-icon.red {
+    color: #FF7D7D;
+}
+
+.sales-report-page .card-icon.purple {
+    color: #C493FF;
+}
+
+.sales-report-page .card-icon.orange {
+    color: #FFBE6D;
+}
+
+.sales-report-page .card-badge {
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .06);
+    color: #bdbdbd;
+}
+
+.sales-report-page .card-badge.positive {
+    color: #34d399;
+}
+
+.sales-report-page .card-label {
+    color: #ffc107;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    align-items: flex-start;
+}
+
+.sales-report-page .card-number {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+/* Revenue Card updated to expand fully inside its column */
+.sales-report-page .revenue-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: .25s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.sales-report-page .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #2b2b2b;
+}
+
+.sales-report-page .chart-header>div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sales-report-page .chart-heading {
+    color: #ffc107;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sales-report-page .chart-subtitle {
+    color: #9d9d9d;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.sales-report-page .chart-heading i,
+.sales-report-page .section-title i {
+    color: #ffc107;
+    background: none;
+    padding: 0;
+    margin-right: 8px;
+}
+
+.sales-report-page .chart-option {
+    width: 42px;
+    height: 42px;
+    border: none;
+    background: #222;
+    color: #ffc107;
+    border-radius: 12px;
+    transition: .3s;
+}
+
+.sales-report-page .chart-option:hover {
+    background: #ffc107;
+    color: #111;
+}
+
+.sales-report-page .chart-container {
+    height: auto;
+    padding-top: 15px;
+    flex: 1;
+}
+
+.sales-report-page .bar-chart-container {
+    height: auto;
+    padding-top: 8px;
+    flex: 1;
+}
+
+.sales-report-page .ticket-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex: 1;
+}
+
+.sales-report-page .ticket-top {
+    width: min(280px, 100%);
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sales-report-page .ticket-top canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.sales-report-page .ticket-bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sales-report-page .legend-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .05);
+    border: 2px solid transparent;
+    transition: all .25s ease;
+    cursor: pointer;
+}
+
+.sales-report-page .legend-row.active {
+    background: #252525;
+    border-color: #ffc107;
+    transform: translateX(8px);
+    box-shadow: 0 0 15px rgba(255, 193, 7, .35);
+}
+
+.sales-report-page .legend-row.active .legend-left {
+    color: #ffc107;
+}
+
+.sales-report-page .legend-row.active .legend-right strong {
+    color: #ffc107;
+}
+
+.sales-report-page .legend-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 14px;
+}
+
+.sales-report-page .legend-right {
+    color: #d9d9d9;
+    font-size: 13px;
+    text-align: right;
+}
+
+.sales-report-page .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* Modern Card updated to expand fully inside its column */
+.sales-report-page .modern-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.sales-report-page .payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #2b2b2b;
+}
+
+.sales-report-page .section-subtitle {
+    color: #9d9d9d;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.sales-report-page .section-title {
+    color: #ffc107;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sales-report-page .table-responsive {
+    flex: 1;
+}
+
+.sales-report-page .payment-table {
+    width: 100%;
+    background: #181818;
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.sales-report-page .payment-table thead {
+    color: #2b2b2b !important;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
+.sales-report-page .payment-table thead,
+.sales-report-page .payment-table thead tr,
+.sales-report-page .payment-table th {
+    background: #181818 !important;
+    color: #ffc107 !important;
+    border-bottom: none !important;
+    border-top: none !important;
+    border-right: 1px solid #2b2b2b;
+    border-color: #2b2b2b !important;
+    text-align: center;
+    padding: 14px 16px;
+}
+
+.sales-report-page .payment-table tbody,
+.sales-report-page .payment-table tbody tr,
+.sales-report-page .payment-table td {
+    border-top: 1px solid #2b2b2b !important;
+    background: #181818 !important;
+    color: #ffffff !important;
+    border-color: #2b2b2b;
+    padding: 14px 16px;
+}
+
+.sales-report-page .payment-table tbody tr:hover,
+.sales-report-page .payment-table tbody tr:hover td {
+    background: rgba(255, 193, 7, 0.08) !important;
+}
+
+@media (max-width: 991px) {
+    .sales-report-page .chart-container {
+        height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sales-report-page .payment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
